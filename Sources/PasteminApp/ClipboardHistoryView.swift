@@ -13,3 +13,8 @@ private struct HistoryTopPositionKey: PreferenceKey {
     static var defaultValue = CGFloat.infinity
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = nextValue() }
 }
+
+private struct HistoryBottomPositionKey: PreferenceKey {
+    static var defaultValue = CGFloat.infinity
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = nextValue() }
+}
