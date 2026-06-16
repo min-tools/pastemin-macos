@@ -246,3 +246,45 @@ struct ClipboardHistoryView: View {
         }
     }
 }
+
+private struct ClipboardSearchField: NSViewRepresentable {
+    @Binding var text: String
+
+    func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
+
+    func makeNSView(context: Context) -> ClipboardSearchScrollView {
+        let scrollView = ClipboardSearchScrollView()
+        let textView = scrollView.textView
+        textView.delegate = context.coordinator
+        textView.placeholderAttributedString = NSAttributedString(
+            string: localized("clipboard", "Clipboard"),
+            attributes: [
+                .font: NSFont.systemFont(ofSize: 26, weight: .regular),
+                .foregroundColor: NSColor.labelColor
+            ]
+        )
+        textView.setAccessibilityLabel(localized("search_clipboard", "Search Clipboard"))
+        return scrollView
+    }
+
+    func updateNSView(_ scrollView: ClipboardSearchScrollView, context: Context) {
+        context.coordinator.text = $text
+        let textView = scrollView.textView
+        if textView.string != text {
+            textView.string = text
+            textView.setSelectedRange(NSRange(location: (text as NSString).length, length: 0))
+            textView.needsDisplay = true
+        }
+    }
+
+    final class Coordinator: NSObject, NSTextViewDelegate {
+        var text: Binding<String>
+
+        init(text: Binding<String>) { self.text = text }
+
+        func textDidChange(_ notification: Notification) {
+            guard let textView = notification.object as? NSTextView else { return }
+            text.wrappedValue = textView.string
+        }
+    }
+}
