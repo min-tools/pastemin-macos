@@ -288,3 +288,60 @@ private struct ClipboardSearchField: NSViewRepresentable {
         }
     }
 }
+
+private final class ClipboardSearchScrollView: NSScrollView {
+    let textView = ClipboardSearchTextView(frame: .zero)
+
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        borderType = .noBorder
+        drawsBackground = false
+        hasHorizontalScroller = false
+        hasVerticalScroller = false
+        automaticallyAdjustsContentInsets = false
+
+        let font = NSFont.systemFont(ofSize: 26, weight: .regular)
+        textView.identifier = NSUserInterfaceItemIdentifier("PasteminSearchField")
+        textView.font = font
+        textView.textColor = .labelColor
+        // Label color keeps the caret white on the dark glass and legible in light mode.
+        textView.insertionPointColor = .labelColor
+        textView.drawsBackground = false
+        textView.isRichText = false
+        textView.importsGraphics = false
+        textView.allowsUndo = true
+        textView.isVerticallyResizable = false
+        textView.isHorizontallyResizable = true
+        textView.autoresizingMask = [.height]
+        textView.textContainerInset = .zero
+        textView.textContainer?.lineFragmentPadding = 0
+        textView.textContainer?.containerSize = NSSize(
+            width: CGFloat.greatestFiniteMagnitude,
+            height: CGFloat.greatestFiniteMagnitude
+        )
+        textView.textContainer?.widthTracksTextView = false
+        textView.textContainer?.maximumNumberOfLines = 1
+        textView.textContainer?.lineBreakMode = .byClipping
+        textView.isContinuousSpellCheckingEnabled = false
+        textView.isGrammarCheckingEnabled = false
+        textView.isAutomaticSpellingCorrectionEnabled = false
+        textView.isAutomaticTextCompletionEnabled = false
+        textView.isAutomaticQuoteSubstitutionEnabled = false
+        textView.isAutomaticDashSubstitutionEnabled = false
+        textView.isAutomaticDataDetectionEnabled = false
+
+        let height = ceil(font.boundingRectForFont.height)
+        textView.minSize = NSSize(width: 0, height: height)
+        textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: height)
+        textView.frame = NSRect(x: 0, y: 0, width: max(1, frameRect.width), height: height)
+        documentView = textView
+    }
+
+    override var intrinsicContentSize: NSSize {
+        NSSize(width: NSView.noIntrinsicMetric, height: textView.minSize.height)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
