@@ -345,3 +345,143 @@ private final class ClipboardSearchScrollView: NSScrollView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+private struct ClipboardOptionsButton: NSViewRepresentable {
+    @ObservedObject var preferences: ClipboardPreferences
+    @ObservedObject var store: ClipboardHistoryStore
+    let recordingChanged: (Bool) -> Void
+    let showPrivacyPolicy: () -> Void
+    let showAbout: () -> Void
+    let revealStorage: () -> Void
+    let clearCurrentClipboard: () -> Void
+    let clearHistory: () -> Void
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(
+            preferences: preferences,
+            store: store,
+            recordingChanged: recordingChanged,
+            showPrivacyPolicy: showPrivacyPolicy,
+            showAbout: showAbout,
+            revealStorage: revealStorage,
+            clearCurrentClipboard: clearCurrentClipboard,
+            clearHistory: clearHistory
+        )
+    }
+
+    func makeNSView(context: Context) -> NSButton {
+        let button = NSButton()
+        button.isBordered = false
+        button.bezelStyle = .inline
+        button.imagePosition = .imageOnly
+        button.imageScaling = .scaleProportionallyDown
+        button.image = NSImage(
+            systemSymbolName: "ellipsis",
+            accessibilityDescription: localized("pastemin_options", "Pastemin options")
+        )?.withSymbolConfiguration(.init(pointSize: 18, weight: .semibold))
+        button.contentTintColor = .labelColor
+        button.target = context.coordinator
+        button.action = #selector(Coordinator.showMenu(_:))
+        button.toolTip = localized("pastemin_options", "Pastemin options")
+        button.setAccessibilityLabel(localized("pastemin_options", "Pastemin options"))
+        context.coordinator.button = button
+        context.coordinator.observeShortcut()
+        return button
+    }
+
+    func updateNSView(_ button: NSButton, context: Context) {
+        context.coordinator.preferences = preferences
+        context.coordinator.store = store
+        context.coordinator.recordingChanged = recordingChanged
+        context.coordinator.showPrivacyPolicy = showPrivacyPolicy
+        context.coordinator.showAbout = showAbout
+        context.coordinator.revealStorage = revealStorage
+        context.coordinator.clearCurrentClipboard = clearCurrentClipboard
+        context.coordinator.clearHistory = clearHistory
+    }
+
+    @MainActor
+    final class Coordinator: NSObject {
+        var preferences: ClipboardPreferences
+        var store: ClipboardHistoryStore
+        var recordingChanged: (Bool) -> Void
+        var showPrivacyPolicy: () -> Void
+        var showAbout: () -> Void
+        var revealStorage: () -> Void
+        var clearCurrentClipboard: () -> Void
+        var clearHistory: () -> Void
+
+        init(
+            preferences: ClipboardPreferences,
+            store: ClipboardHistoryStore,
+            recordingChanged: @escaping (Bool) -> Void,
+            showPrivacyPolicy: @escaping () -> Void,
+            showAbout: @escaping () -> Void,
+            revealStorage: @escaping () -> Void,
+            clearCurrentClipboard: @escaping () -> Void,
+            clearHistory: @escaping () -> Void
+        ) {
+            self.preferences = preferences
+            self.store = store
+            self.recordingChanged = recordingChanged
+            self.showPrivacyPolicy = showPrivacyPolicy
+            self.showAbout = showAbout
+            self.revealStorage = revealStorage
+            self.clearCurrentClipboard = clearCurrentClipboard
+            self.clearHistory = clearHistory
+        }
+
+        weak var button: NSButton?
+        private var optionsPanel: ClipboardOptionsPanel?
+        private var shortcutObserver: NSObjectProtocol?
+
+        deinit {
+            if let shortcutObserver { NotificationCenter.default.removeObserver(shortcutObserver) }
+        }
+
+        /// Command-comma in the clipboard panel toggles the same dropdown as the button.
+        func observeShortcut() {
+            guard shortcutObserver == nil else { return }
+            shortcutObserver = NotificationCenter.default.addObserver(
+                forName: .showClipboardOptions,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                Task { @MainActor [weak self] in self?.toggleOptions() }
+            }
+        }
+
+        @objc func showMenu(_ button: NSButton) {
+            toggleOptions()
+        }
+
+        func toggleOptions() {
+            guard let button, button.window?.isVisible == true else { return }
+            if let optionsPanel, optionsPanel.isVisible {
+                optionsPanel.dismiss()
+                return
+            }
+            // A dropdown window, unlike an NSMenu, lets the pop-up button open and routes key
+            // events to the shortcut recorder; unlike a popover it has no arrow and can be
+            // driven from the keyboard like a menu.
+            let selection = OptionsSelectionModel()
+            let panel = ClipboardOptionsPanel(
+                rootView: ClipboardOptionsMenuView(
+                    preferences: preferences,
+                    store: store,
+                    selection: selection,
+                    recordingChanged: recordingChanged,
+                    showPrivacyPolicy: showPrivacyPolicy,
+                    showAbout: showAbout,
+                    revealStorage: revealStorage,
+                    clearCurrentClipboard: clearCurrentClipboard,
+                    clearHistory: clearHistory,
+                    dismiss: { [weak self] in self?.optionsPanel?.dismiss() }
+                ),
+                selection: selection
+            )
+            optionsPanel = panel
+            panel.present(below: button)
+        }
+    }
+}
