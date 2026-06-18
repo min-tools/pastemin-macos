@@ -485,3 +485,57 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
         }
     }
 }
+
+private struct ClipboardRow: View {
+    let record: ClipboardRecord
+    let itemImage: NSImage?
+    let sourceAppIcon: NSImage?
+    let selected: Bool
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Group {
+                if let sourceAppIcon {
+                    Image(nsImage: sourceAppIcon)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(2)
+                } else if let itemImage {
+                    Image(nsImage: itemImage)
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Image(systemName: record.kind == .image ? "photo" : "doc.text")
+                        .font(.title3)
+                        .foregroundStyle(selected ? Color.white.opacity(0.9) : Color.primary)
+                }
+            }
+            .frame(width: 38, height: 38)
+            .background(selected ? .white.opacity(0.12) : .primary.opacity(0.06), in: RoundedRectangle(cornerRadius: 8))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(record.title)
+                    .font(.system(size: 18, weight: .medium))
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                HStack(spacing: 5) {
+                    if let source = record.sourceAppName {
+                        Text(source).lineLimit(1)
+                        Text("·")
+                    }
+                    Text(record.displayTimestamp)
+                }
+                .font(.system(size: 13))
+                .foregroundStyle(selected ? .white.opacity(0.78) : .secondary)
+            }
+        }
+        .foregroundStyle(selected ? Color.white : Color.primary)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 9)
+        .background(selected ? Color.accentColor : Color.clear, in: RoundedRectangle(cornerRadius: 11))
+        .contentShape(RoundedRectangle(cornerRadius: 11))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(record.accessibilityDescription)
+    }
+}
