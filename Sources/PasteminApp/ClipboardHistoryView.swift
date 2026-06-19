@@ -539,3 +539,95 @@ private struct ClipboardRow: View {
         .accessibilityLabel(record.accessibilityDescription)
     }
 }
+
+private struct ClipboardPreview: View {
+    let record: ClipboardRecord?
+    @ObservedObject var store: ClipboardHistoryStore
+    let delete: () -> Void
+
+    var body: some View {
+        if let record {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 10) {
+                    Label(
+                        record.kind == .image
+                            ? localized("image", "Image")
+                            : localized("text", "Text"),
+                        systemImage: record.kind == .image ? "photo" : "doc.text"
+                    )
+                        .font(.system(size: 18, weight: .semibold))
+                    if record.isTextPreviewTruncated {
+                        Text(localized("one_kb_preview", "1 KB preview"))
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundStyle(Color(nsColor: .systemOrange))
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(Color(nsColor: .systemOrange).opacity(0.16), in: Capsule())
+                            .overlay {
+                                Capsule()
+                                    .stroke(Color(nsColor: .systemOrange).opacity(0.3), lineWidth: 0.75)
+                            }
+                            .offset(y: 1)
+                            .help(localized(
+                                "one_kb_preview_help",
+                                "Only the first 1 KB is shown here. Search and paste use all stored text."
+                            ))
+                            .accessibilityLabel(localized(
+                                "one_kb_preview_accessibility",
+                                "Preview limited to the first 1 KB"
+                            ))
+                    }
+                    Spacer()
+                    Button(action: delete) {
+                        Image(systemName: "trash")
+                            .font(.system(size: 16))
+                            .foregroundStyle(.primary)
+                    }
+                    .buttonStyle(.borderless)
+                    .help(localized("delete_item_shortcut", "Delete this item (⌘⌫)"))
+                }
+                .padding(.horizontal, 22)
+                .frame(height: 54)
+                Divider().opacity(0.55)
+
+                Group {
+                    if record.kind == .image, let image = store.image(for: record) {
+                        Image(nsImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding(28)
+                    } else {
+                        ScrollView {
+                            Text(record.previewText)
+                                .font(.system(size: 18, design: .default))
+                                .lineSpacing(3)
+                                .textSelection(.enabled)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                                .padding(22)
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                Divider().opacity(0.55)
+                HStack {
+                    Text(record.sourceAppName ?? localized("unknown_source", "Unknown source"))
+                    Spacer()
+                    Text(ByteCountFormatter.string(fromByteCount: Int64(record.byteCount), countStyle: .file))
+                    Text("·")
+                    Text(record.detailedTimestamp)
+                }
+                .font(.system(size: 13))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 22)
+                .frame(height: 44)
+            }
+        } else {
+            Text(localized("select_item_to_preview", "Select an item to preview it"))
+                .font(.system(size: 18))
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+}
