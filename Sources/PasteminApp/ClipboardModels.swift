@@ -111,3 +111,36 @@ struct ClipboardRecord: Codable, Hashable, Identifiable, Sendable {
         )
     }
 }
+
+enum RetentionPeriod: String, CaseIterable, Codable, Identifiable {
+    case oneHour
+    case oneDay
+    case oneWeek
+    case oneMonth
+    case threeMonths
+    case forever
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .oneHour: localized("retention_one_hour", "1 hour")
+        case .oneDay: localized("retention_one_day", "1 day")
+        case .oneWeek: localized("retention_one_week", "1 week")
+        case .oneMonth: localized("retention_one_month", "1 month")
+        case .threeMonths: localized("retention_three_months", "3 months")
+        case .forever: localized("retention_forever", "Forever")
+        }
+    }
+
+    var lifetime: TimeInterval? {
+        switch self {
+        case .oneHour: 60 * 60
+        case .oneDay: 24 * 60 * 60
+        case .oneWeek: 7 * 24 * 60 * 60
+        case .oneMonth: 30 * 24 * 60 * 60
+        case .threeMonths: 90 * 24 * 60 * 60
+        case .forever: nil
+        }
+    }
+}
