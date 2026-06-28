@@ -248,3 +248,30 @@ struct ClipboardOptionsMenuView: View {
         return localizedFormat("stored_items_with_size", "%@, %@", count, size)
     }
 }
+
+/// A compact footer link that participates in the dropdown's shared mouse and keyboard focus.
+private struct OptionsFooterButton: View {
+    let row: OptionsRow
+    let title: String
+    @ObservedObject var selection: OptionsSelectionModel
+    let action: () -> Void
+
+    private var isSelected: Bool { selection.selection == row }
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(isSelected ? Color.white : Color.accentColor)
+                .padding(.horizontal, 6)
+                .frame(height: 24)
+                .background(
+                    isSelected ? Color.accentColor : Color.clear,
+                    in: RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius)
+                )
+                .contentShape(RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius))
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering in selection.hover(row, hovering) }
+    }
+}
