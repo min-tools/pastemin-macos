@@ -275,3 +275,33 @@ private struct OptionsFooterButton: View {
         .onHover { hovering in selection.hover(row, hovering) }
     }
 }
+
+/// A menu item look-alike: accent highlight with white text whenever the row is selected by
+/// the mouse or the keyboard, activated by click, Return or Space.
+private struct OptionsActionRow: View {
+    let row: OptionsRow
+    let title: String
+    @ObservedObject var selection: OptionsSelectionModel
+    let action: () -> Void
+
+    private var isSelected: Bool { selection.selection == row }
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 13))
+                .foregroundStyle(isSelected ? Color.white : Color.primary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, OptionsMetrics.inset)
+                .frame(height: OptionsMetrics.actionRowHeight)
+                .background(
+                    isSelected ? Color.accentColor : Color.clear,
+                    in: RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius)
+                )
+                .contentShape(RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius))
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering in selection.hover(row, hovering) }
+        .accessibilityAddTraits(.isButton)
+    }
+}
