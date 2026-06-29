@@ -305,3 +305,45 @@ private struct OptionsActionRow: View {
         .accessibilityAddTraits(.isButton)
     }
 }
+
+private struct OptionsControlRow<Content: View>: View {
+    let row: OptionsRow
+    let title: String
+    let detail: String?
+    @ObservedObject var selection: OptionsSelectionModel
+    let content: Content
+
+    init(
+        row: OptionsRow,
+        title: String,
+        detail: String? = nil,
+        selection: OptionsSelectionModel,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.row = row
+        self.title = title
+        self.detail = detail
+        self.selection = selection
+        self.content = content()
+    }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: 13))
+                if let detail {
+                    Text(detail)
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                }
+            }
+            Spacer(minLength: 8)
+            content
+        }
+        .padding(.horizontal, OptionsMetrics.inset)
+        .frame(height: detail == nil ? OptionsMetrics.controlRowHeight : OptionsMetrics.detailRowHeight)
+        .optionsHighlight(row: row, selection: selection)
+    }
+}
