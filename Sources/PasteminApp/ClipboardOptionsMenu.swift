@@ -364,3 +364,9 @@ private struct OptionsHighlight: ViewModifier {
             .onHover { hovering in selection.hover(row, hovering) }
     }
 }
+
+private extension View {
+    func optionsHighlight(row: OptionsRow, selection: OptionsSelectionModel) -> some View {
+        modifier(OptionsHighlight(row: row, selection: selection))
+    }
+}
