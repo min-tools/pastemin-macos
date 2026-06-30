@@ -347,3 +347,20 @@ private struct OptionsControlRow<Content: View>: View {
         .optionsHighlight(row: row, selection: selection)
     }
 }
+
+/// Subtle highlight for rows that hold controls, so keyboard focus is visible without
+/// competing with the control itself.
+private struct OptionsHighlight: ViewModifier {
+    let row: OptionsRow
+    @ObservedObject var selection: OptionsSelectionModel
+
+    func body(content: Content) -> some View {
+        content
+            .background(
+                selection.selection == row ? Color.primary.opacity(0.08) : Color.clear,
+                in: RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius)
+            )
+            .contentShape(RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius))
+            .onHover { hovering in selection.hover(row, hovering) }
+    }
+}
