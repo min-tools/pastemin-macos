@@ -370,3 +370,11 @@ private extension View {
         modifier(OptionsHighlight(row: row, selection: selection))
     }
 }
+
+private struct OptionsDivider: View {
+    var body: some View {
+        Divider()
+            .padding(.horizontal, OptionsMetrics.inset)
+            .padding(.vertical, 6)
+    }
+}
