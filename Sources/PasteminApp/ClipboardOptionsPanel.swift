@@ -18,3 +18,40 @@ enum OptionsRow: Hashable {
     case about
     case privacy
 }
+
+/// Shared highlight state for the dropdown: the mouse and the arrow keys move the same selection,
+/// exactly like a menu, and Return or Space activates whatever is highlighted.
+@MainActor
+final class OptionsSelectionModel: ObservableObject {
+    @Published var selection: OptionsRow?
+    var rows: [OptionsRow] = []
+    var activate: (OptionsRow) -> Void = { _ in }
+    var adjust: (OptionsRow, Int) -> Void = { _, _ in }
+
+    func hover(_ row: OptionsRow, _ hovering: Bool) {
+        if hovering {
+            selection = row
+        } else if selection == row {
+            selection = nil
+        }
+    }
+
+    func moveSelection(by offset: Int) {
+        guard !rows.isEmpty else { return }
+        guard let selection, let index = rows.firstIndex(of: selection) else {
+            self.selection = offset > 0 ? rows.first : rows.last
+            return
+        }
+        self.selection = rows[min(max(index + offset, 0), rows.count - 1)]
+    }
+
+    func activateSelection() {
+        guard let selection else { return }
+        activate(selection)
+    }
+
+    func adjustSelection(by delta: Int) {
+        guard let selection else { return }
+        adjust(selection, delta)
+    }
+}
