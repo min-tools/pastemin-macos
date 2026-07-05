@@ -194,3 +194,13 @@ final class ClipboardOptionsPanel: NSPanel {
         observers = []
     }
 }
+
+/// Reports SwiftUI size changes so the dropdown can follow its content height.
+private final class OptionsHostingView: NSHostingView<AnyView> {
+    var sizeDidChange: (() -> Void)?
+
+    override func invalidateIntrinsicContentSize() {
+        super.invalidateIntrinsicContentSize()
+        sizeDidChange?()
+    }
+}
