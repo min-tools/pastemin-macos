@@ -196,3 +196,30 @@ final class ClipboardPanel: NSPanel {
         return nil
     }
 }
+
+final class ClipboardSearchTextView: NSTextView {
+    var placeholderAttributedString: NSAttributedString? {
+        didSet { needsDisplay = true }
+    }
+
+    // This view is the NSTextInputClient. Returning invisible here prevents TextInputUI from
+    // creating its remote input-source and Caps Lock HUD for Pastemin's search cursor.
+    override func preferredTextAccessoryPlacement() -> NSTextCursorAccessoryPlacement { .invisible }
+
+    override func didChangeText() {
+        super.didChangeText()
+        needsDisplay = true
+    }
+
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        guard string.isEmpty, let placeholderAttributedString else { return }
+        let origin = textContainerOrigin
+        placeholderAttributedString.draw(in: NSRect(
+            x: origin.x,
+            y: origin.y,
+            width: max(0, bounds.width - origin.x),
+            height: bounds.height - origin.y
+        ))
+    }
+}
