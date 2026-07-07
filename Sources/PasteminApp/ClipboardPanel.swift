@@ -223,3 +223,18 @@ final class ClipboardSearchTextView: NSTextView {
         ))
     }
 }
+
+/// The translucent material behind a Pastemin window: Liquid Glass on macOS 26, vibrancy before.
+struct ClipboardPanelSurface {
+    let view: NSView
+    let contentContainer: NSView
+
+    static func make(frame: NSRect, cornerRadius: CGFloat = 27) -> ClipboardPanelSurface {
+        if #available(macOS 26.0, *) {
+            let glass = ClipboardGlassView(frame: frame, cornerRadius: cornerRadius)
+            return ClipboardPanelSurface(view: glass, contentContainer: glass.contentContainer)
+        }
+        let vibrancy = ClipboardVibrancyView(frame: frame, cornerRadius: cornerRadius)
+        return ClipboardPanelSurface(view: vibrancy, contentContainer: vibrancy.contentContainer)
+    }
+}
