@@ -262,3 +262,26 @@ private final class ClipboardGlassView: NSGlassEffectView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+private final class ClipboardVibrancyView: NSVisualEffectView {
+    let contentContainer = NSView()
+
+    init(frame frameRect: NSRect, cornerRadius radius: CGFloat) {
+        super.init(frame: frameRect)
+        material = .menu
+        blendingMode = .behindWindow
+        state = .active
+        wantsLayer = true
+        layer?.cornerRadius = radius
+        layer?.cornerCurve = .continuous
+        layer?.masksToBounds = true
+
+        contentContainer.frame = bounds
+        contentContainer.autoresizingMask = [.width, .height]
+        addSubview(contentContainer)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
