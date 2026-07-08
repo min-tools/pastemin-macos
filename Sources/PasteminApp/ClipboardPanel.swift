@@ -238,3 +238,27 @@ struct ClipboardPanelSurface {
         return ClipboardPanelSurface(view: vibrancy, contentContainer: vibrancy.contentContainer)
     }
 }
+
+@available(macOS 26.0, *)
+private final class ClipboardGlassView: NSGlassEffectView {
+    let contentContainer = NSView()
+
+    init(frame frameRect: NSRect, cornerRadius radius: CGFloat) {
+        super.init(frame: frameRect)
+        style = .regular
+        cornerRadius = radius
+        autoresizingMask = [.width, .height]
+        wantsLayer = true
+        layer?.cornerRadius = radius
+        layer?.cornerCurve = .continuous
+        layer?.masksToBounds = true
+
+        contentContainer.frame = bounds
+        contentContainer.autoresizingMask = [.width, .height]
+        contentView = contentContainer
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
