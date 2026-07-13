@@ -5,3 +5,7 @@ import Foundation
 func localized(_ key: String, _ english: String) -> String {
     NSLocalizedString(key, tableName: nil, bundle: .main, value: english, comment: "")
 }
+
+func localizedFormat(_ key: String, _ english: String, _ arguments: CVarArg...) -> String {
+    String(format: localized(key, english), locale: .current, arguments: arguments)
+}
