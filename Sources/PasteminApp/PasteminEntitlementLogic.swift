@@ -23,3 +23,12 @@ enum PasteminFreeAccessPolicy {
         return max(0, Int(ceil(seconds / (24 * 60 * 60))))
     }
 }
+
+// Keep StoreKit out of the entitlement decisions so they remain easy to test.
+struct PasteminTransactionSummary: Equatable {
+    var productID: String
+    var expirationDate: Date?
+    var revocationDate: Date?
+    var isFamilyShared: Bool
+    var isIntroductoryOffer: Bool
+}
