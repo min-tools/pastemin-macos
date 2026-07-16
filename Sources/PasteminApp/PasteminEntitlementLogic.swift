@@ -32,3 +32,20 @@ struct PasteminTransactionSummary: Equatable {
     var isFamilyShared: Bool
     var isIntroductoryOffer: Bool
 }
+
+struct PasteminEntitlement: Equatable {
+    enum Kind: Equatable {
+        case none
+        case lifetime
+        case subscription
+    }
+
+    var kind: Kind = .none
+    var expirationDate: Date?
+    var isTrial = false
+    var isFamilyShared = false
+    var willAutoRenew: Bool?
+
+    var hasAccess: Bool { kind != .none }
+    static let none = PasteminEntitlement()
+}
