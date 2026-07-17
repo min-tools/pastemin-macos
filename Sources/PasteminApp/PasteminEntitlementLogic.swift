@@ -49,3 +49,33 @@ struct PasteminEntitlement: Equatable {
     var hasAccess: Bool { kind != .none }
     static let none = PasteminEntitlement()
 }
+
+enum PasteminEntitlementLogic {
+    // StoreKit's current-entitlement sequence already accounts for expiry and billing grace.
+    static func evaluate(_ transactions: [PasteminTransactionSummary]) -> PasteminEntitlement {
+        let live = transactions.filter {
+            $0.revocationDate == nil && PasteminProductID.all.contains($0.productID)
+        }
+        if let lifetime = preferred(live.filter { $0.productID == PasteminProductID.lifetime }) {
+            return PasteminEntitlement(kind: .lifetime, isFamilyShared: lifetime.isFamilyShared)
+        }
+        guard let yearly = preferred(live.filter { $0.productID == PasteminProductID.yearly }) else {
+            return .none
+        }
+        return PasteminEntitlement(
+            kind: .subscription,
+            expirationDate: yearly.expirationDate,
+            isTrial: yearly.isIntroductoryOffer,
+            isFamilyShared: yearly.isFamilyShared
+        )
+    }
+
+    private static func preferred(_ candidates: [PasteminTransactionSummary]) -> PasteminTransactionSummary? {
+        candidates.max { first, second in
+            if first.isFamilyShared != second.isFamilyShared {
+                return first.isFamilyShared
+            }
+            return (first.expirationDate ?? .distantFuture) < (second.expirationDate ?? .distantFuture)
+        }
+    }
+}
