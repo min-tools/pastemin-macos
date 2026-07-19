@@ -19,3 +19,13 @@ final class PasteminAppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
 }
+
+@main
+enum PasteminMain {
+    static func main() {
+        let application = NSApplication.shared
+        let delegate = PasteminAppDelegate()
+        application.delegate = delegate
+        application.run()
+    }
+}
