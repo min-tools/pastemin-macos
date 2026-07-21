@@ -318,3 +318,46 @@ final class PasteminStore: ObservableObject {
         )
     }
 }
+
+@MainActor
+final class PasteminPaywallController: NSWindowController, NSWindowDelegate {
+    private let store: PasteminStore
+    private let state = PasteminPaywallState()
+    private var onUnlock: (() -> Void)?
+
+    init(store: PasteminStore) {
+        self.store = store
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 510, height: 500),
+            styleMask: [.titled, .closable],
+            backing: .buffered,
+            defer: false
+        )
+        window.title = "Pastemin"
+        window.isReleasedWhenClosed = false
+        super.init(window: window)
+        window.delegate = self
+        window.contentView = NSHostingView(rootView: PasteminPaywallView(
+            store: store,
+            state: state,
+            close: { [weak self] in self?.window?.close() },
+            unlocked: { [weak self] in
+                guard let self else { return }
+                self.window?.close()
+                let action = self.onUnlock
+                self.onUnlock = nil
+                action?()
+            }
+        ))
+    }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    func show(onUnlock: (() -> Void)? = nil) {
+        self.onUnlock = onUnlock
+        guard let window else { return }
+        NSApp.activate(ignoringOtherApps: true)
+        window.center()
+        window.makeKeyAndOrderFront(nil)
+    }
+}
