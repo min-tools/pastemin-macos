@@ -361,3 +361,9 @@ final class PasteminPaywallController: NSWindowController, NSWindowDelegate {
         window.makeKeyAndOrderFront(nil)
     }
 }
+
+@MainActor
+private final class PasteminPaywallState: ObservableObject {
+    @Published var isWorking = false
+    @Published var message: String?
+}
