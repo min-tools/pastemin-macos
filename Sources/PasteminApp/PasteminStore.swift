@@ -367,3 +367,159 @@ private final class PasteminPaywallState: ObservableObject {
     @Published var isWorking = false
     @Published var message: String?
 }
+
+private struct PasteminPaywallView: View {
+    @ObservedObject var store: PasteminStore
+    @ObservedObject var state: PasteminPaywallState
+    let close: () -> Void
+    let unlocked: () -> Void
+
+    var body: some View {
+        VStack(spacing: 18) {
+            Image(systemName: "doc.on.clipboard")
+                .font(.system(size: 34, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 64, height: 64)
+                .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 16))
+            Text("Pastemin")
+                .font(.largeTitle.bold())
+            Text(localized(
+                "paywall_description",
+                "Keep your clipboard history close, searchable, and private on your Mac."
+            ))
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: 390)
+
+            if store.isPro {
+                Label(store.statusText(), systemImage: "checkmark.seal.fill")
+                    .foregroundStyle(.green)
+                if store.canManageSubscription {
+                    Link(
+                        localized("manage_subscription_ellipsis", "Manage Subscription…"),
+                        destination: PasteminStore.manageSubscriptionsURL
+                    )
+                }
+            } else {
+                // Keep plans available during the independent trial without implying a charge.
+                if store.isAppTrialActive {
+                    Label(store.statusText(), systemImage: "clock.fill")
+                        .foregroundStyle(.green)
+                }
+                purchaseButtons
+            }
+
+            if state.isWorking { ProgressView().controlSize(.small) }
+            if let message = state.message {
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            HStack(spacing: 16) {
+                Button(localized("restore_purchases", "Restore Purchases"), action: restore)
+                Link(localized("terms_of_use", "Terms of Use"), destination: PasteminStore.termsURL)
+                Link(localized("privacy_policy", "Privacy Policy"), destination: PasteminStore.privacyURL)
+            }
+            .font(.caption)
+            Button(localized("close", "Close"), action: close)
+                .keyboardShortcut(.cancelAction)
+        }
+        .padding(28)
+        .frame(width: 510, height: 500)
+        .task { await load() }
+    }
+
+    @ViewBuilder private var purchaseButtons: some View {
+        if let yearly = store.yearly {
+            Button(action: { purchase(yearly) }) {
+                VStack(spacing: 2) {
+                    Text(localized("yearly_subscription", "Yearly Subscription"))
+                        .font(.headline)
+                    Text(localizedFormat("price_per_year", "%@ per year", yearly.displayPrice))
+                        .font(.caption)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .disabled(state.isWorking)
+        }
+        if let lifetime = store.lifetime {
+            Button(
+                localizedFormat(
+                    "lifetime_access_price",
+                    "Lifetime Access — %@",
+                    lifetime.displayPrice
+                ),
+                action: { purchase(lifetime) }
+            )
+                .buttonStyle(.bordered)
+                .controlSize(.large)
+                .disabled(state.isWorking)
+        }
+        Text(localized(
+            "yearly_plan_disclosure",
+            "The yearly plan renews automatically unless canceled. Family Sharing is supported. Payment and renewal are managed by Apple."
+        ))
+            .font(.caption2)
+            .foregroundStyle(.tertiary)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: 390)
+    }
+
+    private func load() async {
+        guard !store.isPro, store.yearly == nil, store.lifetime == nil else { return }
+        state.isWorking = true
+        defer { state.isWorking = false }
+        do {
+            try await store.loadProducts()
+        } catch {
+            state.message = error.localizedDescription
+        }
+    }
+
+    private func purchase(_ product: Product) {
+        guard !state.isWorking else { return }
+        state.isWorking = true
+        state.message = nil
+        Task {
+            defer { state.isWorking = false }
+            do {
+                switch try await store.purchase(product) {
+                case .unlocked: unlocked()
+                case .pending:
+                    state.message = localized(
+                        "purchase_waiting_for_approval",
+                        "The purchase is waiting for approval."
+                    )
+                case .cancelled: break
+                }
+            } catch {
+                state.message = error.localizedDescription
+            }
+        }
+    }
+
+    private func restore() {
+        guard !state.isWorking else { return }
+        state.isWorking = true
+        state.message = nil
+        Task {
+            defer { state.isWorking = false }
+            do {
+                if try await store.restore() {
+                    unlocked()
+                } else {
+                    state.message = localized(
+                        "no_active_purchase",
+                        "No active Pastemin purchase was found."
+                    )
+                }
+            } catch {
+                state.message = error.localizedDescription
+            }
+        }
+    }
+}
