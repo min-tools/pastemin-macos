@@ -1,0 +1,8 @@
+/* Pastemin — English localization. English also appears inline as the runtime fallback. */
+
+/* About %@ */
+"about_app" = "About %@";
+
+/* About */
+"about" = "About";
+
