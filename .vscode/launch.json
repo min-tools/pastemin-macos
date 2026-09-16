@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:pastemin-macos}",
+            "name": "Debug Pastemin",
+            "target": "Pastemin",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Pastemin"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:pastemin-macos}",
+            "name": "Release Pastemin",
+            "target": "Pastemin",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Pastemin"
+        }
+    ]
+}
