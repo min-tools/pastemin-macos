@@ -315,9 +315,11 @@ final class ClipboardController: NSObject {
     private func restorePreviousApplication(andPaste shouldPaste: Bool) {
         guard let application = previousApplication else { return }
         previousApplication = nil
+        // Yield before the next-turn request so macOS restores the caller's key window and focus.
+        NSApp.yieldActivation(to: application)
         DispatchQueue.main.async {
             guard !application.isTerminated else { return }
-            _ = application.activate(options: [])
+            _ = application.activate(from: .current, options: [])
             guard shouldPaste else { return }
             // Activation is asynchronous. Never send ⌘V unless the caller is frontmost.
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {

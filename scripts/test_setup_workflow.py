@@ -66,6 +66,13 @@ assert 'requestAutomaticPasteAccess' not in wizard
 assert 'CGPreflightPostEventAccess() || requestAutomaticPasteAccess()' in controller
 assert 'panel.orderOut(nil)\n            let shouldPaste = preferences.pasteAutomatically' in controller
 
+yield_call = 'NSApp.yieldActivation(to: application)'
+activate_call = 'application.activate(from: .current, options: [])'
+assert yield_call in controller
+assert activate_call in controller
+assert controller.index(yield_call) < controller.index(activate_call)
+assert 'application.activate(options: [])' not in controller
+
 fixture = r'''
 import Cocoa
 

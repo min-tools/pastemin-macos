@@ -128,7 +128,8 @@ assert 'panel.pointerDidMove' in controller and 'viewModel?.enablePointerSelecti
 assert 'guard !NSApp.isActive || !panel.isVisible else { return }' in controller
 assert 'panel.didDismiss' in controller and 'viewModel?.resetSearch()' in controller
 assert 'previousApplication = frontmost' in controller
-assert 'application.activate(options: [])' in controller
+assert 'NSApp.yieldActivation(to: application)' in controller
+assert 'application.activate(from: .current, options: [])' in controller
 assert 'Self.postPasteShortcut()' in controller
 edition = (sources / 'BuildEdition.swift').read_text()
 assert 'PASTEMIN_LOCAL_BUILD' in edition and 'PASTEMIN_APP_STORE' in edition
