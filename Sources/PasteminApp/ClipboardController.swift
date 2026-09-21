@@ -181,7 +181,8 @@ final class ClipboardController: NSObject {
     }
 
     private func prepareClipboardPresentationIfNeeded() {
-        guard !panel.isVisible else { return }
+        // AppKit can briefly report a deactivated, hidden panel as visible.
+        guard !NSApp.isActive || !panel.isVisible else { return }
         rememberFrontmostApplication()
         viewModel.prepareForPresentation()
     }
@@ -220,6 +221,7 @@ final class ClipboardController: NSObject {
         panel.moveDown = { [weak viewModel] in viewModel?.moveSelection(by: 1) }
         panel.choose = { [weak viewModel] in viewModel?.chooseSelected() }
         panel.deleteSelection = { [weak viewModel] in viewModel?.deleteSelected() }
+        panel.pointerDidMove = { [weak viewModel] in viewModel?.enablePointerSelection() }
         panel.didDismiss = { [weak viewModel] in
             // Clear hidden search state after the panel has left the screen.
             DispatchQueue.main.async { viewModel?.resetSearch() }

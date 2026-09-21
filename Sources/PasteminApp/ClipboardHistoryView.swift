@@ -182,8 +182,11 @@ struct ClipboardHistoryView: View {
                                     selected: model.selectedID == record.id
                                 )
                                 .id(record.id)
-                                .onHover { isInside in
-                                    if isInside { model.select(record.id) }
+                                .onContinuousHover { phase in
+                                    // Ignore initial hover until the pointer moves.
+                                    if case .active = phase {
+                                        model.selectFromPointer(record.id)
+                                    }
                                 }
                                 .onTapGesture { model.select(record.id) }
                                 .onTapGesture(count: 2) {

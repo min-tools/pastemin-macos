@@ -16,6 +16,7 @@ final class ClipboardViewModel: ObservableObject {
     private let pageSize = 50
     private let searchDebounceNanoseconds: UInt64 = 35_000_000
     private var itemLimit: Int?
+    private var pointerSelectionEnabled = false
     private var searchTask: Task<Void, Never>?
     private var searchGeneration = 0
     private var completedSearchNeedle: String?
@@ -40,6 +41,7 @@ final class ClipboardViewModel: ObservableObject {
     }
 
     func prepareForPresentation() {
+        pointerSelectionEnabled = false
         reconcileSelection()
         // Default every opening to one newest-first batch and a deterministic top anchor.
         resetVisibleWindow()
@@ -162,8 +164,20 @@ final class ClipboardViewModel: ObservableObject {
     }
 
     func select(_ id: UUID) {
-        guard filteredItems.contains(where: { $0.id == id }) else { return }
+        guard selectedID != id,
+              filteredItems.contains(where: { $0.id == id }) else { return }
         selectedID = id
+    }
+
+    /// Enables hover selection after the pointer moves.
+    func enablePointerSelection() {
+        pointerSelectionEnabled = true
+    }
+
+    /// Selects the hovered item when pointer selection is enabled.
+    func selectFromPointer(_ id: UUID) {
+        guard pointerSelectionEnabled else { return }
+        select(id)
     }
 
     func moveSelection(by offset: Int) {

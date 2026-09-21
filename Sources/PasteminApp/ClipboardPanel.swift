@@ -7,11 +7,13 @@ final class ClipboardPanel: NSPanel {
     var moveDown: (() -> Void)?
     var choose: (() -> Void)?
     var deleteSelection: (() -> Void)?
+    var pointerDidMove: (() -> Void)?
     var didDismiss: (() -> Void)?
 
     private let searchFieldIdentifier = "PasteminSearchField"
     private var focusRequest = 0
     private var presentationRequest = 0
+    private var pointerLocationAtPresentation: NSPoint?
     private var activationObserver: NSObjectProtocol?
 
     init(rootView: some View) {
@@ -26,6 +28,7 @@ final class ClipboardPanel: NSPanel {
         hasShadow = true
         level = .floating
         hidesOnDeactivate = true
+        acceptsMouseMovedEvents = true
         isMovableByWindowBackground = true
         // Utility-window zoom briefly renders a small square during the first presentation.
         animationBehavior = .none
@@ -56,6 +59,7 @@ final class ClipboardPanel: NSPanel {
     override func orderOut(_ sender: Any?) {
         let wasVisible = isVisible
         presentationRequest += 1
+        pointerLocationAtPresentation = nil
         clearActivationObserver()
         focusRequest += 1
         if isEditingSearch { makeFirstResponder(nil) }
@@ -68,6 +72,10 @@ final class ClipboardPanel: NSPanel {
     }
 
     override func sendEvent(_ event: NSEvent) {
+        // Allow hover selection after the pointer moves from its opening position.
+        if event.type == .mouseMoved {
+            enablePointerSelectionIfMoved(event)
+        }
         if event.type == .keyDown {
             let textView = firstResponder as? NSTextView
             let textModifiers: NSEvent.ModifierFlags = [.command, .option, .control, .shift]
@@ -120,6 +128,7 @@ final class ClipboardPanel: NSPanel {
     func showCentered() {
         // Match Spotlight by opening on the display currently under the pointer.
         let point = NSEvent.mouseLocation
+        pointerLocationAtPresentation = point
         let screen = NSScreen.screens.first(where: { $0.frame.contains(point) }) ?? NSScreen.main
         if let visible = screen?.visibleFrame {
             setFrameOrigin(NSPoint(
@@ -149,6 +158,15 @@ final class ClipboardPanel: NSPanel {
             }
         }
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    /// Notifies the controller after the pointer moves from its opening position.
+    private func enablePointerSelectionIfMoved(_ event: NSEvent) {
+        guard let initialPoint = pointerLocationAtPresentation else { return }
+        let currentPoint = convertPoint(toScreen: event.locationInWindow)
+        guard currentPoint != initialPoint else { return }
+        pointerLocationAtPresentation = nil
+        pointerDidMove?()
     }
 
     private func finishPresentation(request: Int) {

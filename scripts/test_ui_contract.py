@@ -120,8 +120,12 @@ assert "resources / 'PRIVACY.md'" in build
 assert 'ClipboardPreview' in view and 'Image(nsImage: image)' in view
 assert 'Text(record.previewText)' in view and 'Text(record.displayTimestamp)' in view
 assert 'ForEach(model.displayedItems)' in view
-assert '.onHover { isInside in' in view and 'model.select(record.id)' in view
+assert '.onContinuousHover { phase in' in view and 'model.selectFromPointer(record.id)' in view
 assert 'onChange(of: model.keyboardSelectionRequest)' in view
+assert 'pointerLocationAtPresentation = point' in panel
+assert 'enablePointerSelectionIfMoved(event)' in panel
+assert 'panel.pointerDidMove' in controller and 'viewModel?.enablePointerSelection()' in controller
+assert 'guard !NSApp.isActive || !panel.isVisible else { return }' in controller
 assert 'panel.didDismiss' in controller and 'viewModel?.resetSearch()' in controller
 assert 'previousApplication = frontmost' in controller
 assert 'application.activate(options: [])' in controller

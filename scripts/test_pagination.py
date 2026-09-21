@@ -90,6 +90,18 @@ enum PaginationTest {
         check(model.displayedItems.count == 50, "Every presentation resets to one fixed batch")
         check(model.selectedID == model.filteredItems.first?.id, "Default presentation selects newest item")
         check(model.scrollToTopRequest == scrollRequest + 1, "Default presentation requests top position")
+        let stationaryPointerTarget = model.filteredItems[8]
+        model.selectFromPointer(stationaryPointerTarget.id)
+        check(
+            model.selectedID == model.filteredItems.first?.id,
+            "A stationary pointer cannot replace the default selection"
+        )
+        model.enablePointerSelection()
+        model.selectFromPointer(stationaryPointerTarget.id)
+        check(
+            model.selectedID == stationaryPointerTarget.id,
+            "Pointer movement enables hover selection"
+        )
 
         // Search must never bypass the expired-access limit.
         let limitedModel = ClipboardViewModel(store: store, itemLimit: 5)
