@@ -89,6 +89,7 @@
 "services" = "सेवाएँ";
 "shortcut_unavailable" = "%@ अनुपलब्ध है। कोई अन्य शॉर्टकट चुनें.";
 "show_in_finder" = "फाइंडर में दिखाएँ";
+"open_pastemin_at_login" = "लॉगिन पर खोलें";
 "show_in_menu_bar" = "मेनू बार में दिखाएँ";
 "show_pastemin" = "पास्टमिन दिखाएँ";
 "space_key" = "अंतरिक्ष";

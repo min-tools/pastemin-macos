@@ -89,6 +89,7 @@
 "services" = "Usluge";
 "shortcut_unavailable" = "%@ nije dostupan. Odaberite drugi prečac.";
 "show_in_finder" = "Prikaži u Finderu";
+"open_pastemin_at_login" = "Otvori pri prijavi";
 "show_in_menu_bar" = "Prikaži na traci izbornika";
 "show_pastemin" = "Prikaži Pastemin";
 "space_key" = "Razmak";

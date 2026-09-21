@@ -89,6 +89,7 @@
 "services" = "Tjenester";
 "shortcut_unavailable" = "%@ er ikke tilgængelig. Vælg en anden genvej.";
 "show_in_finder" = "Vis i Finder";
+"open_pastemin_at_login" = "Åbn ved login";
 "show_in_menu_bar" = "Vis i menulinjen";
 "show_pastemin" = "Vis Pastemin";
 "space_key" = "Plads";

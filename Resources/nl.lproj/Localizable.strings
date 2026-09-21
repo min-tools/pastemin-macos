@@ -89,6 +89,7 @@
 "services" = "Diensten";
 "shortcut_unavailable" = "%@ is niet beschikbaar. Kies een andere snelkoppeling.";
 "show_in_finder" = "Toon in Finder";
+"open_pastemin_at_login" = "Openen bij inloggen";
 "show_in_menu_bar" = "Toon in menubalk";
 "show_pastemin" = "Pastemin weergeven";
 "space_key" = "Spatie";

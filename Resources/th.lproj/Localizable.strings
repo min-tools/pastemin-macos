@@ -89,6 +89,7 @@
 "services" = "บริการ";
 "shortcut_unavailable" = "%@ ไม่พร้อมใช้งาน เลือกทางลัดอื่น";
 "show_in_finder" = "แสดงใน Finder";
+"open_pastemin_at_login" = "เปิดเมื่อเข้าสู่ระบบ";
 "show_in_menu_bar" = "แสดงในแถบเมนู";
 "show_pastemin" = "แสดงพาสมิน";
 "space_key" = "ช่องว่าง";

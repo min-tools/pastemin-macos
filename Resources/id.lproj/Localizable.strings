@@ -89,6 +89,7 @@
 "services" = "Layanan";
 "shortcut_unavailable" = "%@ tidak tersedia. Pilih pintasan lain.";
 "show_in_finder" = "Tampilkan di Penemu";
+"open_pastemin_at_login" = "Buka saat masuk";
 "show_in_menu_bar" = "Tampilkan di bilah menu";
 "show_pastemin" = "Tampilkan Pastemin";
 "space_key" = "Spasi";

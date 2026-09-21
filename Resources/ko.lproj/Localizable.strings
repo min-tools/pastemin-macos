@@ -89,6 +89,7 @@
 "services" = "서비스";
 "shortcut_unavailable" = "%@을(를) 사용할 수 없습니다. 다른 단축키를 선택하세요.";
 "show_in_finder" = "Finder에 표시";
+"open_pastemin_at_login" = "로그인 시 열기";
 "show_in_menu_bar" = "메뉴 표시줄에 표시";
 "show_pastemin" = "페이스트민 표시";
 "space_key" = "공간";

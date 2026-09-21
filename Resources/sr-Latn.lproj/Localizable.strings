@@ -89,6 +89,7 @@
 "services" = "Usluge";
 "shortcut_unavailable" = "%@ je nedostupan. Izaberite drugu prečicu.";
 "show_in_finder" = "Prikaži u Finder-u";
+"open_pastemin_at_login" = "Otvori pri prijavljivanju";
 "show_in_menu_bar" = "Prikaži u traci menija";
 "show_pastemin" = "Prikaži Pastemin";
 "space_key" = "Prostor";

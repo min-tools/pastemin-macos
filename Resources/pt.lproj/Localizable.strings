@@ -89,6 +89,7 @@
 "services" = "Serviços";
 "shortcut_unavailable" = "%@ não está disponível. Escolha outro atalho.";
 "show_in_finder" = "Mostrar no Finder";
+"open_pastemin_at_login" = "Abrir ao iniciar sessão";
 "show_in_menu_bar" = "Mostrar na barra de menus";
 "show_pastemin" = "Mostrar Pastemin";
 "space_key" = "Espaço";

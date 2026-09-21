@@ -89,6 +89,7 @@
 "services" = "služby";
 "shortcut_unavailable" = "%@ nie je k dispozícii. Vyberte inú skratku.";
 "show_in_finder" = "Zobraziť vo Finderi";
+"open_pastemin_at_login" = "Otvoriť pri prihlásení";
 "show_in_menu_bar" = "Zobraziť na paneli s ponukami";
 "show_pastemin" = "Zobraziť Pastemina";
 "space_key" = "Priestor";

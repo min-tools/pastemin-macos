@@ -89,6 +89,7 @@
 "services" = "Palvelut";
 "shortcut_unavailable" = "%@ ei ole käytettävissä. Valitse toinen pikakuvake.";
 "show_in_finder" = "Näytä Finderissa";
+"open_pastemin_at_login" = "Avaa sisäänkirjautumisen yhteydessä";
 "show_in_menu_bar" = "Näytä valikkorivillä";
 "show_pastemin" = "Näytä Pastemin";
 "space_key" = "Välilyönti";

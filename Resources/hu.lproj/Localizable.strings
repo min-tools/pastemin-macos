@@ -89,6 +89,7 @@
 "services" = "Szolgáltatások";
 "shortcut_unavailable" = "%@ nem érhető el. Válasszon másik parancsikont.";
 "show_in_finder" = "Megjelenítés a Finderben";
+"open_pastemin_at_login" = "Megnyitás bejelentkezéskor";
 "show_in_menu_bar" = "Megjelenítés a menüsorban";
 "show_pastemin" = "Pastemin megjelenítése";
 "space_key" = "Szóköz";

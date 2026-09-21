@@ -89,6 +89,7 @@
 "services" = "Hizmetler";
 "shortcut_unavailable" = "%@ kullanılamıyor. Başka bir kısayol seçin.";
 "show_in_finder" = "Finder'da Göster";
+"open_pastemin_at_login" = "Oturum açıldığında aç";
 "show_in_menu_bar" = "Menü çubuğunda göster";
 "show_pastemin" = "Pastemin'i Göster";
 "space_key" = "Boşluk";

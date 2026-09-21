@@ -7,11 +7,17 @@ import tempfile
 
 from build import ROOT
 
+# Verify the copy and system integrations promised by the setup wizard.
 wizard_path = ROOT / 'Sources/PasteminApp/SetupWizard.swift'
 wizard = wizard_path.read_text()
 assert '30 days of full access' in wizard
 assert 'No subscription starts, and you will not be charged.' in wizard
 assert 'shows and searches only the 5 newest items' in wizard
+assert 'Open at login' in wizard
+assert 'try service.register()' in wizard
+assert 'try service.unregister()' in wizard
+assert 'SMAppService.openSystemSettingsLoginItems()' in wizard
+assert 'presentLoginItemError(error)' in wizard
 
 
 def method(name):
@@ -106,7 +112,9 @@ final class LayoutFixture: NSObject, NSWindowDelegate {
     var laterButton: NSButton!
     var retentionPopup: NSPopUpButton?
     var menuBarCheckbox: NSButton?
+    var loginItemCheckbox: NSButton?
     var autoPasteCheckbox: NSButton?
+    var loginItemIsSelected: () -> Bool = { false }
     @objc func setUpLater(_ sender: Any?) {}
     @objc func goBack(_ sender: Any?) {}
     @objc func goForward(_ sender: Any?) {}
@@ -138,7 +146,10 @@ final class FinishFixture {
     var window: Window? = Window()
     var retentionPopup: NSPopUpButton?
     var menuBarCheckbox: NSButton?
+    var loginItemCheckbox: NSButton?
     var autoPasteCheckbox: NSButton?
+    var setLoginItemSelected: (Bool) throws -> Void = { _ in }
+    var presentLoginItemError: (Error) -> Void = { _ in }
 '''
 fixture += method('finish()').replace('    func finish()', '    func finish()')
 fixture += r'''
@@ -173,37 +184,63 @@ for locale in locales {
         check(window.contentView!.bounds.height < 800, "\(locale.lastPathComponent): setup remains compact")
         check(abs(window.frame.maxY - top) < 0.5, "\(locale.lastPathComponent): resizing keeps the top edge fixed")
     }
+    check(layout.loginItemCheckbox?.state == .off, "\(locale.lastPathComponent): login item reflects disabled state")
     check(layout.autoPasteCheckbox?.state == .off, "\(locale.lastPathComponent): automatic paste starts unchecked")
     window.close()
 }
 
-func controls(_ fixture: FinishFixture, automaticPaste: Bool) {
+// controls(_:automaticPaste:openAtLogin:) installs the required fixture
+// controls.
+// All parameters are required; the booleans set the two opt-in states.
+func controls(_ fixture: FinishFixture, automaticPaste: Bool, openAtLogin: Bool) {
     let retention = NSPopUpButton(frame: .zero, pullsDown: false)
     retention.addItem(withTitle: "Forever")
     retention.lastItem?.representedObject = RetentionPeriod.forever.rawValue
     fixture.retentionPopup = retention
     fixture.menuBarCheckbox = NSButton(checkboxWithTitle: "", target: nil, action: nil)
     fixture.menuBarCheckbox?.state = .off
+    fixture.loginItemCheckbox = NSButton(checkboxWithTitle: "", target: nil, action: nil)
+    fixture.loginItemCheckbox?.state = openAtLogin ? .on : .off
     fixture.autoPasteCheckbox = NSButton(checkboxWithTitle: "", target: nil, action: nil)
     fixture.autoPasteCheckbox?.state = automaticPaste ? .on : .off
 }
 
+// Verify login launch can be enabled while automatic paste remains disabled.
 let copyOnly = FinishFixture()
-controls(copyOnly, automaticPaste: false)
+var copyOnlyLoginChoice: Bool?
+copyOnly.setLoginItemSelected = { copyOnlyLoginChoice = $0 }
+controls(copyOnly, automaticPaste: false, openAtLogin: true)
 copyOnly.finish()
 check(!copyOnly.preferences.pasteAutomatically, "copy-only setup stays disabled")
 check(copyOnly.preferences.retention == .forever, "setup saves retention")
 check(!copyOnly.preferences.showInMenuBar, "setup saves menu-bar visibility")
+check(copyOnlyLoginChoice == true, "setup enables the selected login item")
 check(copyOnly.defaults.values[FinishFixture.completedKey] == true, "setup records completion")
 check(copyOnly.window?.closed == true, "setup closes after saving")
 
+// Verify automatic paste can be enabled while login launch remains disabled.
 let optedIn = FinishFixture()
-controls(optedIn, automaticPaste: true)
+var optedInLoginChoice: Bool?
+optedIn.setLoginItemSelected = { optedInLoginChoice = $0 }
+controls(optedIn, automaticPaste: true, openAtLogin: false)
 optedIn.finish()
 check(optedIn.preferences.pasteAutomatically, "explicit opt-in enables automatic paste")
 check(optedIn.preferences.retention == .forever, "opt-in setup saves retention")
 check(!optedIn.preferences.showInMenuBar, "opt-in setup saves menu-bar visibility")
+check(optedInLoginChoice == false, "setup disables the unselected login item")
 check(optedIn.defaults.values[FinishFixture.completedKey] == true, "opt-in setup records completion")
+
+// Verify a system registration failure is reported without completing setup.
+enum LoginItemFailure: Error { case registrationDenied }
+let failedLoginItem = FinishFixture()
+var presentedLoginItemError: Error?
+failedLoginItem.setLoginItemSelected = { _ in throw LoginItemFailure.registrationDenied }
+failedLoginItem.presentLoginItemError = { presentedLoginItemError = $0 }
+controls(failedLoginItem, automaticPaste: false, openAtLogin: true)
+failedLoginItem.finish()
+check(presentedLoginItemError != nil, "setup reports a login-item registration failure")
+check(failedLoginItem.defaults.values[FinishFixture.completedKey] != true, "failed login-item setup remains incomplete")
+check(failedLoginItem.window?.closed == false, "failed login-item setup stays open")
 
 print("\(checks) setup behavior and layout checks passed across \(locales.count) languages")
 '''

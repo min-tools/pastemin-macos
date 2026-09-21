@@ -89,6 +89,7 @@
 "services" = "Услуге";
 "shortcut_unavailable" = "%@ је недоступан. Изаберите другу пречицу.";
 "show_in_finder" = "Прикажи у Финдер-у";
+"open_pastemin_at_login" = "Отвори при пријављивању";
 "show_in_menu_bar" = "Прикажи у траци менија";
 "show_pastemin" = "Прикажи Пастемин";
 "space_key" = "Простор";

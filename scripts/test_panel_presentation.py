@@ -26,6 +26,8 @@ final class OrderedWindowRecorder: NSObject {
 
 @main
 enum PanelPresentationTest {
+    /// main() constructs the panel and menu, then verifies presentation
+    /// geometry.
     @MainActor static func main() throws {
         let application = NSApplication.shared
         application.setActivationPolicy(.accessory)
@@ -51,6 +53,7 @@ enum PanelPresentationTest {
             selection: optionsSelection,
             recordingChanged: { _ in },
             showPrivacyPolicy: {},
+            showAbout: {},
             revealStorage: {},
             clearCurrentClipboard: {},
             clearHistory: {},
@@ -69,6 +72,7 @@ enum PanelPresentationTest {
             showPurchases: {},
             restorePurchases: { nil },
             showPrivacyPolicy: {},
+            showAbout: {},
             revealStorage: {},
             clearCurrentClipboard: {},
             clearHistory: {}
@@ -95,13 +99,14 @@ enum PanelPresentationTest {
             check(hosting?.frame == hosting?.superview?.bounds, "Content host fills the glass content view")
         }
 
-        // Lay out at the final size without displaying the hidden glass surface.
+        // Lay out at the final size without displaying the hidden glass
+        // surface.
         panel.contentView?.layoutSubtreeIfNeeded()
         checkFullSizeHierarchy()
         check(panel.initialFirstResponder === panel.contentView, "Initial first responder defers editing")
 
-        // Materialize the first window transaction outside every display and verify that it never
-        // falls back to a smaller placeholder surface.
+        // Materialize the first window transaction outside every display and
+        // verify that it never falls back to a smaller placeholder surface.
         panel.setFrameOrigin(NSPoint(x: -10_000, y: -10_000))
         panel.makeKeyAndOrderFront(nil)
         check(panel.isVisible, "Panel ordered on screen")
@@ -110,8 +115,9 @@ enum PanelPresentationTest {
             "Ordering the panel in started editing before it was visible"
         )
 
-        // Focusing after presentation must use the custom input client directly. Creating an
-        // NSTextField field editor first is too late to stop TextInputUI's accessory host.
+        // Focusing after presentation must use the custom input client
+        // directly. Creating an NSTextField field editor first is too late to
+        // stop TextInputUI's accessory host.
         panel.focusSearchField()
         RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.25))
         check(panel.frame.size == NSSize(width: 900, height: 590), "First presentation size")
@@ -140,8 +146,9 @@ enum PanelPresentationTest {
         )
         check(panel.childWindows?.isEmpty ?? true, "The panel gained a child window during presentation")
 
-        // The options dropdown opens as a right-aligned child window under its button, registers
-        // its rows for keyboard control and leaves nothing behind once dismissed.
+        // The options dropdown opens as a right-aligned child window under its
+        // button, registers its rows for keyboard control and leaves nothing
+        // behind once dismissed.
         func findOptionsButton(in view: NSView) -> NSButton? {
             if let button = view as? NSButton,
                button.toolTip == localized("pastemin_options", "Pastemin options") {
@@ -163,6 +170,7 @@ enum PanelPresentationTest {
                 selection: dropdownSelection,
                 recordingChanged: { _ in },
                 showPrivacyPolicy: {},
+                showAbout: {},
                 revealStorage: {},
                 clearCurrentClipboard: {},
                 clearHistory: {},

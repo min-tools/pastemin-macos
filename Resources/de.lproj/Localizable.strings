@@ -89,6 +89,7 @@
 "services" = "Dienste";
 "shortcut_unavailable" = "%@ ist nicht verfügbar. Wähle ein anderes Tastenkürzel.";
 "show_in_finder" = "Im Finder zeigen";
+"open_pastemin_at_login" = "Bei der Anmeldung öffnen";
 "show_in_menu_bar" = "In der Menüleiste anzeigen";
 "show_pastemin" = "Pastemin anzeigen";
 "space_key" = "Leertaste";

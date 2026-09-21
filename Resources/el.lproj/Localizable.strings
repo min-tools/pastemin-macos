@@ -89,6 +89,7 @@
 "services" = "Υπηρεσίες";
 "shortcut_unavailable" = "%@ δεν είναι διαθέσιμο. Επιλέξτε άλλη συντόμευση.";
 "show_in_finder" = "Εμφάνιση στο Finder";
+"open_pastemin_at_login" = "Άνοιγμα κατά τη σύνδεση";
 "show_in_menu_bar" = "Εμφάνιση στη γραμμή μενού";
 "show_pastemin" = "Εμφάνιση Pastemin";
 "space_key" = "Διάστημα";

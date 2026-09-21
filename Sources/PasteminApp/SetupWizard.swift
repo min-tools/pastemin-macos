@@ -1,12 +1,17 @@
 import AppKit
+import ServiceManagement
 
-/// Guides first-run choices while deferring optional system access until automatic paste is used.
+/// Guides first-run choices and waits to request Accessibility access until
+/// automatic paste is first used.
 @MainActor
 final class SetupWizardController: NSObject, NSWindowDelegate {
     static let completedKey = "PasteminDidCompleteSetupWizard"
 
     private let preferences: ClipboardPreferences
     private let defaults: UserDefaults
+    private let loginItemIsSelected: () -> Bool
+    private let setLoginItemSelected: (Bool) throws -> Void
+    private let presentLoginItemError: @MainActor (Error) -> Void
 
     private var window: NSWindow?
     private var stepIndex = 0
@@ -21,14 +26,54 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
 
     private var retentionPopup: NSPopUpButton?
     private var menuBarCheckbox: NSButton?
+    private var loginItemCheckbox: NSButton?
     private var autoPasteCheckbox: NSButton?
 
+    /// init(preferences:, [defaults:], [loginItemIsSelected:],
+    /// [setLoginItemSelected:], [presentLoginItemError:]) creates the setup
+    /// controller. `preferences` is required. `defaults` stores completion;
+    /// the optional closures read or update login status and report failures.
     init(
         preferences: ClipboardPreferences,
-        defaults: UserDefaults = .standard
+        defaults: UserDefaults = .standard,
+        loginItemIsSelected: @escaping () -> Bool = {
+            let status = SMAppService.mainApp.status
+            // Treat approval-pending registration as the user's saved choice.
+            return status == .enabled || status == .requiresApproval
+        },
+        setLoginItemSelected: @escaping (Bool) throws -> Void = { enabled in
+            // Read the service state once so this update uses one consistent
+            // value.
+            let service = SMAppService.mainApp
+            let status = service.status
+            // An approval-pending login item needs the user to finish in
+            // System Settings.
+            if enabled && status == .requiresApproval {
+                SMAppService.openSystemSettingsLoginItems()
+                return
+            }
+            let selected = status == .enabled || status == .requiresApproval
+            guard selected != enabled else { return }
+            if enabled {
+                // Register the main app only after the user opts in during
+                // setup.
+                try service.register()
+            } else {
+                // Remove enabled and approval-pending registrations when the
+                // user opts out.
+                try service.unregister()
+            }
+        },
+        presentLoginItemError: @escaping @MainActor (Error) -> Void = { error in
+            NSApp.presentError(error)
+        }
     ) {
+        // Keep app state and replaceable system operations together.
         self.preferences = preferences
         self.defaults = defaults
+        self.loginItemIsSelected = loginItemIsSelected
+        self.setLoginItemSelected = setLoginItemSelected
+        self.presentLoginItemError = presentLoginItemError
         super.init()
     }
 
@@ -36,16 +81,19 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         defaults.bool(forKey: Self.completedKey)
     }
 
-    /// Starts a fresh setup session using the preferences currently shown in the settings menu.
+    /// present() resets the wizard and shows it with the current preferences.
     func present() {
         stepIndex = 0
         if window == nil {
+            // Create the window only for the first presentation.
             buildWindow()
         } else if window?.isVisible == false {
-            // Rebuild controls so reopening Setup reflects changes made in the options menu.
+            // Rebuild controls so reopening Setup reflects changes made in
+            // the options menu.
             stepViews.removeAll()
             retentionPopup = nil
             menuBarCheckbox = nil
+            loginItemCheckbox = nil
             autoPasteCheckbox = nil
         }
         showStep()
@@ -216,14 +264,18 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         )
     }
 
-    /// Lets the user choose persistence and availability while showing the active shortcut.
+    /// essentialsStep() builds retention, menu-bar, login, and shortcut
+    /// controls.
     private func essentialsStep() -> NSView {
+        // Build the retention choices and restore the saved selection.
         let retention = NSPopUpButton(frame: .zero, pullsDown: false)
         for period in RetentionPeriod.allCases {
             retention.addItem(withTitle: period.title)
             retention.lastItem?.representedObject = period.rawValue
         }
         if let index = RetentionPeriod.allCases.firstIndex(of: preferences.retention) {
+            // Select the saved period when it still matches an available
+            // choice.
             retention.selectItem(at: index)
         }
         retention.translatesAutoresizingMaskIntoConstraints = false
@@ -235,6 +287,8 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             control: retention
         )
 
+        // Let the user choose whether Clipboard remains available in the
+        // menu bar.
         let menuBar = NSButton(
             checkboxWithTitle: localized("show_in_menu_bar", "Show in menu bar"),
             target: nil,
@@ -243,6 +297,20 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         menuBar.state = preferences.showInMenuBar ? .on : .off
         menuBarCheckbox = menuBar
 
+        // Reflect the system login-item state without changing it before
+        // Finish.
+        let loginItem = NSButton(
+            checkboxWithTitle: localized(
+                "open_pastemin_at_login",
+                "Open at login"
+            ),
+            target: nil,
+            action: nil
+        )
+        loginItem.state = loginItemIsSelected() ? .on : .off
+        loginItemCheckbox = loginItem
+
+        // Show the active shortcut; recording remains in the settings menu.
         let shortcut = NSTextField(labelWithString: preferences.shortcut.displayName)
         shortcut.font = NSFont.monospacedSystemFont(ofSize: 13, weight: .medium)
         shortcut.alignment = .right
@@ -251,6 +319,7 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             control: shortcut
         )
 
+        // Point users to the permanent location for changing the shortcut.
         let note = NSTextField(wrappingLabelWithString: localized(
             "wizard_shortcut_note",
             "You can record a different shortcut later from the settings menu."
@@ -264,7 +333,7 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
                 "wizard_essentials_body",
                 "Choose how long copied items stay on this Mac and whether Clipboard appears in the menu bar."
             ),
-            extra: [retentionRow, menuBar, shortcutRow, note]
+            extra: [retentionRow, menuBar, loginItem, shortcutRow, note]
         )
     }
 
@@ -401,16 +470,32 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         window?.close()
     }
 
-    /// Applies completed choices without requesting optional system access from setup.
+    /// finish() saves setup choices and closes only after system updates
+    /// succeed.
     private func finish() {
+        // Save the selected retention period when it maps to a supported value.
         if let rawValue = retentionPopup?.selectedItem?.representedObject as? String,
            let retention = RetentionPeriod(rawValue: rawValue) {
             preferences.retention = retention
         }
+        // Save menu-bar visibility when that setup control was created.
         if let menuBarCheckbox {
             preferences.showInMenuBar = menuBarCheckbox.state == .on
         }
+        // Apply the login item before marking setup complete so failures can
+        // retry.
+        if let loginItemCheckbox {
+            do {
+                try setLoginItemSelected(loginItemCheckbox.state == .on)
+            } catch {
+                // Keep setup open so a failed system registration is not
+                // reported as saved.
+                presentLoginItemError(error)
+                return
+            }
+        }
 
+        // Save automatic paste without requesting Accessibility permission yet.
         let automaticPasteEnabled = autoPasteCheckbox?.state == .on
         preferences.pasteAutomatically = automaticPasteEnabled
         defaults.set(true, forKey: Self.completedKey)

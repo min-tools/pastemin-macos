@@ -89,6 +89,7 @@
 "services" = "Dịch vụ";
 "shortcut_unavailable" = "%@ không có sẵn. Chọn một phím tắt khác.";
 "show_in_finder" = "Hiển thị trong Finder";
+"open_pastemin_at_login" = "Mở khi đăng nhập";
 "show_in_menu_bar" = "Hiển thị trên thanh menu";
 "show_pastemin" = "Hiển thị Pastemin";
 "space_key" = "Không gian";

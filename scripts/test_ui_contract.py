@@ -115,7 +115,11 @@ assert 'PASTEMIN_LOCAL_BUILD' in edition and 'PASTEMIN_APP_STORE' in edition
 assert 'PASTEMIN_LOCAL_BUILD' not in ''.join(
     source.read_text() for source in sources.glob('*.swift') if source.name != 'BuildEdition.swift'
 )
+# Setup remains one-time and exposes the public login-item registration path.
 assert 'PasteminDidCompleteSetupWizard' in wizard
+assert 'Open at login' in wizard
+assert 'try service.register()' in wizard
+assert 'try service.unregister()' in wizard
 assert 'Setup Assistant…' not in options and 'case setupAssistant' not in options_panel
 assert 'run Setup Assistant again' not in wizard
 assert 'Pastemin always' not in wizard and 'Pastemin remains' not in wizard

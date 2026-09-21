@@ -89,6 +89,7 @@
 "services" = "服务";
 "shortcut_unavailable" = "%@ 不可用。选择另一个快捷方式。";
 "show_in_finder" = "在 Finder 中显示";
+"open_pastemin_at_login" = "登录时打开";
 "show_in_menu_bar" = "在菜单栏中显示";
 "show_pastemin" = "显示巴斯德明";
 "space_key" = "空间";

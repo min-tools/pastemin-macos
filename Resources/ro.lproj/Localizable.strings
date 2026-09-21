@@ -89,6 +89,7 @@
 "services" = "Servicii";
 "shortcut_unavailable" = "%@ este indisponibil. Alegeți o altă comandă rapidă.";
 "show_in_finder" = "Afișați în Finder";
+"open_pastemin_at_login" = "Deschide la autentificare";
 "show_in_menu_bar" = "Afișați în bara de meniu";
 "show_pastemin" = "Afișează Pastemin";
 "space_key" = "Spațiu";

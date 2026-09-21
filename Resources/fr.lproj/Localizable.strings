@@ -89,6 +89,7 @@
 "services" = "Services";
 "shortcut_unavailable" = "%@ n’est pas disponible. Choisissez un autre raccourci.";
 "show_in_finder" = "Afficher dans le Finder";
+"open_pastemin_at_login" = "Ouvrir à l’ouverture de session";
 "show_in_menu_bar" = "Afficher dans la barre des menus";
 "show_pastemin" = "Afficher Pastemin";
 "space_key" = "Espace";

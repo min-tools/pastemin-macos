@@ -89,6 +89,7 @@
 "services" = "Услуги";
 "shortcut_unavailable" = "%@ недоступен. Выберите другой ярлык.";
 "show_in_finder" = "Показать в Finder";
+"open_pastemin_at_login" = "Открывать при входе";
 "show_in_menu_bar" = "Показать в строке меню";
 "show_pastemin" = "Показать Пастемин";
 "space_key" = "Пространство";
