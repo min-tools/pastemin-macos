@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Guard Pastemin's panel, unified options menu, access limit and privacy UI."""
+"""Guard Pastemin's panel, options, access, privacy, and search contracts."""
 from build import ROOT
 
 sources = ROOT / 'Sources/PasteminApp'
@@ -67,9 +67,25 @@ assert '.onHover { hovering in selection.hover(row, hovering) }' in options
 
 # Histories render in fixed 50-item batches and expired access is a reversible view limit.
 assert 'private let pageSize = 50' in view_model
+assert 'private let searchDebounceNanoseconds: UInt64 = 35_000_000' in view_model
 assert 'private var itemLimit: Int?' in view_model
 assert 'func updateItemLimit(_ newValue: Int?)' in view_model
-assert 'search(matching: needle, among: self.accessibleItems)' in view_model
+assert 'search(matching: needle, among: candidates)' in view_model
+assert 'private(set) var query = ""' in view_model
+assert 'func updateQuery(_ newValue: String)' in view_model
+assert '.onChange(of: model.query)' not in view
+assert 'filteredItems = []' not in view_model
+assert 'else if model.isSearching' not in view
+assert 'private actor ClipboardSearchEngine' in store
+assert 'maximumCacheBytes = 32 * 1_024 * 1_024' in store
+assert store.count('searchEngine = ClipboardSearchEngine()') >= 3
+assert 'private(set) var itemsGeneration = 0' in store
+assert 'imageCache.object(forKey: cacheKey)' in store
+assert 'imageCache.setObject(image, forKey: cacheKey, cost: imageCacheCost(for: data))' in store
+assert 'private var searchResultsAreCurrent: Bool' in view_model
+assert view_model.count('guard searchResultsAreCurrent') == 2
+assert view_model.count('store.items.contains(where:') == 2
+assert 'self.store.itemsGeneration == storeGeneration' in view_model
 assert 'viewModel.updateItemLimit(proStore.hasFullAccess ? nil : 5)' in controller
 assert 'monitor.start()' in controller and 'monitor.stop()' not in controller
 assert 'requestClipboardPresentation(toggle: Bool)' in controller

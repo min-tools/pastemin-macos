@@ -55,7 +55,11 @@ enum StorageTest {
             sourceAppName: "Fixture",
             sourceBundleIdentifier: "com.example.fixture"
         ) == 1, "Capture image")
-        check(store.items.first?.kind == .image && store.image(for: store.items[0]) != nil, "Store image")
+        check(store.items.first?.kind == .image, "Store image")
+        // Repeated reads should reuse one decoded image object.
+        let firstDecodedImage = store.image(for: store.items[0])!
+        let cachedImage = store.image(for: store.items[0])!
+        check(firstDecodedImage === cachedImage, "Reuse decoded images while rendering")
 
         let historyURL = root.appendingPathComponent("history.json")
         let imagesURL = root.appendingPathComponent("Images", isDirectory: true)

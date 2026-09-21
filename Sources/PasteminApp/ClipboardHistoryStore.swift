@@ -8,11 +8,93 @@ private struct ClipboardSearchCandidate: Sendable {
     let externalTextURL: URL?
 }
 
+/// Keeps complete external text off the main actor and bounds its memory use.
+private actor ClipboardSearchEngine {
+    private struct CachedText {
+        let value: String
+        let byteCount: Int
+    }
+
+    private let maximumCacheBytes = 32 * 1_024 * 1_024
+    private var cachedText: [URL: CachedText] = [:]
+    private var insertionOrder: [URL] = []
+    private var evictionIndex = 0
+    private var cachedByteCount = 0
+
+    /// matches(_:needle:) returns candidates whose metadata or text contains
+    /// the required `needle`.
+    func matches(
+        _ candidates: [ClipboardSearchCandidate],
+        needle: String
+    ) -> [ClipboardRecord] {
+        var matches: [ClipboardRecord] = []
+        matches.reserveCapacity(min(candidates.count, 256))
+
+        for candidate in candidates {
+            guard !Task.isCancelled else { return [] }
+            let record = candidate.record
+            // Metadata matches avoid loading an external text payload.
+            if record.title.localizedCaseInsensitiveContains(needle)
+                || (record.sourceAppName?.localizedCaseInsensitiveContains(needle) ?? false) {
+                matches.append(record)
+                continue
+            }
+
+            let text = candidate.externalTextURL.flatMap(cachedText(at:)) ?? record.text
+            // Full-text matching covers records that metadata cannot identify.
+            if text?.localizedCaseInsensitiveContains(needle) == true {
+                matches.append(record)
+            }
+        }
+        return matches
+    }
+
+    /// cachedText(at:) reads the required managed file and caches valid UTF-8.
+    private func cachedText(at url: URL) -> String? {
+        // Reuse complete text without touching the file system again.
+        if let cached = cachedText[url] { return cached.value }
+        guard !Task.isCancelled,
+              let data = try? Data(contentsOf: url, options: .mappedIfSafe),
+              !Task.isCancelled,
+              let text = String(data: data, encoding: .utf8) else { return nil }
+
+        cachedText[url] = CachedText(value: text, byteCount: data.count)
+        insertionOrder.append(url)
+        cachedByteCount += data.count
+        evictIfNeeded()
+        return text
+    }
+
+    /// evictIfNeeded() removes the oldest text until the cache meets its limit.
+    private func evictIfNeeded() {
+        while cachedByteCount > maximumCacheBytes, evictionIndex < insertionOrder.count {
+            let url = insertionOrder[evictionIndex]
+            evictionIndex += 1
+            // A key may already be absent if it appeared earlier in the queue.
+            if let removed = cachedText.removeValue(forKey: url) {
+                cachedByteCount -= removed.byteCount
+            }
+        }
+
+        // Periodically discard consumed keys without shifting the queue on
+        // every eviction.
+        if evictionIndex > 1_024, evictionIndex * 2 > insertionOrder.count {
+            insertionOrder.removeFirst(evictionIndex)
+            evictionIndex = 0
+        }
+    }
+}
+
 @MainActor
 final class ClipboardHistoryStore: ObservableObject {
-    @Published private(set) var items: [ClipboardRecord] = []
+    @Published private(set) var items: [ClipboardRecord] = [] {
+        didSet { itemsGeneration &+= 1 }
+    }
     @Published private(set) var storageError: String?
     @Published private(set) var storageByteCount: Int64?
+
+    // A synchronous generation lets searches reject obsolete item snapshots.
+    private(set) var itemsGeneration = 0
 
     let rootURL: URL
     private let itemsURL: URL
@@ -26,6 +108,13 @@ final class ClipboardHistoryStore: ObservableObject {
     private let maximumImageBytes = 25 * 1_024 * 1_024
     private let maximumImagePixelCount = 40_000_000
     private var sourceIconCache: [String: NSImage] = [:]
+    private let imageCache: NSCache<NSString, NSImage> = {
+        let cache = NSCache<NSString, NSImage>()
+        cache.countLimit = 200
+        cache.totalCostLimit = 64 * 1_024 * 1_024
+        return cache
+    }()
+    private var searchEngine = ClipboardSearchEngine()
 
     static func applicationSupportURL(fileManager: FileManager = .default) throws -> URL {
         let library = try fileManager.url(
@@ -187,8 +276,15 @@ final class ClipboardHistoryStore: ObservableObject {
         return restored
     }
 
+    /// image(for:) returns a decoded image for the required record.
     func image(for record: ClipboardRecord) -> NSImage? {
-        imageData(for: record).flatMap(NSImage.init(data:))
+        guard let filename = record.imageFilename else { return nil }
+        let cacheKey = filename as NSString
+        // Reuse decoded image data as rows enter and leave the visible window.
+        if let cached = imageCache.object(forKey: cacheKey) { return cached }
+        guard let data = imageData(for: record), let image = NSImage(data: data) else { return nil }
+        imageCache.setObject(image, forKey: cacheKey, cost: imageCacheCost(for: data))
+        return image
     }
 
     func fullText(for record: ClipboardRecord) -> String? {
@@ -205,6 +301,8 @@ final class ClipboardHistoryStore: ObservableObject {
             || (fullText(for: record)?.localizedCaseInsensitiveContains(needle) ?? false)
     }
 
+    /// search(matching:,[among:]) finds the required needle in optional
+    /// records; omitting records searches all items.
     func search(
         matching needle: String,
         among records: [ClipboardRecord]? = nil
@@ -215,35 +313,9 @@ final class ClipboardHistoryStore: ObservableObject {
                 externalTextURL: record.textFilename.flatMap(textURL)
             )
         }
-        let searchTask: Task<[ClipboardRecord], Never> = Task.detached(priority: .userInitiated) {
-            var matches: [ClipboardRecord] = []
-            matches.reserveCapacity(min(candidates.count, 256))
-            for candidate in candidates {
-                guard !Task.isCancelled else { return [ClipboardRecord]() }
-                let record = candidate.record
-                if record.title.localizedCaseInsensitiveContains(needle)
-                    || (record.sourceAppName?.localizedCaseInsensitiveContains(needle) ?? false) {
-                    matches.append(record)
-                    continue
-                }
-                let text: String?
-                if let url = candidate.externalTextURL,
-                   let data = try? Data(contentsOf: url, options: .mappedIfSafe) {
-                    text = String(data: data, encoding: .utf8)
-                } else {
-                    text = record.text
-                }
-                if text?.localizedCaseInsensitiveContains(needle) == true {
-                    matches.append(record)
-                }
-            }
-            return matches
-        }
-        return await withTaskCancellationHandler {
-            await searchTask.value
-        } onCancel: {
-            searchTask.cancel()
-        }
+        // Capture this engine so deletion can safely replace the store's cache.
+        let engine = searchEngine
+        return await engine.matches(candidates, needle: needle)
     }
 
     func sourceAppIcon(for record: ClipboardRecord) -> NSImage? {
@@ -292,13 +364,19 @@ final class ClipboardHistoryStore: ObservableObject {
         save()
     }
 
+    /// clearHistory() removes clipboard metadata, payload files, and caches.
     func clearHistory() {
         items.removeAll()
+        imageCache.removeAllObjects()
+        // Discard cached text when clearing the source history.
+        searchEngine = ClipboardSearchEngine()
         // Persist empty metadata even if removing an orphaned image later fails.
         save()
         do {
             // Recreate payload directories so the next capture never depends on lazy setup.
             for directory in [imagesURL, textItemsURL] {
+                // Replace old directories to remove orphans and restore
+                // private permissions.
                 if fileManager.fileExists(atPath: directory.path) {
                     try fileManager.removeItem(at: directory)
                 }
@@ -508,8 +586,22 @@ final class ClipboardHistoryStore: ObservableObject {
         return try? Data(contentsOf: url)
     }
 
+    /// imageCacheCost(for:) estimates the decoded size of the required data.
+    private func imageCacheCost(for data: Data) -> Int {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil)
+                as? [CFString: Any],
+              let width = (properties[kCGImagePropertyPixelWidth] as? NSNumber)?.intValue,
+              let height = (properties[kCGImagePropertyPixelHeight] as? NSNumber)?.intValue,
+              width > 0, height > 0,
+              width <= Int.max / height / 4 else { return data.count }
+        return max(data.count, width * height * 4)
+    }
+
+    /// removeImage(for:) evicts and deletes the required record's image.
     private func removeImage(for record: ClipboardRecord) {
         guard let filename = record.imageFilename, let url = imageURL(for: filename) else { return }
+        imageCache.removeObject(forKey: filename as NSString)
         try? fileManager.removeItem(at: url)
     }
 
@@ -520,8 +612,11 @@ final class ClipboardHistoryStore: ObservableObject {
         return fileManager.fileExists(atPath: url.path, isDirectory: &isDirectory) && !isDirectory.boolValue
     }
 
+    /// removeText(for:) drops cached text before deleting the required payload.
     private func removeText(for record: ClipboardRecord) {
         guard let filename = record.textFilename, let url = textURL(for: filename) else { return }
+        // Prevent later searches from reusing this payload from the cache.
+        searchEngine = ClipboardSearchEngine()
         try? fileManager.removeItem(at: url)
     }
 

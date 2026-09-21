@@ -3,20 +3,23 @@ import Foundation
 
 @MainActor
 final class ClipboardViewModel: ObservableObject {
-    @Published var query = ""
+    private(set) var query = ""
     @Published var selectedID: UUID?
     @Published private(set) var visibleStartIndex: Int
     @Published private(set) var visibleEndIndex: Int
     @Published private(set) var scrollToTopRequest = 0
     @Published private(set) var keyboardSelectionRequest = 0
     @Published private(set) var filteredItems: [ClipboardRecord]
-    @Published private(set) var isSearching = false
 
     let store: ClipboardHistoryStore
     var onChoose: (() -> Void)?
     private let pageSize = 50
+    private let searchDebounceNanoseconds: UInt64 = 35_000_000
     private var itemLimit: Int?
     private var searchTask: Task<Void, Never>?
+    private var searchGeneration = 0
+    private var completedSearchNeedle: String?
+    private var completedSearchItems: [ClipboardRecord]?
 
     init(store: ClipboardHistoryStore, itemLimit: Int? = nil) {
         self.store = store
@@ -44,11 +47,21 @@ final class ClipboardViewModel: ObservableObject {
         scrollToTopRequest &+= 1
     }
 
-    func queryDidChange() {
+    /// updateQuery(_:) stores the required text and schedules its search.
+    func updateQuery(_ newValue: String) {
+        guard query != newValue else { return }
+        query = newValue
+        queryDidChange()
+    }
+
+    /// queryDidChange() keeps current results visible during the latest search.
+    private func queryDidChange() {
         searchTask?.cancel()
-        let needle = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        searchGeneration &+= 1
+        let requestedSearchGeneration = searchGeneration
+        let needle = normalizedQuery
         guard !needle.isEmpty else {
-            isSearching = false
+            clearCompletedSearch()
             filteredItems = accessibleItems
             resetVisibleWindow()
             reconcileSelection()
@@ -56,28 +69,39 @@ final class ClipboardViewModel: ObservableObject {
             return
         }
 
-        let requestedQuery = query
-        isSearching = true
-        filteredItems = []
-        resetVisibleWindow()
-        selectedID = nil
+        let candidates = searchCandidates(for: needle)
+        let storeGeneration = store.itemsGeneration
+        let debounceNanoseconds = searchDebounceNanoseconds
         searchTask = Task { [weak self] in
-            // Debounce typing before reading any external text payloads.
-            try? await Task.sleep(nanoseconds: 100_000_000)
-            guard let self, !Task.isCancelled, self.query == requestedQuery else { return }
-            let matches = await self.store.search(matching: needle, among: self.accessibleItems)
-            guard !Task.isCancelled, self.query == requestedQuery else { return }
+            // Coalesce rapid keystrokes while keeping the current list stable.
+            try? await Task.sleep(nanoseconds: debounceNanoseconds)
+            guard let self,
+                  !Task.isCancelled,
+                  self.searchGeneration == requestedSearchGeneration,
+                  self.normalizedQuery == needle else { return }
+            let matches = await self.store.search(matching: needle, among: candidates)
+            guard !Task.isCancelled,
+                  self.searchGeneration == requestedSearchGeneration,
+                  self.normalizedQuery == needle else { return }
+            // Restart if history changed while the actor searched its snapshot.
+            guard self.store.itemsGeneration == storeGeneration else {
+                self.queryDidChange()
+                return
+            }
+            self.completedSearchNeedle = needle
+            self.completedSearchItems = matches
             self.filteredItems = matches
-            self.isSearching = false
             self.resetVisibleWindow()
             self.selectedID = matches.first?.id
             self.scrollToTopRequest &+= 1
         }
     }
 
+    /// resetSearch() cancels searching and restores the accessible history.
     func resetSearch() {
         searchTask?.cancel()
-        isSearching = false
+        searchGeneration &+= 1
+        clearCompletedSearch()
         guard !query.isEmpty else { return }
         query = ""
         filteredItems = accessibleItems
@@ -86,8 +110,11 @@ final class ClipboardViewModel: ObservableObject {
         scrollToTopRequest &+= 1
     }
 
+    /// storeDidChange() refreshes results after the history changes.
     func storeDidChange() {
-        if !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        clearCompletedSearch()
+        // Repeat an active search against the new history snapshot.
+        if !normalizedQuery.isEmpty {
             queryDidChange()
             return
         }
@@ -96,10 +123,12 @@ final class ClipboardViewModel: ObservableObject {
         reconcileSelection()
     }
 
+    /// updateItemLimit(_:) applies the required value; nil restores all items.
     func updateItemLimit(_ newValue: Int?) {
         itemLimit = newValue.map { max($0, 1) }
         searchTask?.cancel()
-        isSearching = false
+        searchGeneration &+= 1
+        clearCompletedSearch()
         query = ""
         filteredItems = accessibleItems
         resetVisibleWindow()
@@ -148,24 +177,40 @@ final class ClipboardViewModel: ObservableObject {
         keyboardSelectionRequest &+= 1
     }
 
+    /// chooseSelected() restores the current valid selection to the pasteboard.
     func chooseSelected() {
-        guard let selectedItem, store.restore(selectedItem) else { return }
+        // Never paste a selection from an old query or history snapshot.
+        guard searchResultsAreCurrent,
+              let selectedItem,
+              store.items.contains(where: { $0.id == selectedItem.id }),
+              store.restore(selectedItem) else { return }
         onChoose?()
     }
 
+    /// deleteSelected() removes the current valid selection from history.
     func deleteSelected() {
-        guard let selectedItem else { return }
+        // Never delete a selection from an old query or history snapshot.
+        guard searchResultsAreCurrent,
+              let selectedItem,
+              store.items.contains(where: { $0.id == selectedItem.id }) else { return }
         let records = filteredItems
         let index = records.firstIndex(of: selectedItem) ?? 0
         store.delete(selectedItem)
         filteredItems.removeAll { $0.id == selectedItem.id }
+        completedSearchItems?.removeAll { $0.id == selectedItem.id }
         clampVisibleWindow()
         let remaining = filteredItems
         selectedID = remaining.isEmpty ? nil : remaining[min(index, remaining.count - 1)].id
     }
 
+    /// waitForSearchCompletion() awaits the latest search and any restart.
     func waitForSearchCompletion() async {
-        await searchTask?.value
+        while true {
+            let awaitedGeneration = searchGeneration
+            await searchTask?.value
+            // Follow a search restarted after its source history changed.
+            if awaitedGeneration == searchGeneration { return }
+        }
     }
 
     private var maximumVisibleItemCount: Int {
@@ -174,6 +219,30 @@ final class ClipboardViewModel: ObservableObject {
 
     private var accessibleItems: [ClipboardRecord] {
         Self.accessibleItems(in: store, limit: itemLimit)
+    }
+
+    private var normalizedQuery: String {
+        query.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// True when visible results match the current normalized query.
+    private var searchResultsAreCurrent: Bool {
+        normalizedQuery.isEmpty || completedSearchNeedle == normalizedQuery
+    }
+
+    /// searchCandidates(for:) narrows a required query from compatible results.
+    private func searchCandidates(for needle: String) -> [ClipboardRecord] {
+        guard let completedSearchNeedle,
+              needle.hasPrefix(completedSearchNeedle),
+              let completedSearchItems else { return accessibleItems }
+        // Extending a completed query can only narrow its matches.
+        return completedSearchItems
+    }
+
+    /// clearCompletedSearch() invalidates the completed query and its results.
+    private func clearCompletedSearch() {
+        completedSearchNeedle = nil
+        completedSearchItems = nil
     }
 
     private static func accessibleItems(

@@ -43,12 +43,13 @@ struct ClipboardHistoryView: View {
                 Divider().opacity(0.65)
             }
             if store.items.isEmpty {
+                // No persisted history is available.
                 emptyState
-            } else if model.isSearching {
-                searchingState
             } else if model.filteredItems.isEmpty {
+                // The current query has no matches.
                 noMatches
             } else {
+                // Show the stable current results while any new search runs.
                 historyContent
             }
             if proStore.hasResolvedEntitlement && !proStore.hasFullAccess {
@@ -61,7 +62,6 @@ struct ClipboardHistoryView: View {
         }
         .background(Color.clear)
         .onAppear { model.reconcileSelection() }
-        .onChange(of: model.query) { model.queryDidChange() }
         .onChange(of: store.items) { model.storeDidChange() }
     }
 
@@ -72,8 +72,11 @@ struct ClipboardHistoryView: View {
                 .foregroundStyle(.primary)
                 .frame(width: 36)
 
-            ClipboardSearchField(text: $model.query)
-                .frame(height: 32)
+            ClipboardSearchField(
+                text: model.query,
+                textChanged: model.updateQuery
+            )
+            .frame(height: 32)
 
             ClipboardOptionsButton(
                 preferences: preferences,
@@ -136,17 +139,6 @@ struct ClipboardHistoryView: View {
     private var noMatches: some View {
         ContentUnavailableView.search(text: model.query)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
-    private var searchingState: some View {
-        VStack(spacing: 10) {
-            ProgressView()
-                .controlSize(.small)
-            Text(localized("searching_pastemin", "Searching Pastemin…"))
-                .font(.system(size: 14))
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var historyContent: some View {
@@ -248,10 +240,13 @@ struct ClipboardHistoryView: View {
 }
 
 private struct ClipboardSearchField: NSViewRepresentable {
-    @Binding var text: String
+    let text: String
+    let textChanged: (String) -> Void
 
-    func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
+    /// makeCoordinator() forwards native text changes to the view model.
+    func makeCoordinator() -> Coordinator { Coordinator(textChanged: textChanged) }
 
+    /// makeNSView(context:) creates the search field with the required context.
     func makeNSView(context: Context) -> ClipboardSearchScrollView {
         let scrollView = ClipboardSearchScrollView()
         let textView = scrollView.textView
@@ -267,9 +262,11 @@ private struct ClipboardSearchField: NSViewRepresentable {
         return scrollView
     }
 
+    /// updateNSView(_:context:) syncs the required view and context.
     func updateNSView(_ scrollView: ClipboardSearchScrollView, context: Context) {
-        context.coordinator.text = $text
+        context.coordinator.textChanged = textChanged
         let textView = scrollView.textView
+        // Preserve native editing state unless the model changed the text.
         if textView.string != text {
             textView.string = text
             textView.setSelectedRange(NSRange(location: (text as NSString).length, length: 0))
@@ -278,13 +275,17 @@ private struct ClipboardSearchField: NSViewRepresentable {
     }
 
     final class Coordinator: NSObject, NSTextViewDelegate {
-        var text: Binding<String>
+        var textChanged: (String) -> Void
 
-        init(text: Binding<String>) { self.text = text }
+        /// init(textChanged:) stores the required text callback.
+        init(textChanged: @escaping (String) -> Void) {
+            self.textChanged = textChanged
+        }
 
+        /// textDidChange(_:) forwards the required text-view notification.
         func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? NSTextView else { return }
-            text.wrappedValue = textView.string
+            textChanged(textView.string)
         }
     }
 }

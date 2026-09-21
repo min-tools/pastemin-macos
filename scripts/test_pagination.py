@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise incremental history rendering with a 10,000-item fixture."""
+"""Exercise rendering, search, and selection with a 10,000-item history."""
 from pathlib import Path
 import subprocess
 import tempfile
@@ -91,21 +91,38 @@ enum PaginationTest {
         check(model.selectedID == model.filteredItems.first?.id, "Default presentation selects newest item")
         check(model.scrollToTopRequest == scrollRequest + 1, "Default presentation requests top position")
 
+        // Search must never bypass the expired-access limit.
         let limitedModel = ClipboardViewModel(store: store, itemLimit: 5)
         check(limitedModel.filteredItems.count == 5, "Expired access exposes only five newest items")
-        limitedModel.query = "Item 9999"
-        limitedModel.queryDidChange()
+        limitedModel.updateQuery("Item 9999")
+        check(limitedModel.filteredItems.count == 5, "Typing keeps the current list stable")
+        check(limitedModel.selectedID != nil, "Typing keeps the current selection stable")
         await limitedModel.waitForSearchCompletion()
         check(limitedModel.filteredItems.isEmpty, "Search cannot reveal history outside the limit")
         limitedModel.updateItemLimit(nil)
         check(limitedModel.filteredItems.count == store.items.count, "Purchase restores full history")
 
-        model.query = "Item 9999"
-        model.queryDidChange()
+        // Simulate rapid typing while keeping the last completed results
+        // visible.
+        for query in ["I", "It", "Ite", "Item", "Item ", "Item 9", "Item 99", "Item 999", "Item 9999"] {
+            model.updateQuery(query)
+            check(!model.displayedItems.isEmpty, "Rapid typing keeps the current list visible")
+        }
         await model.waitForSearchCompletion()
+        check(model.query == "Item 9999", "Rapid typing keeps only the latest query")
         check(model.filteredItems.count == 1, "Search filters the large history once")
-        model.query = "Item"
-        model.queryDidChange()
+
+        // Pending results must not make an old selection actionable.
+        let countBeforePendingDelete = store.items.count
+        model.updateQuery("Item 99999")
+        check(model.filteredItems.count == 1, "An extended query keeps completed results visible")
+        model.deleteSelected()
+        check(store.items.count == countBeforePendingDelete, "Pending search cannot delete a stale result")
+        await model.waitForSearchCompletion()
+        check(model.filteredItems.isEmpty, "An extended query narrows completed results")
+
+        // Search results use the same bounded rendering window as full history.
+        model.updateQuery("Item")
         await model.waitForSearchCompletion()
         for _ in 0..<8 {
             model.loadMoreIfNeeded(afterDisplaying: model.displayedItems.last!.id)
@@ -113,6 +130,19 @@ enum PaginationTest {
         check(model.displayedItems.count <= 150, "Search results use the same sliding window")
         model.resetSearch()
         check(model.query.isEmpty && model.displayedItems.count == 50, "Dismissal resets search state")
+
+        // Clearing history must invalidate both active and completed results.
+        let clearingModel = ClipboardViewModel(store: store)
+        var choseClearedItem = false
+        clearingModel.onChoose = { choseClearedItem = true }
+        clearingModel.updateQuery("Item")
+        store.clearHistory()
+        clearingModel.chooseSelected()
+        check(!choseClearedItem, "Clearing immediately blocks the old selection")
+        await clearingModel.waitForSearchCompletion()
+        check(clearingModel.filteredItems.isEmpty, "Clearing invalidates an in-flight search")
+        check(clearingModel.selectedID == nil, "Clearing cannot restore a stale selection")
+
         check(GlobalShortcut.defaultShortcut.menuKeyEquivalent == "c", "Menu displays shortcut key")
         check(
             GlobalShortcut.defaultShortcut.menuModifierFlags == [.control, .option],
