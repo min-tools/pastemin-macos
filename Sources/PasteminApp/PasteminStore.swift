@@ -231,20 +231,29 @@ final class PasteminStore: ObservableObject {
         }
     }
 
-    // prepareAppTrial([now]): Restore or start the independent 30-day full-access period.
-    private func prepareAppTrial(now: Date = Date()) {
+    /// Starts the local trial after its first-launch disclosure is accepted.
+    func beginAppTrial(now: Date = Date()) {
+        prepareAppTrial(startIfNeeded: true, now: now)
+    }
+
+    // prepareAppTrial([startIfNeeded = false], [now]): Restore trial state and optionally start it.
+    private func prepareAppTrial(startIfNeeded: Bool = false, now: Date = Date()) {
         // Private builds never create public trial state.
         guard developerOverride == nil else { return }
+        let previousStart = appTrialStartedAt
         if let forced = PasteminEdition.forcedTrialStartedAt {
             // Private previews must not change the real trial date in preferences.
             appTrialStartedAt = forced
         } else if appTrialStartedAt == nil {
             if let stored = defaults.object(forKey: Self.appTrialStartedAtKey) as? Date {
                 appTrialStartedAt = stored
-            } else {
+            } else if startIfNeeded {
                 appTrialStartedAt = now
                 defaults.set(now, forKey: Self.appTrialStartedAtKey)
             }
+        }
+        if appTrialStartedAt != previousStart {
+            NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
         }
         scheduleAppTrialExpiry(now: now)
     }

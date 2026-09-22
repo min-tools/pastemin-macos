@@ -10,6 +10,8 @@ STORE = (ROOT / "Sources/PasteminApp/PasteminStore.swift").read_text()
 assert "PasteminEdition.localAccess" in STORE
 assert "var hasFullAccess: Bool" in STORE
 assert "guard developerOverride == nil" in STORE
+assert "func beginAppTrial(now: Date = Date())" in STORE
+assert "startIfNeeded: Bool = false" in STORE
 
 with tempfile.TemporaryDirectory(prefix="pastemin-distribution-", dir="/private/tmp") as folder:
     folder = Path(folder)

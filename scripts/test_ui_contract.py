@@ -138,6 +138,8 @@ assert 'PASTEMIN_LOCAL_BUILD' not in ''.join(
 )
 # Setup remains one-time and exposes the public login-item registration path.
 assert 'PasteminDidCompleteSetupWizard' in wizard
+assert 'case 0: step = readyStep()' in wizard
+assert 'PasteminStore.shared.beginAppTrial()' in wizard
 assert 'Open at login' in wizard
 assert 'try service.register()' in wizard
 assert 'try service.unregister()' in wizard
