@@ -179,7 +179,7 @@ def build_app(
             '-parse-as-library', '-swift-version', '5', '-module-name', 'PasteminApp',
             '-module-cache-path', str(work / 'modules'), '-target', 'arm64-apple-macos14.0'
         ]
-        command += ['-O', '-whole-module-optimization'] if configuration == 'Release' else ['-Onone', '-D', 'DEBUG']
+        command += ['-O', '-whole-module-optimization', '-g'] if configuration == 'Release' else ['-Onone', '-D', 'DEBUG']
         command += [*map(str, sources), '-framework', 'AppKit', '-framework', 'Carbon',
                     '-framework', 'CryptoKit', '-framework', 'ImageIO',
                     '-framework', 'StoreKit', '-o', str(executable)]
