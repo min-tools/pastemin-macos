@@ -89,7 +89,7 @@ with tempfile.TemporaryDirectory(prefix='pastemin-app-test-', dir='/private/tmp'
     symbols = subprocess.check_output(
         ['nm', '-u', str(app / 'Contents/MacOS/Pastemin')], text=True
     )
-    assert '_CGEventPost' in symbols
+    assert '_CGEventPostToPid' in symbols
     binary = (app / 'Contents/MacOS/Pastemin').read_bytes()
     assert b'Paste automatically' in binary
     assert b'PasteminDidCompleteSetupWizard' in binary

@@ -70,7 +70,7 @@ def blockers(check_online=False):
         'CFBundleExecutable': 'Pastemin',
         'CFBundleDisplayName': 'Pastemin',
         'CFBundleShortVersionString': '2026.09.23',
-        'CFBundleVersion': '2026092301',
+        'CFBundleVersion': '2026092302',
         'NSHumanReadableCopyright': '© 2026 Ilia Ross',
         'LSMinimumSystemVersion': '14.0',
         'LSApplicationCategoryType': 'public.app-category.productivity',

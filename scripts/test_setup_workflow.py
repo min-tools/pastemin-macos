@@ -65,7 +65,10 @@ assert '#if !PASTEMIN_APP_STORE' not in preferences
 assert '#if !PASTEMIN_APP_STORE' not in options
 assert 'preferences.pasteAutomatically\n                && (CGPreflightPostEventAccess() || requestAutomaticPasteAccess())' in controller
 assert 'CGRequestPostEventAccess()' in controller
-assert 'Self.postPasteShortcut()' in controller
+assert 'pasteWhenApplicationIsFrontmost(application, request: pasteRequest)' in controller
+assert 'Self.postPasteShortcut(to: application.processIdentifier)' in controller
+assert 'keyDown.postToPid(processIdentifier)' in controller
+assert 'keyUp.postToPid(processIdentifier)' in controller
 assert 'requestAutomaticPasteAccess' not in wizard
 assert 'CGPreflightPostEventAccess() || requestAutomaticPasteAccess()' in controller
 assert 'panel.orderOut(nil)\n            let shouldPaste = preferences.pasteAutomatically' in controller

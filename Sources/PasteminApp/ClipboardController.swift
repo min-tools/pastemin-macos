@@ -127,6 +127,9 @@ final class ClipboardController: NSObject {
     private var paywallWindow: PasteminPaywallController!
     private var statusItem: NSStatusItem?
     private var previousApplication: NSRunningApplication?
+    private var lastExternalApplication: NSRunningApplication?
+    private var automaticPasteRequest: UInt = 0
+    private var workspaceActivationObserver: NSObjectProtocol?
     private var entitlementObserver: NSObjectProtocol?
 
     override init() {
@@ -145,6 +148,7 @@ final class ClipboardController: NSObject {
         monitor = ClipboardMonitor(store: store)
         viewModel = ClipboardViewModel(store: store, itemLimit: 5)
         super.init()
+        configureApplicationTracking()
         setupWizard = SetupWizardController(preferences: preferences)
         configureWindows()
         configureHotKey()
@@ -183,15 +187,42 @@ final class ClipboardController: NSObject {
     private func prepareClipboardPresentationIfNeeded() {
         // AppKit can briefly report a deactivated, hidden panel as visible.
         guard !NSApp.isActive || !panel.isVisible else { return }
+        // Opening the panel cancels a delayed paste from an earlier selection.
+        automaticPasteRequest &+= 1
         rememberFrontmostApplication()
         viewModel.prepareForPresentation()
     }
 
+    private func configureApplicationTracking() {
+        // Preserve the latest external app even when a launcher activates Pastemin first.
+        rememberFrontmostApplication()
+        workspaceActivationObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didActivateApplicationNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let application = notification.userInfo?[
+                NSWorkspace.applicationUserInfoKey
+            ] as? NSRunningApplication else { return }
+            Task { @MainActor [weak self] in
+                self?.rememberExternalApplication(application)
+            }
+        }
+    }
+
+    private func rememberExternalApplication(_ application: NSRunningApplication) {
+        guard application.bundleIdentifier != Bundle.main.bundleIdentifier else { return }
+        lastExternalApplication = application
+    }
+
     private func rememberFrontmostApplication() {
-        // Remember the caller so selection can return to the exact app that owned focus.
+        // Prefer the current caller, then fall back to the last app seen before a launcher opened us.
         if let frontmost = NSWorkspace.shared.frontmostApplication,
            frontmost.bundleIdentifier != Bundle.main.bundleIdentifier {
             previousApplication = frontmost
+            lastExternalApplication = frontmost
+        } else if let lastExternalApplication, !lastExternalApplication.isTerminated {
+            previousApplication = lastExternalApplication
         }
     }
 
@@ -315,18 +346,37 @@ final class ClipboardController: NSObject {
     private func restorePreviousApplication(andPaste shouldPaste: Bool) {
         guard let application = previousApplication else { return }
         previousApplication = nil
+        automaticPasteRequest &+= 1
+        let pasteRequest = automaticPasteRequest
         // Yield before the next-turn request so macOS restores the caller's key window and focus.
         NSApp.yieldActivation(to: application)
-        DispatchQueue.main.async {
-            guard !application.isTerminated else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self, !application.isTerminated else { return }
             _ = application.activate(from: .current, options: [])
             guard shouldPaste else { return }
-            // Activation is asynchronous. Never send ⌘V unless the caller is frontmost.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
-                guard !application.isTerminated,
-                      NSWorkspace.shared.frontmostApplication?.processIdentifier == application.processIdentifier else { return }
-                Self.postPasteShortcut()
-            }
+            // Activation is asynchronous, so wait for the intended app instead of dropping the
+            // paste when a single fixed delay is too short.
+            pasteWhenApplicationIsFrontmost(application, request: pasteRequest)
+        }
+    }
+
+    private func pasteWhenApplicationIsFrontmost(
+        _ application: NSRunningApplication,
+        request: UInt,
+        attemptsRemaining: Int = 40
+    ) {
+        guard request == automaticPasteRequest, !application.isTerminated else { return }
+        if NSWorkspace.shared.frontmostApplication?.processIdentifier == application.processIdentifier {
+            Self.postPasteShortcut(to: application.processIdentifier)
+            return
+        }
+        guard attemptsRemaining > 0 else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+            self?.pasteWhenApplicationIsFrontmost(
+                application,
+                request: request,
+                attemptsRemaining: attemptsRemaining - 1
+            )
         }
     }
 
@@ -343,8 +393,8 @@ final class ClipboardController: NSObject {
         return granted
     }
 
-    private static func postPasteShortcut() {
-        // Post one balanced key-down/key-up pair only after macOS grants event access.
+    private static func postPasteShortcut(to processIdentifier: pid_t) {
+        // Send one balanced key-down/key-up pair only to the app the user chose as the target.
         guard CGPreflightPostEventAccess(),
               let source = CGEventSource(stateID: .combinedSessionState),
               let keyDown = CGEvent(
@@ -360,8 +410,8 @@ final class ClipboardController: NSObject {
 
         keyDown.flags = .maskCommand
         keyUp.flags = .maskCommand
-        keyDown.post(tap: .cgAnnotatedSessionEventTap)
-        keyUp.post(tap: .cgAnnotatedSessionEventTap)
+        keyDown.postToPid(processIdentifier)
+        keyUp.postToPid(processIdentifier)
     }
 
     private func configureHotKey() {
