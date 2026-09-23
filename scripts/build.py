@@ -179,11 +179,23 @@ def build_app(
             '-parse-as-library', '-swift-version', '5', '-module-name', 'PasteminApp',
             '-module-cache-path', str(work / 'modules'), '-target', 'arm64-apple-macos14.0'
         ]
-        command += ['-O', '-whole-module-optimization', '-g'] if configuration == 'Release' else ['-Onone', '-D', 'DEBUG']
+        if configuration == 'Release':
+            # Keep optimized object files until dsymutil extracts the crash symbols.
+            command += ['-O', '-whole-module-optimization', '-g', '-save-temps']
+        else:
+            command += ['-Onone', '-D', 'DEBUG']
         command += [*map(str, sources), '-framework', 'AppKit', '-framework', 'Carbon',
                     '-framework', 'CryptoKit', '-framework', 'ImageIO',
                     '-framework', 'StoreKit', '-o', str(executable)]
-        subprocess.run(command, check=True)
+        subprocess.run(command, check=True, cwd=work)
+        symbols = None
+        if configuration == 'Release':
+            symbols = work / f'{output.name}.dSYM'
+            subprocess.run([
+                'xcrun', 'dsymutil', str(executable), '-o', str(symbols),
+            ], check=True, cwd=work)
+            if not (symbols / 'Contents/Resources/DWARF/Pastemin').is_file():
+                raise ValueError('The release build did not produce Pastemin crash symbols.')
         shutil.copy2(ROOT / 'PasteminInfo.plist', bundle / 'Contents/Info.plist')
         shutil.copy2(ROOT / 'Resources/AppIcon.icns', resources / 'AppIcon.icns')
         shutil.copy2(ROOT / 'PrivacyInfo.xcprivacy', resources / 'PrivacyInfo.xcprivacy')
@@ -225,17 +237,32 @@ def build_app(
                     authorized_certificate_hashes,
                 )
         previous = work / f'previous-{output.name}'
+        symbols_output = output.with_name(f'{output.name}.dSYM')
+        previous_symbols = work / f'previous-{symbols_output.name}'
+        # Validate existing artifacts before moving either one out of the way.
+        if output.exists() and not (output / 'Contents/Info.plist').is_file():
+            raise ValueError('Refusing to replace a directory that is not an app bundle.')
+        if (symbols is not None and symbols_output.exists()
+                and not (symbols_output / 'Contents/Info.plist').is_file()):
+            raise ValueError('Refusing to replace a directory that is not a dSYM bundle.')
         if output.exists():
-            # Refuse to recursively replace an arbitrary directory passed as an app path.
-            if not (output / 'Contents/Info.plist').is_file():
-                raise ValueError('Refusing to replace a directory that is not an app bundle.')
             output.replace(previous)
+        if symbols is not None and symbols_output.exists():
+            symbols_output.replace(previous_symbols)
         try:
-            # Both paths share a parent filesystem, so the final app swap is atomic.
+            # All paths share a parent filesystem, so each final artifact swap is atomic.
             bundle.replace(output)
+            if symbols is not None:
+                symbols.replace(symbols_output)
         except Exception:
-            if previous.exists() and not output.exists():
+            if output.exists():
+                output.replace(work / f'failed-{output.name}')
+            if previous.exists():
                 previous.replace(output)
+            if symbols is not None and symbols_output.exists():
+                symbols_output.replace(work / f'failed-{symbols_output.name}')
+            if previous_symbols.exists():
+                previous_symbols.replace(symbols_output)
             raise
     print(f'Built {output} (sandboxed, arm64)', flush=True)
     return output

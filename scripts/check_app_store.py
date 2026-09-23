@@ -88,8 +88,13 @@ def blockers(check_online=False):
         issues.append('The Pastemin app is not sandboxed.')
     if "'-target', 'arm64-apple-macos14.0'" not in build:
         issues.append('The release target is not arm64 macOS 14.')
-    if "'-whole-module-optimization', '-g'" not in build:
-        issues.append('The release build must include dSYM crash information.')
+    symbol_markers = (
+        "'-whole-module-optimization', '-g', '-save-temps'",
+        "'xcrun', 'dsymutil'",
+        'Contents/Resources/DWARF/Pastemin',
+    )
+    if not all(marker in build for marker in symbol_markers):
+        issues.append('The release build must generate dSYM crash symbols.')
     if 'PASTEMIN_APP_STORE' in build or 'DISTRIBUTIONS' in build:
         issues.append('The build script still contains separate edition logic.')
     signing_markers = (
