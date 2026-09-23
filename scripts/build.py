@@ -180,8 +180,8 @@ def build_app(
             '-module-cache-path', str(work / 'modules'), '-target', 'arm64-apple-macos14.0'
         ]
         if configuration == 'Release':
-            # Keep optimized object files until dsymutil extracts the crash symbols.
-            command += ['-O', '-whole-module-optimization', '-g', '-save-temps']
+            # Ask Swift to emit crash symbols for the optimized release executable.
+            command += ['-O', '-whole-module-optimization', '-g']
         else:
             command += ['-Onone', '-D', 'DEBUG']
         command += [*map(str, sources), '-framework', 'AppKit', '-framework', 'Carbon',
@@ -190,12 +190,12 @@ def build_app(
         subprocess.run(command, check=True, cwd=work)
         symbols = None
         if configuration == 'Release':
+            # Swift places the completed dSYM beside the executable; move it outside the app.
+            generated_symbols = executable.with_suffix('.dSYM')
             symbols = work / f'{output.name}.dSYM'
-            subprocess.run([
-                'xcrun', 'dsymutil', str(executable), '-o', str(symbols),
-            ], check=True, cwd=work)
-            if not (symbols / 'Contents/Resources/DWARF/Pastemin').is_file():
+            if not (generated_symbols / 'Contents/Resources/DWARF/Pastemin').is_file():
                 raise ValueError('The release build did not produce Pastemin crash symbols.')
+            generated_symbols.replace(symbols)
         shutil.copy2(ROOT / 'PasteminInfo.plist', bundle / 'Contents/Info.plist')
         shutil.copy2(ROOT / 'Resources/AppIcon.icns', resources / 'AppIcon.icns')
         shutil.copy2(ROOT / 'PrivacyInfo.xcprivacy', resources / 'PrivacyInfo.xcprivacy')

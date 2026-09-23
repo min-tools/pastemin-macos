@@ -98,4 +98,16 @@ with tempfile.TemporaryDirectory(prefix='pastemin-app-test-', dir='/private/tmp'
     assert b'Restore Purchases' in binary and b'Purchase' in binary
     assert b'tools.min.pastemin.pro.yearly' in binary
     assert b'tools.min.pastemin.pro.lifetime' in binary
+
+    release_app = build_app(folder / 'PasteminRelease.app')
+    release_symbols = folder / 'PasteminRelease.app.dSYM'
+    assert release_symbols.is_dir()
+    assert not (release_app / 'Contents/MacOS/Pastemin.dSYM').exists()
+    app_uuid = subprocess.check_output([
+        'dwarfdump', '--uuid', str(release_app / 'Contents/MacOS/Pastemin'),
+    ], text=True).split()[1]
+    symbols_uuid = subprocess.check_output([
+        'dwarfdump', '--uuid', str(release_symbols),
+    ], text=True).split()[1]
+    assert app_uuid == symbols_uuid
 print('Pastemin build: unified sandboxed app passed')

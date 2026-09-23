@@ -70,7 +70,7 @@ def blockers(check_online=False):
         'CFBundleExecutable': 'Pastemin',
         'CFBundleDisplayName': 'Pastemin',
         'CFBundleShortVersionString': '2026.09.23',
-        'CFBundleVersion': '2026092300',
+        'CFBundleVersion': '2026092301',
         'NSHumanReadableCopyright': '© 2026 Ilia Ross',
         'LSMinimumSystemVersion': '14.0',
         'LSApplicationCategoryType': 'public.app-category.productivity',
@@ -89,8 +89,8 @@ def blockers(check_online=False):
     if "'-target', 'arm64-apple-macos14.0'" not in build:
         issues.append('The release target is not arm64 macOS 14.')
     symbol_markers = (
-        "'-whole-module-optimization', '-g', '-save-temps'",
-        "'xcrun', 'dsymutil'",
+        "'-whole-module-optimization', '-g'",
+        "executable.with_suffix('.dSYM')",
         'Contents/Resources/DWARF/Pastemin',
     )
     if not all(marker in build for marker in symbol_markers):
