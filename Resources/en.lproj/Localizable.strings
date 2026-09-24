@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "A stored text item could not be optimized: %@";
 "subscription_family_shared" = "Subscription · shared with your family";
-"terms_of_use" = "Terms of Use";
 "text" = "Text";
 "text_clipboard_item" = "Text clipboard item";
 "text_clipboard_item_truncated" = "%@. Showing the first 1 KB.";
+"try_again" = "Try Again";
 "trial_ends" = "Trial · ends %@";
 "trial_first_payment" = "Trial · first payment %@";
 "trial_or_purchase_required" = "Trial or purchase required";

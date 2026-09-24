@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Não foi possível otimizar um item de texto armazenado: %@";
 "subscription_family_shared" = "Assinatura · compartilhada com sua família";
-"terms_of_use" = "Termos de Uso";
 "text" = "Texto";
 "text_clipboard_item" = "Item de texto da área de transferência";
 "text_clipboard_item_truncated" = "%@. Mostrando o primeiro 1 KB.";
+"try_again" = "Tentar novamente";
 "trial_ends" = "Teste · termina em %@";
 "trial_first_payment" = "Teste · primeiro pagamento em %@";
 "trial_or_purchase_required" = "É necessário um teste ou uma compra";

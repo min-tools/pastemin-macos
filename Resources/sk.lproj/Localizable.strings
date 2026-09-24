@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Uloženú textovú položku nebolo možné optimalizovať: %@";
 "subscription_family_shared" = "Predplatné · zdieľané s vašou rodinou";
-"terms_of_use" = "Podmienky používania";
 "text" = "Text";
 "text_clipboard_item" = "Položka textovej schránky";
 "text_clipboard_item_truncated" = "%@. Zobrazuje sa prvých 1 kB.";
+"try_again" = "Skúsiť znova";
 "trial_ends" = "skúšobná verzia · končí %@";
 "trial_first_payment" = "Skúšobná verzia · prvá platba %@";
 "trial_or_purchase_required" = "Vyžaduje sa skúšobná verzia alebo nákup";

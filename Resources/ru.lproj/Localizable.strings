@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Невозможно оптимизировать сохраненный текстовый элемент: %@";
 "subscription_family_shared" = "Подписка · доступен для всей семьи";
-"terms_of_use" = "Условия использования";
 "text" = "Текст";
 "text_clipboard_item" = "Элемент текстового буфера обмена";
 "text_clipboard_item_truncated" = "%@. Показаны первые 1 КБ.";
+"try_again" = "Повторить";
 "trial_ends" = "Пробная версия · заканчивается %@";
 "trial_first_payment" = "Пробная версия · первый платеж %@";
 "trial_or_purchase_required" = "Требуется пробная версия или покупка";

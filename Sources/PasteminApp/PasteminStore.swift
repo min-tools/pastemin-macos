@@ -7,8 +7,6 @@ final class PasteminStore: ObservableObject {
     static let shared = PasteminStore()
     static let entitlementDidChange = Notification.Name("tools.min.pastemin.entitlementDidChange")
     static let manageSubscriptionsURL = URL(string: "https://apps.apple.com/account/subscriptions")!
-    static let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
-    static let privacyURL = URL(string: "https://min.tools/pastemin/privacy/")!
 
     enum PurchaseOutcome {
         case unlocked
@@ -330,6 +328,8 @@ final class PasteminStore: ObservableObject {
 
 @MainActor
 final class PasteminPaywallController: NSWindowController, NSWindowDelegate {
+    private static let panelWidth: CGFloat = 556
+
     private let store: PasteminStore
     private let state = PasteminPaywallState()
     private var onUnlock: (() -> Void)?
@@ -337,12 +337,12 @@ final class PasteminPaywallController: NSWindowController, NSWindowDelegate {
     init(store: PasteminStore) {
         self.store = store
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 510, height: 500),
+            contentRect: NSRect(x: 0, y: 0, width: Self.panelWidth, height: 520),
             styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
         )
-        window.title = "Pastemin"
+        window.title = "Pastemin Pro"
         window.isReleasedWhenClosed = false
         super.init(window: window)
         window.delegate = self
@@ -356,8 +356,13 @@ final class PasteminPaywallController: NSWindowController, NSWindowDelegate {
                 let action = self.onUnlock
                 self.onUnlock = nil
                 action?()
-            }
+            },
+            resize: { [weak self] height in self?.fitWindow(to: height) }
         ))
+        window.contentView?.layoutSubtreeIfNeeded()
+        if let height = window.contentView?.fittingSize.height, height > 0 {
+            fitWindow(to: height, animate: false)
+        }
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -369,12 +374,33 @@ final class PasteminPaywallController: NSWindowController, NSWindowDelegate {
         window.center()
         window.makeKeyAndOrderFront(nil)
     }
+
+    // fitWindow(to, [animate = true]): Match the visible SwiftUI content while
+    // keeping the panel's top edge fixed as its store state changes.
+    private func fitWindow(to height: CGFloat, animate: Bool = true) {
+        guard let window, height > 0 else { return }
+        let size = NSSize(width: Self.panelWidth, height: ceil(height))
+        var frame = window.frameRect(forContentRect: NSRect(origin: .zero, size: size))
+        let current = window.frame
+        guard abs(current.height - frame.height) >= 1 || abs(current.width - frame.width) >= 1 else { return }
+        frame.origin = NSPoint(x: current.minX, y: current.maxY - frame.height)
+        window.setFrame(frame, display: true, animate: animate && window.isVisible)
+    }
 }
 
 @MainActor
 private final class PasteminPaywallState: ObservableObject {
     @Published var isWorking = false
+    @Published var storeError: String?
     @Published var message: String?
+}
+
+private struct PasteminPanelHeightKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
 }
 
 private struct PasteminPaywallView: View {
@@ -382,110 +408,172 @@ private struct PasteminPaywallView: View {
     @ObservedObject var state: PasteminPaywallState
     let close: () -> Void
     let unlocked: () -> Void
+    let resize: (CGFloat) -> Void
 
     var body: some View {
-        VStack(spacing: 18) {
-            Image(systemName: "doc.on.clipboard")
-                .font(.system(size: 34, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 64, height: 64)
-                .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 16))
-            Text("Pastemin")
-                .font(.largeTitle.bold())
-            Text(localized(
-                "paywall_description",
-                "Keep your clipboard history close, searchable, and private on your Mac."
-            ))
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: 390)
-
-            if store.isPro {
-                Label(store.statusText(), systemImage: "checkmark.seal.fill")
-                    .foregroundStyle(.green)
-                if store.canManageSubscription {
-                    Link(
-                        localized("manage_subscription_ellipsis", "Manage Subscription…"),
-                        destination: PasteminStore.manageSubscriptionsURL
-                    )
-                }
-            } else {
-                // Keep plans available during the independent trial without implying a charge.
-                if store.isAppTrialActive {
-                    Label(store.statusText(), systemImage: "clock.fill")
-                        .foregroundStyle(.green)
-                }
-                purchaseButtons
-            }
-
-            if state.isWorking { ProgressView().controlSize(.small) }
-            if let message = state.message {
-                Text(message)
-                    .font(.caption)
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Pastemin Pro")
+                    .font(.system(size: 22, weight: .bold))
+                Text(localized(
+                    "paywall_description",
+                    "Keep your clipboard history close, searchable, and private on your Mac."
+                ))
+                    .font(.system(size: 13))
                     .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
             }
 
-            HStack(spacing: 16) {
-                Button(localized("restore_purchases", "Restore Purchases"), action: restore)
-                Link(localized("terms_of_use", "Terms of Use"), destination: PasteminStore.termsURL)
-                Link(localized("privacy_policy", "Privacy Policy"), destination: PasteminStore.privacyURL)
+            VStack(alignment: .leading, spacing: 8) {
+                proFeature(
+                    localized("wizard_trial_during_pastemin", "Keep and search your complete clipboard history."),
+                    symbol: "doc.on.clipboard"
+                )
+                proFeature(
+                    localized("privacy_local_history", "Clipboard history never leaves this Mac"),
+                    symbol: "lock.shield"
+                )
+                proFeature(
+                    localized("wizard_trial_plans_body", "Choose a yearly plan or lifetime access at any time."),
+                    symbol: "creditcard"
+                )
             }
-            .font(.caption)
-            Button(localized("close", "Close"), action: close)
-                .keyboardShortcut(.cancelAction)
+
+            Text(localized(
+                "wizard_trial_after_pastemin",
+                "Pastemin keeps storing your history, but shows and searches only the 5 newest items."
+            ))
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+
+            VStack(alignment: .leading, spacing: 8) {
+                statusSection
+                if state.isWorking {
+                    HStack(spacing: 8) {
+                        ProgressView().controlSize(.small)
+                        Text(localized("restoring_purchases", "Restoring…"))
+                            .font(.system(size: 12))
+                            .foregroundStyle(.secondary)
+                    }
+                } else if !store.isPro {
+                    purchaseButtons
+                }
+                if let message = state.message {
+                    Text(message)
+                        .font(.system(size: 12))
+                        .foregroundStyle(.red)
+                }
+            }
+
+            HStack {
+                if !store.isPro {
+                    Button(localized("restore_purchases", "Restore Purchases"), action: restore)
+                        .buttonStyle(.link)
+                        .disabled(state.isWorking)
+                }
+                Spacer()
+                Button(localized(store.isPro ? "ok" : "close", store.isPro ? "OK" : "Close"), action: close)
+                    .controlSize(.large)
+                    .keyboardShortcut(store.isPro ? .defaultAction : .cancelAction)
+            }
         }
-        .padding(28)
-        .frame(width: 510, height: 500)
+        .padding(.init(top: 22, leading: 28, bottom: 24, trailing: 28))
+        .frame(width: 556)
+        .fixedSize(horizontal: false, vertical: true)
+        .background(
+            GeometryReader { geometry in
+                Color.clear.preference(key: PasteminPanelHeightKey.self, value: geometry.size.height)
+            }
+        )
+        .onPreferenceChange(PasteminPanelHeightKey.self, perform: resize)
         .task { await load() }
+    }
+
+    @ViewBuilder private var statusSection: some View {
+        if store.isPro || store.isAppTrialActive {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(store.isAppTrialActive
+                     ? localized("wizard_trial_during_title", "Your first 30 days")
+                     : "Pastemin Pro")
+                    .font(.system(size: 13))
+                Text(store.statusText())
+                    .font(.system(size: 12))
+                    .foregroundStyle(.secondary)
+            }
+            if store.isPro && store.canManageSubscription {
+                Link(
+                    localized("manage_subscription_ellipsis", "Manage Subscription…"),
+                    destination: PasteminStore.manageSubscriptionsURL
+                )
+                    .font(.system(size: 12))
+            }
+        }
+    }
+
+    private func proFeature(_ title: String, symbol: String) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: symbol)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(Color.accentColor)
+                .frame(width: 20)
+            Text(title)
+                .font(.system(size: 13))
+        }
     }
 
     @ViewBuilder private var purchaseButtons: some View {
         if let yearly = store.yearly {
-            Button(action: { purchase(yearly) }) {
-                VStack(spacing: 2) {
-                    Text(localized("yearly_subscription", "Yearly Subscription"))
-                        .font(.headline)
-                    Text(localizedFormat("price_per_year", "%@ per year", yearly.displayPrice))
-                        .font(.caption)
-                }
-                .frame(maxWidth: .infinity)
+            Button { purchase(yearly) } label: {
+                Text(localized("yearly_subscription", "Yearly Subscription"))
+                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
-            .disabled(state.isWorking)
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .frame(maxWidth: .infinity)
+                .disabled(state.isWorking)
+            Text(localizedFormat("price_per_year", "%@ per year", yearly.displayPrice))
+                .font(.system(size: 11))
+                .foregroundStyle(.secondary)
         }
         if let lifetime = store.lifetime {
-            Button(
-                localizedFormat(
+            Button { purchase(lifetime) } label: {
+                Text(localizedFormat(
                     "lifetime_access_price",
                     "Lifetime Access — %@",
                     lifetime.displayPrice
-                ),
-                action: { purchase(lifetime) }
-            )
+                ))
+                    .frame(maxWidth: .infinity)
+            }
                 .buttonStyle(.bordered)
                 .controlSize(.large)
+                .frame(maxWidth: .infinity)
                 .disabled(state.isWorking)
+        }
+        if store.yearly == nil, store.lifetime == nil, let storeError = state.storeError {
+            Text(storeError)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+            Button(localized("try_again", "Try Again")) {
+                Task { await load() }
+            }
         }
         Text(localized(
             "yearly_plan_disclosure",
             "The yearly plan renews automatically unless canceled. Family Sharing is supported. Payment and renewal are managed by Apple."
         ))
-            .font(.caption2)
+            .font(.system(size: 11))
             .foregroundStyle(.tertiary)
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: 390)
     }
 
     private func load() async {
         guard !store.isPro, store.yearly == nil, store.lifetime == nil else { return }
         state.isWorking = true
+        state.storeError = nil
+        state.message = nil
         defer { state.isWorking = false }
         do {
             try await store.loadProducts()
         } catch {
-            state.message = error.localizedDescription
+            state.storeError = error.localizedDescription
         }
     }
 

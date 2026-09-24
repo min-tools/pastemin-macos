@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Un articol de text stocat nu a putut fi optimizat: %@";
 "subscription_family_shared" = "Abonament · partajat cu familia ta";
-"terms_of_use" = "Termeni de utilizare";
 "text" = "Text";
 "text_clipboard_item" = "Element din clipboard text";
 "text_clipboard_item_truncated" = "%@. Se afișează primul 1 KB.";
+"try_again" = "Reîncearcă";
 "trial_ends" = "Proba · se încheie %@";
 "trial_first_payment" = "Probă · prima plată %@";
 "trial_or_purchase_required" = "Este necesară probă sau achiziție";

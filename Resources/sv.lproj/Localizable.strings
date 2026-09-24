@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Ett lagrat textobjekt kunde inte optimeras: %@";
 "subscription_family_shared" = "Prenumeration · delas med din familj";
-"terms_of_use" = "Användarvillkor";
 "text" = "Text";
 "text_clipboard_item" = "Text urklippsobjekt";
 "text_clipboard_item_truncated" = "%@. Visar de första 1 KB.";
+"try_again" = "Försök igen";
 "trial_ends" = "Provperiod · slutar %@";
 "trial_first_payment" = "Provperiod · första betalningen %@";
 "trial_or_purchase_required" = "Prova eller köp krävs";

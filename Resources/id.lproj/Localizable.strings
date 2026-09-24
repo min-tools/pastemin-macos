@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Item teks yang disimpan tidak dapat dioptimalkan: %@";
 "subscription_family_shared" = "Berlangganan · dibagikan dengan keluarga Anda";
-"terms_of_use" = "Ketentuan Penggunaan";
 "text" = "Teks";
 "text_clipboard_item" = "Item papan klip teks";
 "text_clipboard_item_truncated" = "%@. Menampilkan 1 KB pertama.";
+"try_again" = "Coba lagi";
 "trial_ends" = "Uji Coba · berakhir %@";
 "trial_first_payment" = "Uji Coba · pembayaran pertama %@";
 "trial_or_purchase_required" = "Diperlukan uji coba atau pembelian";

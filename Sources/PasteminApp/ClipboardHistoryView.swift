@@ -82,6 +82,7 @@ struct ClipboardHistoryView: View {
                 preferences: preferences,
                 store: store,
                 recordingChanged: recordingChanged,
+                showPurchases: showPurchases,
                 showPrivacyPolicy: showPrivacyPolicy,
                 showAbout: showAbout,
                 revealStorage: revealStorage,
@@ -354,6 +355,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
     @ObservedObject var preferences: ClipboardPreferences
     @ObservedObject var store: ClipboardHistoryStore
     let recordingChanged: (Bool) -> Void
+    let showPurchases: () -> Void
     let showPrivacyPolicy: () -> Void
     let showAbout: () -> Void
     let revealStorage: () -> Void
@@ -365,6 +367,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
             preferences: preferences,
             store: store,
             recordingChanged: recordingChanged,
+            showPurchases: showPurchases,
             showPrivacyPolicy: showPrivacyPolicy,
             showAbout: showAbout,
             revealStorage: revealStorage,
@@ -397,6 +400,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
         context.coordinator.preferences = preferences
         context.coordinator.store = store
         context.coordinator.recordingChanged = recordingChanged
+        context.coordinator.showPurchases = showPurchases
         context.coordinator.showPrivacyPolicy = showPrivacyPolicy
         context.coordinator.showAbout = showAbout
         context.coordinator.revealStorage = revealStorage
@@ -409,6 +413,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
         var preferences: ClipboardPreferences
         var store: ClipboardHistoryStore
         var recordingChanged: (Bool) -> Void
+        var showPurchases: () -> Void
         var showPrivacyPolicy: () -> Void
         var showAbout: () -> Void
         var revealStorage: () -> Void
@@ -419,6 +424,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
             preferences: ClipboardPreferences,
             store: ClipboardHistoryStore,
             recordingChanged: @escaping (Bool) -> Void,
+            showPurchases: @escaping () -> Void,
             showPrivacyPolicy: @escaping () -> Void,
             showAbout: @escaping () -> Void,
             revealStorage: @escaping () -> Void,
@@ -428,6 +434,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
             self.preferences = preferences
             self.store = store
             self.recordingChanged = recordingChanged
+            self.showPurchases = showPurchases
             self.showPrivacyPolicy = showPrivacyPolicy
             self.showAbout = showAbout
             self.revealStorage = revealStorage
@@ -475,6 +482,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
                     store: store,
                     selection: selection,
                     recordingChanged: recordingChanged,
+                    showPurchases: showPurchases,
                     showPrivacyPolicy: showPrivacyPolicy,
                     showAbout: showAbout,
                     revealStorage: revealStorage,

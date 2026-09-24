@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Δεν ήταν δυνατή η βελτιστοποίηση ενός αποθηκευμένου στοιχείου κειμένου: %@";
 "subscription_family_shared" = "Συνδρομή · κοινή χρήση με την οικογένειά σας";
-"terms_of_use" = "Όροι χρήσης";
 "text" = "Κείμενο";
 "text_clipboard_item" = "Στοιχείο του προχείρου κειμένου";
 "text_clipboard_item_truncated" = "%@. Εμφάνιση του πρώτου 1 KB.";
+"try_again" = "Επανάληψη";
 "trial_ends" = "Δοκιμαστική περίοδος · λήγει %@";
 "trial_first_payment" = "Δοκιμαστική · πρώτη πληρωμή %@";
 "trial_or_purchase_required" = "Απαιτείται δοκιμή ή αγορά";

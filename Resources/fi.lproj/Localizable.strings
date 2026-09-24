@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Tallennettua tekstikohdetta ei voitu optimoida: %@";
 "subscription_family_shared" = "Tilaus · jaettu perheesi kanssa";
-"terms_of_use" = "Käyttöehdot";
 "text" = "Teksti";
 "text_clipboard_item" = "Tekstileikepöydän kohde";
 "text_clipboard_item_truncated" = "%@. Näytetään ensimmäinen 1 kt.";
+"try_again" = "Yritä uudelleen";
 "trial_ends" = "Kokeilu · päättyy %@";
 "trial_first_payment" = "Kokeilu · ensimmäinen maksu %@";
 "trial_or_purchase_required" = "Kokeilu tai osto vaaditaan";

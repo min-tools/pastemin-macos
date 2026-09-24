@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Ne može se optimizovati sačuvana tekstualna stavka: %@";
 "subscription_family_shared" = "Pretplata · delite sa vašom porodicom";
-"terms_of_use" = "Uslovi korišćenja";
 "text" = "Tekst";
 "text_clipboard_item" = "Stavka međumemorije teksta";
 "text_clipboard_item_truncated" = "%@. Prikazuje prvi 1 KB.";
+"try_again" = "Pokušaj ponovo";
 "trial_ends" = "Probni period · završava %@";
 "trial_first_payment" = "Probni period · prva uplata %@";
 "trial_or_purchase_required" = "Potrebna je probna verzija ili kupovina";

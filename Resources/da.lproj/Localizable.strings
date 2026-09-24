@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Et gemt tekstelement kunne ikke optimeres: %@";
 "subscription_family_shared" = "Abonnement · delt med din familie";
-"terms_of_use" = "Vilkår for brug";
 "text" = "Tekst";
 "text_clipboard_item" = "Tekst udklipsholderelement";
 "text_clipboard_item_truncated" = "%@. Viser de første 1 KB.";
+"try_again" = "Prøv igen";
 "trial_ends" = "Prøveperiode · slutter %@";
 "trial_first_payment" = "Prøveperiode · første betaling %@";
 "trial_or_purchase_required" = "Prøveversion eller køb påkrævet";

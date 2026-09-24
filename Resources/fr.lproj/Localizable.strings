@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Impossible d’optimiser un élément de texte enregistré : %@";
 "subscription_family_shared" = "Abonnement · partagé avec votre famille";
-"terms_of_use" = "Conditions d’utilisation";
 "text" = "Texte";
 "text_clipboard_item" = "Texte du presse-papiers";
 "text_clipboard_item_truncated" = "%@. Affichage du premier kilo-octet.";
+"try_again" = "Réessayer";
 "trial_ends" = "Essai · se termine le %@";
 "trial_first_payment" = "Essai · premier paiement le %@";
 "trial_or_purchase_required" = "Essai ou achat requis";

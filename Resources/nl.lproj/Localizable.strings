@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Een opgeslagen tekstitem kon niet worden geoptimaliseerd: %@";
 "subscription_family_shared" = "Abonnement · gedeeld met uw gezin";
-"terms_of_use" = "Gebruiksvoorwaarden";
 "text" = "Tekst";
 "text_clipboard_item" = "Tekstklemborditem";
 "text_clipboard_item_truncated" = "%@. Toont de eerste 1 KB.";
+"try_again" = "Opnieuw";
 "trial_ends" = "Proefperiode · eindigt %@";
 "trial_first_payment" = "Proefperiode · eerste betaling %@";
 "trial_or_purchase_required" = "Proefversie of aankoop vereist";

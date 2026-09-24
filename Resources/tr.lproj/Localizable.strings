@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Saklanan bir metin öğesi optimize edilemedi: %@";
 "subscription_family_shared" = "Abonelik · ailenizle paylaşıldı";
-"terms_of_use" = "Kullanım Koşulları";
 "text" = "Metin";
 "text_clipboard_item" = "Metin panosu öğesi";
 "text_clipboard_item_truncated" = "%@. İlk 1 KB gösteriliyor.";
+"try_again" = "Yeniden dene";
 "trial_ends" = "Deneme · sona eriyor %@";
 "trial_first_payment" = "Deneme · ilk ödeme %@";
 "trial_or_purchase_required" = "Deneme veya satın alma gerekli";

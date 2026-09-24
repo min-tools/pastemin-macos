@@ -14,6 +14,7 @@ enum OptionsRow: Hashable {
     case menuBar
     case automaticPaste
     case shortcut
+    case purchases
     case storage
     case about
     case privacy

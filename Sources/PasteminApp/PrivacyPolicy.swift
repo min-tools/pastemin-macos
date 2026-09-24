@@ -4,6 +4,101 @@ private final class PrivacyPolicyPanel: NSPanel {
     override func cancelOperation(_ sender: Any?) { close() }
 }
 
+/// One native window surface keeps the policy title bar and document visually connected.
+private final class PrivacyPolicyBackgroundView: NSView {
+    private final class HairlineView: NSView {
+        override func draw(_ dirtyRect: NSRect) {
+            let thickness = 1 / (window?.backingScaleFactor ?? 2)
+            NSColor.separatorColor.setFill()
+            NSRect(
+                x: 0,
+                y: bounds.height - thickness,
+                width: bounds.width,
+                height: thickness
+            ).fill()
+        }
+
+        override func viewDidChangeEffectiveAppearance() {
+            super.viewDidChangeEffectiveAppearance()
+            needsDisplay = true
+        }
+    }
+
+    private let hairline = HairlineView()
+
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        installMaterial()
+        installHairline()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        installMaterial()
+        installHairline()
+    }
+
+    private func installMaterial() {
+        let material = NSVisualEffectView()
+        material.material = .windowBackground
+        material.blendingMode = .withinWindow
+        material.state = .active
+        material.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(material)
+        NSLayoutConstraint.activate([
+            material.topAnchor.constraint(equalTo: topAnchor),
+            material.leadingAnchor.constraint(equalTo: leadingAnchor),
+            material.trailingAnchor.constraint(equalTo: trailingAnchor),
+            material.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+
+    private func installHairline() {
+        hairline.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(hairline)
+        NSLayoutConstraint.activate([
+            hairline.leadingAnchor.constraint(equalTo: leadingAnchor),
+            hairline.trailingAnchor.constraint(equalTo: trailingAnchor),
+            hairline.heightAnchor.constraint(equalToConstant: 1)
+        ])
+    }
+
+    func pinHairline(to titlebarBottom: NSLayoutYAxisAnchor) {
+        hairline.topAnchor.constraint(equalTo: titlebarBottom).isActive = true
+    }
+}
+
+private func privacyPolicyContentSize(_ size: NSSize, in window: NSWindow) -> NSSize {
+    let titlebarHeight = max(
+        0,
+        (window.contentView?.bounds.height ?? 0) - window.contentLayoutRect.height
+    )
+    return NSSize(width: size.width, height: size.height + titlebarHeight)
+}
+
+private func installPrivacyPolicyContent(in window: NSWindow) -> NSView {
+    window.titlebarAppearsTransparent = true
+    window.titlebarSeparatorStyle = .none
+    window.styleMask.insert(.fullSizeContentView)
+
+    let surface = PrivacyPolicyBackgroundView(frame: window.contentView?.bounds ?? .zero)
+    window.contentView = surface
+
+    let content = NSView(frame: window.contentLayoutRect)
+    content.translatesAutoresizingMaskIntoConstraints = false
+    surface.addSubview(content)
+    if let guide = window.contentLayoutGuide as? NSLayoutGuide {
+        NSLayoutConstraint.activate([
+            content.topAnchor.constraint(equalTo: guide.topAnchor),
+            content.leadingAnchor.constraint(equalTo: surface.leadingAnchor),
+            content.trailingAnchor.constraint(equalTo: surface.trailingAnchor),
+            content.bottomAnchor.constraint(equalTo: surface.bottomAnchor)
+        ])
+        surface.pinHairline(to: content.topAnchor)
+    }
+    return content
+}
+
 final class PrivacyPolicyController: NSObject, NSTextViewDelegate {
     static let shared = PrivacyPolicyController()
     private var window: NSPanel?
@@ -29,11 +124,17 @@ final class PrivacyPolicyController: NSObject, NSTextViewDelegate {
         )
         panel.title = localized("privacy_policy", "Privacy Policy")
         panel.isReleasedWhenClosed = false
+        panel.worksWhenModal = true
         panel.hidesOnDeactivate = false
-        panel.contentMinSize = NSSize(width: 420, height: 320)
-
-        let content = NSView(frame: panel.contentView?.bounds ?? .zero)
-        panel.contentView = content
+        let content = installPrivacyPolicyContent(in: panel)
+        panel.setContentSize(privacyPolicyContentSize(
+            NSSize(width: 640, height: 580),
+            in: panel
+        ))
+        panel.contentMinSize = privacyPolicyContentSize(
+            NSSize(width: 420, height: 320),
+            in: panel
+        )
 
         let scroll = NSScrollView()
         scroll.hasVerticalScroller = true

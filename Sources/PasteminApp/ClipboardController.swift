@@ -460,6 +460,11 @@ final class ClipboardController: NSObject {
             title: String(format: localized("about_app", "About %@"), "Pastemin"),
             action: #selector(showAboutFromMenu)
         )
+        add(
+            applicationMenu,
+            title: "Pastemin Pro…",
+            action: #selector(showPurchasesFromMenu)
+        )
         applicationMenu.addItem(.separator())
 
         let servicesItem = NSMenuItem(
@@ -545,6 +550,8 @@ final class ClipboardController: NSObject {
         show.keyEquivalentModifierMask = preferences.shortcut.menuModifierFlags
         menu.addItem(show)
         menu.addItem(.separator())
+        add(menu, title: "Pastemin Pro…", action: #selector(showPurchasesFromMenu))
+        menu.addItem(.separator())
         add(menu, title: localized("clear_current_clipboard", "Clear Current Clipboard"), action: #selector(clearCurrentFromMenu))
         add(menu, title: localized("clear_history_ellipsis", "Clear History…"), action: #selector(clearHistoryFromMenu))
         menu.addItem(.separator())
@@ -581,6 +588,7 @@ final class ClipboardController: NSObject {
         showAbout()
     }
 
+    @objc private func showPurchasesFromMenu() { showPurchases() }
     @objc private func showFromMenu() { showClipboard() }
     @objc private func clearCurrentFromMenu() { clearCurrentClipboard() }
     @objc private func clearHistoryFromMenu() { confirmClearHistory() }

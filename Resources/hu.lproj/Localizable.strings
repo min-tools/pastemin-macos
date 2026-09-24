@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Egy tárolt szöveges elemet nem sikerült optimalizálni: %@";
 "subscription_family_shared" = "Előfizetés · megosztva a családdal";
-"terms_of_use" = "Felhasználási feltételek";
 "text" = "Szöveg";
 "text_clipboard_item" = "Szöveges vágólap-elem";
 "text_clipboard_item_truncated" = "%@. Az első 1 KB megjelenítése.";
+"try_again" = "Újra";
 "trial_ends" = "próbaverzió · véget ér %@";
 "trial_first_payment" = "próba · első befizetés %@";
 "trial_or_purchase_required" = "Próbaidőszak vagy vásárlás szükséges";

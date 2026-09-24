@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@、%@";
 "stored_text_optimize_failed" = "保存されたテキスト項目を最適化できませんでした: %@";
 "subscription_family_shared" = "サブスクリプション · 家族と共有";
-"terms_of_use" = "利用規約";
 "text" = "テキスト";
 "text_clipboard_item" = "テキストクリップボード項目";
 "text_clipboard_item_truncated" = "%@。最初の 1 KB を表示しています。";
+"try_again" = "再試行";
 "trial_ends" = "トライアル · 終了 %@";
 "trial_first_payment" = "トライアル・初回支払い %@";
 "trial_or_purchase_required" = "試用または購入が必要です";

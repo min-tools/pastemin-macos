@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "저장된 텍스트 항목을 최적화할 수 없습니다: %@";
 "subscription_family_shared" = "구독 · 가족과 공유됨";
-"terms_of_use" = "이용약관";
 "text" = "텍스트";
 "text_clipboard_item" = "텍스트 클립보드 항목";
 "text_clipboard_item_truncated" = "%@. 처음 1KB를 표시합니다.";
+"try_again" = "다시 시도";
 "trial_ends" = "평가판 · 종료 %@";
 "trial_first_payment" = "평가판 · 첫 번째 지불 %@";
 "trial_or_purchase_required" = "평가판 또는 구매 필요";

@@ -52,6 +52,7 @@ enum PanelPresentationTest {
             store: store,
             selection: optionsSelection,
             recordingChanged: { _ in },
+            showPurchases: {},
             showPrivacyPolicy: {},
             showAbout: {},
             revealStorage: {},
@@ -169,6 +170,7 @@ enum PanelPresentationTest {
                 store: store,
                 selection: dropdownSelection,
                 recordingChanged: { _ in },
+                showPurchases: {},
                 showPrivacyPolicy: {},
                 showAbout: {},
                 revealStorage: {},
@@ -190,6 +192,10 @@ enum PanelPresentationTest {
         check(dropdown.frame.maxY < panel.frame.maxY, "Options dropdown does not hang below the header")
         check(dropdownSelection.rows.first == .clearCurrent, "Options rows were not registered")
         check(dropdownSelection.rows.last == .privacy, "Options rows end with the privacy footer")
+        check(
+            Array(dropdownSelection.rows.suffix(4)) == [.storage, .purchases, .about, .privacy],
+            "Storage, Pro, About and Privacy rows are out of display order"
+        )
         dropdownSelection.moveSelection(by: 1)
         check(dropdownSelection.selection == .clearCurrent, "Down arrow did not select the first row")
         dropdownSelection.moveSelection(by: -1)
@@ -231,6 +237,7 @@ with tempfile.TemporaryDirectory(prefix='pastemin-panel-test-', dir='/private/tm
         str(ROOT / 'Sources/PasteminApp/PasteminEntitlementLogic.swift'),
         str(ROOT / 'Sources/PasteminApp/BuildEdition.swift'),
         str(ROOT / 'Sources/PasteminApp/PasteminStore.swift'),
+        str(ROOT / 'Sources/PasteminApp/PrivacyPolicy.swift'),
         str(ROOT / 'Sources/PasteminApp/SettingsPopUpPicker.swift'),
         str(ROOT / 'Sources/PasteminApp/ShortcutRecorder.swift'),
         str(ROOT / 'Sources/PasteminApp/ClipboardOptionsMenu.swift'),

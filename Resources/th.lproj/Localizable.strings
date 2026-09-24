@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "ไม่สามารถเพิ่มประสิทธิภาพรายการข้อความที่เก็บไว้: %@";
 "subscription_family_shared" = "สมัครสมาชิก · แบ่งปันกับครอบครัวของคุณ";
-"terms_of_use" = "เงื่อนไขการใช้งาน";
 "text" = "ข้อความ";
 "text_clipboard_item" = "รายการคลิปบอร์ดข้อความ";
 "text_clipboard_item_truncated" = "%@. กำลังแสดง 1 KB แรก";
+"try_again" = "ลองอีกครั้ง";
 "trial_ends" = "ทดลองใช้ · สิ้นสุด %@";
 "trial_first_payment" = "ทดลองใช้ · ชำระเงินครั้งแรก %@";
 "trial_or_purchase_required" = "จำเป็นต้องทดลองใช้หรือซื้อ";

@@ -30,6 +30,7 @@ struct ClipboardOptionsMenuView: View {
     @ObservedObject var store: ClipboardHistoryStore
     @ObservedObject var selection: OptionsSelectionModel
     let recordingChanged: (Bool) -> Void
+    let showPurchases: () -> Void
     let showPrivacyPolicy: () -> Void
     let showAbout: () -> Void
     let revealStorage: () -> Void
@@ -123,6 +124,13 @@ struct ClipboardOptionsMenuView: View {
                 Button(localized("show_in_finder", "Show in Finder"), action: dismissThen(revealStorage))
             }
 
+            OptionsActionRow(
+                row: .purchases,
+                title: "Pastemin Pro…",
+                selection: selection,
+                action: dismissThen(showPurchases)
+            )
+
             OptionsDivider()
 
             privacyFooter
@@ -175,7 +183,7 @@ struct ClipboardOptionsMenuView: View {
         var rows: [OptionsRow] = [.clearCurrent, .clearHistory, .retention, .menuBar]
         rows.append(.automaticPaste)
         rows.append(.shortcut)
-        rows += [.storage, .about, .privacy]
+        rows += [.storage, .purchases, .about, .privacy]
         selection.rows = rows
         selection.activate = { row in
             switch row {
@@ -188,6 +196,7 @@ struct ClipboardOptionsMenuView: View {
             case .shortcut:
                 NotificationCenter.default.post(name: .activateClipboardShortcutRecorder, object: nil)
             case .storage: dismissThen(revealStorage)()
+            case .purchases: dismissThen(showPurchases)()
             case .about: dismissThen(showAbout)()
             case .privacy: dismissThen(showPrivacyPolicy)()
             }

@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Збережений текстовий елемент не вдалося оптимізувати: %@";
 "subscription_family_shared" = "Підписка · спільно з вашою родиною";
-"terms_of_use" = "Умови використання";
 "text" = "Текст";
 "text_clipboard_item" = "Текстовий елемент буфера обміну";
 "text_clipboard_item_truncated" = "%@. Показано перший 1 Кб.";
+"try_again" = "Повторити";
 "trial_ends" = "Пробна версія · закінчується %@";
 "trial_first_payment" = "Пробна версія · перший платіж %@";
 "trial_or_purchase_required" = "Потрібна пробна версія або покупка";

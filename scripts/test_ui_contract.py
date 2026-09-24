@@ -15,6 +15,7 @@ models = (sources / 'ClipboardModels.swift').read_text()
 privacy = (sources / 'PrivacyPolicy.swift').read_text()
 wizard = (sources / 'SetupWizard.swift').read_text()
 banner = (sources / 'AccessBanner.swift').read_text()
+pro_store = (sources / 'PasteminStore.swift').read_text()
 build = (ROOT / 'scripts/build.py').read_text()
 
 # The cold-launch panel remains a single, fully sized glass window.
@@ -48,11 +49,15 @@ assert 'string: "GitHub.com/iliaross"' in controller
 assert 'URL(string: "https://github.com/iliaross")' in controller
 assert 'iconView,\n            nameLabel,\n            versionLabel,\n            copyrightLabel,\n            profileButton' in controller
 assert 'MinToolsAboutPanelController.shared.show(applicationName: "Pastemin")' in controller
+assert controller.count('title: "Pastemin Pro…"') == 2
+assert 'action: #selector(showPurchasesFromMenu)' in controller
+assert '@objc private func showPurchasesFromMenu() { showPurchases() }' in controller
 assert 'let size = NSSize(width: 280, height: 174)' in controller
 assert 'stack.topAnchor.constraint(equalTo: content.topAnchor, constant: 10)' in controller
 assert 'row: .about' in options
 assert 'title: localized("about", "About")' in options
-assert 'rows += [.storage, .about, .privacy]' in options
+assert 'rows += [.storage, .purchases, .about, .privacy]' in options
+assert options.index('row: .storage') < options.index('row: .purchases')
 assert 'ClipboardOptionsButton' in view and 'ClipboardOptionsMenuView(' in view
 assert 'ClipboardOptionsPanel(' in view and 'panel.present(below: button)' in view
 assert 'NSPopover' not in view and 'let menu = NSMenu()' not in view
@@ -101,7 +106,23 @@ assert 'Pastemin now shows your 5 most recent items.' in banner
 assert 'Restore Purchases' in banner and 'localized("purchase_or_subscribe", "Purchase")' in banner
 assert 'restoreMessage = await restorePurchases()' in banner
 assert 'Color(nsColor: .systemOrange).opacity(0.16)' in banner
-assert 'Pastemin Pro' not in options and 'case purchases' not in options_panel
+assert 'title: "Pastemin Pro…"' in options and 'case purchases' in options_panel
+assert 'showPurchases: showPurchases' in view
+
+# The Pro panel shares Langmin's compact width and keeps exact trial timing visible.
+assert 'private static let panelWidth: CGFloat = 556' in pro_store
+assert '.frame(width: 556)' in pro_store
+assert 'store.isPro || store.isAppTrialActive' in pro_store
+assert 'Text(store.statusText())' in pro_store
+assert 'PasteminPanelHeightKey' in pro_store
+assert '.controlSize(.large)' in pro_store
+assert '@Published var storeError: String?' in pro_store
+assert 'Button(localized("try_again", "Try Again"))' in pro_store
+assert 'state.storeError = error.localizedDescription' in pro_store
+assert 'Text(storeError)' in pro_store and '.foregroundStyle(.secondary)' in pro_store
+assert 'Link(localized("terms_of_use", "Terms of Use")' not in pro_store
+assert 'Button(localized("privacy_policy", "Privacy Policy"))' not in pro_store
+assert 'static let termsURL' not in pro_store and 'static let privacyURL' not in pro_store
 
 # Choosing an item makes it newest without replacing its identity or payload.
 assert 'if restored { markUsed(record) }' in store
@@ -113,6 +134,8 @@ assert 'final class PrivacyPolicyController' in privacy
 assert 'Bundle.module.url(forResource: "PRIVACY", withExtension: "md")' in privacy
 assert 'Bundle.main.url(forResource: "PRIVACY", withExtension: "md")' in privacy
 assert 'NSScrollView()' in privacy and 'NSButton(' in privacy
+assert 'panel.worksWhenModal = true' in privacy
+assert '.fullSizeContentView' in privacy and 'NSVisualEffectView()' in privacy
 assert (sources / 'Resources/PRIVACY.md').is_file()
 assert "resources / 'PRIVACY.md'" in build
 

@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Uloženou textovou položku nelze optimalizovat: %@";
 "subscription_family_shared" = "Předplatné · sdíleno s vaší rodinou";
-"terms_of_use" = "Podmínky použití";
 "text" = "Text";
 "text_clipboard_item" = "Položka textové schránky";
 "text_clipboard_item_truncated" = "%@. Zobrazuje se první 1 kB.";
+"try_again" = "Zkusit znovu";
 "trial_ends" = "zkušební verze · končí %@";
 "trial_first_payment" = "zkušební verze · první platba %@";
 "trial_or_purchase_required" = "Vyžaduje se vyzkoušení nebo nákup";

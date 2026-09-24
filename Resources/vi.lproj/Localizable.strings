@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Không thể tối ưu hóa mục văn bản được lưu trữ: %@";
 "subscription_family_shared" = "Đăng ký · chia sẻ với gia đình bạn";
-"terms_of_use" = "Điều khoản sử dụng";
 "text" = "Văn bản";
 "text_clipboard_item" = "Mục bảng tạm văn bản";
 "text_clipboard_item_truncated" = "%@. Hiển thị 1 KB đầu tiên.";
+"try_again" = "Thử lại";
 "trial_ends" = "Bản dùng thử · kết thúc %@";
 "trial_first_payment" = "Dùng thử · thanh toán lần đầu %@";
 "trial_or_purchase_required" = "Yêu cầu dùng thử hoặc mua";

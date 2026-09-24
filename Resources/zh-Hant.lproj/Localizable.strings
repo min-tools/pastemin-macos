@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "無法最佳化儲存的文字項目：%@";
 "subscription_family_shared" = "訂閱·與家人分享";
-"terms_of_use" = "使用條款";
 "text" = "文本";
 "text_clipboard_item" = "文字剪貼簿項目";
 "text_clipboard_item_truncated" = "%@。顯示前 1 KB。";
+"try_again" = "重試";
 "trial_ends" = "審判 · 結束 %@";
 "trial_first_payment" = "試用 · 首次付款 %@";
 "trial_or_purchase_required" = "需要試用或購買";

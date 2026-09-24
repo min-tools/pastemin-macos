@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "एक संग्रहीत पाठ आइटम को अनुकूलित नहीं किया जा सका: %@";
 "subscription_family_shared" = "सदस्यता · आपके परिवार के साथ साझा की गई";
-"terms_of_use" = "उपयोग की शर्तें";
 "text" = "पाठ";
 "text_clipboard_item" = "टेक्स्ट क्लिपबोर्ड आइटम";
 "text_clipboard_item_truncated" = "%@. पहला 1 KB दिखा रहा हूँ.";
+"try_again" = "फिर कोशिश करें";
 "trial_ends" = "परीक्षण · समाप्त %@";
 "trial_first_payment" = "परीक्षण · पहला भुगतान %@";
 "trial_or_purchase_required" = "परीक्षण या खरीदारी आवश्यक है";

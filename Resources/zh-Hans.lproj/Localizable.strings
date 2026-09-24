@@ -98,10 +98,10 @@
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "无法优化存储的文本项：%@";
 "subscription_family_shared" = "订阅·与家人分享";
-"terms_of_use" = "使用条款";
 "text" = "文本";
 "text_clipboard_item" = "文本剪贴板项目";
 "text_clipboard_item_truncated" = "%@。显示前 1 KB。";
+"try_again" = "重试";
 "trial_ends" = "审判 · 结束 %@";
 "trial_first_payment" = "试用 · 首次付款 %@";
 "trial_or_purchase_required" = "需要试用或购买";
