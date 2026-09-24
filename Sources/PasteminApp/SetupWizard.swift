@@ -102,7 +102,7 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         window?.makeKeyAndOrderFront(nil)
     }
 
-    /// Closing or skipping setup starts the disclosed trial and suppresses automatic setup.
+    /// Closing or skipping setup resolves trial access and suppresses automatic setup.
     func windowWillClose(_ notification: Notification) {
         PasteminStore.shared.beginAppTrial()
         defaults.set(true, forKey: Self.completedKey)
@@ -202,11 +202,11 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         } else {
             // Build each page once per session so Back preserves unfinished selections.
             switch stepIndex {
-            // Disclose the app trial before setup continues.
-            case 0: step = readyStep()
-            case 1: step = welcomeStep()
-            case 2: step = essentialsStep()
-            default: step = automaticPasteStep()
+            case 0: step = welcomeStep()
+            case 1: step = essentialsStep()
+            case 2: step = automaticPasteStep()
+            // Finish by disclosing the app trial before it begins.
+            default: step = readyStep()
             }
             stepViews[stepIndex] = step
         }
@@ -459,8 +459,8 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
     }
 
     @objc private func goForward(_ sender: Any?) {
-        // Leaving the disclosure starts the full 30-day period at that moment.
-        if stepIndex == 0 {
+        // Finishing the disclosure starts the full 30-day period at that moment.
+        if stepIndex == stepCount - 1 {
             PasteminStore.shared.beginAppTrial()
         }
         if stepIndex == stepCount - 1 {

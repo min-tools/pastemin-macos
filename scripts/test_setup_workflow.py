@@ -18,8 +18,11 @@ assert 'try service.register()' in wizard
 assert 'try service.unregister()' in wizard
 assert 'SMAppService.openSystemSettingsLoginItems()' in wizard
 assert 'presentLoginItemError(error)' in wizard
-assert 'case 0: step = readyStep()' in wizard
-assert 'if stepIndex == 0 {' in wizard
+assert 'case 0: step = welcomeStep()' in wizard
+assert 'case 1: step = essentialsStep()' in wizard
+assert 'case 2: step = automaticPasteStep()' in wizard
+assert 'default: step = readyStep()' in wizard
+assert 'if stepIndex == stepCount - 1 {' in wizard
 assert 'PasteminStore.shared.beginAppTrial()' in wizard
 assert 'func windowWillClose(_ notification: Notification) {' in wizard
 
