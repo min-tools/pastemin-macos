@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "Coller après la sélection";
 "wizard_essentials_body" = "Choisissez combien de temps les éléments copiés restent sur ce Mac et si Presse-papiers apparaît dans la barre des menus.";
 "wizard_essentials_title" = "Votre presse-papiers";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Ouvrir Presse-papiers avec";
 "wizard_shortcut_note" = "Vous pourrez enregistrer un autre raccourci plus tard depuis le menu Réglages.";
 "wizard_welcome_body" = "Gardez tout ce que vous copiez à portée de main, consultable et privé sur votre Mac.\n\nChoisissez maintenant quelques réglages essentiels. Vous pourrez les modifier à tout moment depuis le menu Réglages.";
@@ -104,8 +104,7 @@
 "try_again" = "Réessayer";
 "trial_ends" = "Essai · se termine le %@";
 "trial_first_payment" = "Essai · premier paiement le %@";
-"trial_or_purchase_required" = "Essai ou achat requis";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "Essai · jusqu’au %@";
 "type_shortcut" = "Saisissez le raccourci…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

@@ -102,17 +102,19 @@ assert 'refreshEntitlement()' not in controller
 assert 'showPurchases(preservePreviousApplication:' not in controller
 assert 'AccessLimitedBanner(' in view
 assert 'proStore.hasResolvedEntitlement && !proStore.hasFullAccess' in view
-assert 'Pastemin now shows your 5 most recent items.' in banner
+assert 'You can still view and search your 5 most recent items.' in banner
 assert 'Restore Purchases' in banner and 'localized("purchase_or_subscribe", "Purchase")' in banner
 assert 'restoreMessage = await restorePurchases()' in banner
 assert 'Color(nsColor: .systemOrange).opacity(0.16)' in banner
 assert 'title: "Pastemin Pro…"' in options and 'case purchases' in options_panel
 assert 'showPurchases: showPurchases' in view
 
-# The Pro panel shares Langmin's compact width and keeps exact trial timing visible.
+# The Pro panel shows one concise state: owned Pro, active trial, or the five-item Free limit.
 assert 'private static let panelWidth: CGFloat = 556' in pro_store
 assert '.frame(width: 556)' in pro_store
 assert 'store.isPro || store.isAppTrialActive' in pro_store
+assert 'localized("free_five_newest_items", "Free · 5 newest items")' in pro_store
+assert 'private func proFeature' not in pro_store
 assert 'Text(store.statusText())' in pro_store
 assert 'PasteminPanelHeightKey' in pro_store
 assert '.controlSize(.large)' in pro_store

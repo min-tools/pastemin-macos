@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "Indsæt efter valg";
 "wizard_essentials_body" = "Vælg, hvor længe kopierede emner skal blive på denne Mac, og om Udklipsholder skal vises på menulinjen.";
 "wizard_essentials_title" = "Din udklipsholder";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Åbn Udklipsholder med";
 "wizard_shortcut_note" = "Du kan optage en anden genvej senere fra menuen Indstillinger.";
 "wizard_welcome_body" = "Hold alt, du kopierer, tæt på, søgbart og privat på din Mac.\n\nVælg et par grundlæggende indstillinger nu. Du kan altid ændre dem fra menuen Indstillinger.";
@@ -104,8 +104,7 @@
 "try_again" = "Prøv igen";
 "trial_ends" = "Prøveperiode · slutter %@";
 "trial_first_payment" = "Prøveperiode · første betaling %@";
-"trial_or_purchase_required" = "Prøveversion eller køb påkrævet";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "Prøveversion · gennem %@";
 "type_shortcut" = "Indtast genvej...";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

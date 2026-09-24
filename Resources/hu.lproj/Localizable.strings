@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "Beillesztés kiválasztás után";
 "wizard_essentials_body" = "Válassza ki, meddig maradjanak a másolt elemek ezen a Macen, és megjelenjen-e a Vágólap a menüsávban.";
 "wizard_essentials_title" = "Az Ön vágólapja";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Vágólap megnyitása ezzel";
 "wizard_shortcut_note" = "Később másik billentyűparancsot rögzíthet a Beállítások menüben.";
 "wizard_welcome_body" = "Tartson mindent, amit másol, kéznél, kereshetően és privátan a Macjén.\n\nMost válasszon néhány alapvető beállítást. Ezeket bármikor módosíthatja a Beállítások menüben.";
@@ -104,8 +104,7 @@
 "try_again" = "Újra";
 "trial_ends" = "próbaverzió · véget ér %@";
 "trial_first_payment" = "próba · első befizetés %@";
-"trial_or_purchase_required" = "Próbaidőszak vagy vásárlás szükséges";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "próba · %@-ig";
 "type_shortcut" = "Írja be a parancsikont…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

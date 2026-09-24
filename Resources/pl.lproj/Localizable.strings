@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "Wklej po wybraniu";
 "wizard_essentials_body" = "Wybierz, jak długo skopiowane elementy pozostają na tym Macu i czy Schowek ma być widoczny na pasku menu.";
 "wizard_essentials_title" = "Twój schowek";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Otwórz Schowek za pomocą";
 "wizard_shortcut_note" = "Inny skrót możesz nagrać później w menu Ustawienia.";
 "wizard_welcome_body" = "Przechowuj wszystko, co kopiujesz, pod ręką, z możliwością wyszukiwania i prywatnie na swoim Macu.\n\nWybierz teraz kilka podstawowych ustawień. Możesz je zmienić w dowolnym momencie w menu Ustawienia.";
@@ -104,8 +104,7 @@
 "try_again" = "Ponów";
 "trial_ends" = "Wersja próbna · kończy się %@";
 "trial_first_payment" = "Wersja próbna · pierwsza płatność %@";
-"trial_or_purchase_required" = "Wymagana wersja próbna lub zakup";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Kup";
 "restoring_purchases" = "Przywracanie…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

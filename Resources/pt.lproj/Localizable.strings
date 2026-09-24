@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "Colar após a seleção";
 "wizard_essentials_body" = "Escolha durante quanto tempo os itens copiados ficam neste Mac e se a Área de transferência aparece na barra de menus.";
 "wizard_essentials_title" = "A sua área de transferência";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Abrir Área de transferência com";
 "wizard_shortcut_note" = "Pode gravar outro atalho mais tarde no menu Definições.";
 "wizard_welcome_body" = "Mantenha tudo o que copia por perto, pesquisável e privado no seu Mac.\n\nEscolha agora algumas definições essenciais. Pode alterá-las a qualquer momento no menu Definições.";
@@ -104,8 +104,7 @@
 "try_again" = "Tentar novamente";
 "trial_ends" = "Teste · termina em %@";
 "trial_first_payment" = "Teste · primeiro pagamento em %@";
-"trial_or_purchase_required" = "É necessário um teste ou uma compra";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Comprar";
 "restoring_purchases" = "A restaurar…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

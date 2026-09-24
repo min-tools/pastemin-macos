@@ -22,7 +22,7 @@ struct AccessLimitedBanner: View {
                     .font(.system(size: 12, weight: .semibold))
                 Text(state.restoreMessage ?? localized(
                     "trial_expired_purchase_message",
-                    "Pastemin now shows your 5 most recent items."
+                    "You can still view and search your 5 most recent items."
                 ))
                     .font(.system(size: 11))
                     .lineLimit(2)

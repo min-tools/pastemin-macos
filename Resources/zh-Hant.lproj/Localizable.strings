@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "選擇後貼上";
 "wizard_essentials_body" = "選擇已複製項目在這部 Mac 上的保留時間，以及是否在選單列中顯示「剪貼板」。";
 "wizard_essentials_title" = "你的剪貼板";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "使用以下快速鍵開啟剪貼板";
 "wizard_shortcut_note" = "你稍後可以從「設定」選單錄製其他快速鍵。";
 "wizard_welcome_body" = "讓你複製的所有內容在 Mac 上隨手可得、可供搜尋並保持私密。\n\n現在選擇幾項基本設定。你可以隨時從「設定」選單更改。";
@@ -104,8 +104,7 @@
 "try_again" = "重試";
 "trial_ends" = "審判 · 結束 %@";
 "trial_first_payment" = "試用 · 首次付款 %@";
-"trial_or_purchase_required" = "需要試用或購買";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "購買";
 "restoring_purchases" = "正在回復…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

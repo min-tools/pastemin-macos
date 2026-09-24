@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "चुनने के बाद पेस्ट करें";
 "wizard_essentials_body" = "चुनें कि कॉपी किए गए आइटम इस Mac पर कितने समय रहें और क्लिपबोर्ड मेनू बार में दिखाई दे या नहीं।";
 "wizard_essentials_title" = "आपका क्लिपबोर्ड";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "इससे क्लिपबोर्ड खोलें";
 "wizard_shortcut_note" = "आप बाद में सेटिंग मेनू से कोई दूसरा शॉर्टकट रिकॉर्ड कर सकते हैं।";
 "wizard_welcome_body" = "आप जो कुछ भी कॉपी करते हैं, उसे अपने Mac पर पास, खोजने योग्य और निजी रखें।\n\nअभी कुछ जरूरी सेटिंग चुनें। आप उन्हें सेटिंग मेनू से कभी भी बदल सकते हैं।";
@@ -104,8 +104,7 @@
 "try_again" = "फिर कोशिश करें";
 "trial_ends" = "परीक्षण · समाप्त %@";
 "trial_first_payment" = "परीक्षण · पहला भुगतान %@";
-"trial_or_purchase_required" = "परीक्षण या खरीदारी आवश्यक है";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "परीक्षण · %@ के माध्यम से";
 "type_shortcut" = "शॉर्टकट टाइप करें...";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

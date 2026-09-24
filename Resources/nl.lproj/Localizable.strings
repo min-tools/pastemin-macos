@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "Plakken na selectie";
 "wizard_essentials_body" = "Kies hoelang gekopieerde onderdelen op deze Mac blijven en of Klembord in de menubalk verschijnt.";
 "wizard_essentials_title" = "Je klembord";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Open Klembord met";
 "wizard_shortcut_note" = "Je kunt later een andere sneltoets opnemen via het menu Instellingen.";
 "wizard_welcome_body" = "Houd alles wat je kopieert bij de hand, doorzoekbaar en privé op je Mac.\n\nKies nu enkele basisinstellingen. Je kunt ze altijd wijzigen via het menu Instellingen.";
@@ -104,8 +104,7 @@
 "try_again" = "Opnieuw";
 "trial_ends" = "Proefperiode · eindigt %@";
 "trial_first_payment" = "Proefperiode · eerste betaling %@";
-"trial_or_purchase_required" = "Proefversie of aankoop vereist";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Kopen";
 "restoring_purchases" = "Herstellen…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

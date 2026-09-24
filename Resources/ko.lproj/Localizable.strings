@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "선택 후 붙여넣기";
 "wizard_essentials_body" = "복사한 항목을 이 Mac에 보관할 기간과 메뉴 막대에 클립보드를 표시할지 선택하십시오.";
 "wizard_essentials_title" = "클립보드";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "다음으로 클립보드 열기";
 "wizard_shortcut_note" = "나중에 설정 메뉴에서 다른 단축키를 기록할 수 있습니다.";
 "wizard_welcome_body" = "복사한 모든 항목을 Mac에서 가까이, 검색 가능하게, 비공개로 보관하십시오.\n\n지금 몇 가지 필수 설정을 선택하십시오. 설정 메뉴에서 언제든지 변경할 수 있습니다.";
@@ -104,8 +104,7 @@
 "try_again" = "다시 시도";
 "trial_ends" = "평가판 · 종료 %@";
 "trial_first_payment" = "평가판 · 첫 번째 지불 %@";
-"trial_or_purchase_required" = "평가판 또는 구매 필요";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "구입";
 "restoring_purchases" = "복원 중…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

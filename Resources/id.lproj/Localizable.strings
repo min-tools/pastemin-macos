@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "Tempel setelah memilih";
 "wizard_essentials_body" = "Pilih berapa lama item yang disalin disimpan di Mac ini dan apakah Papan Klip muncul di bar menu.";
 "wizard_essentials_title" = "Papan klip Anda";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Buka Papan Klip dengan";
 "wizard_shortcut_note" = "Anda dapat merekam pintasan lain nanti dari menu Pengaturan.";
 "wizard_welcome_body" = "Simpan semua yang Anda salin agar dekat, dapat dicari, dan tetap pribadi di Mac Anda.\n\nPilih beberapa pengaturan penting sekarang. Anda dapat mengubahnya kapan saja dari menu Pengaturan.";
@@ -104,8 +104,7 @@
 "try_again" = "Coba lagi";
 "trial_ends" = "Uji Coba · berakhir %@";
 "trial_first_payment" = "Uji Coba · pembayaran pertama %@";
-"trial_or_purchase_required" = "Diperlukan uji coba atau pembelian";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Beli";
 "restoring_purchases" = "Memulihkan…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";

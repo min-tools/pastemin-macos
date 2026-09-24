@@ -192,7 +192,7 @@ final class PasteminStore: ObservableObject {
         formatter.timeStyle = .none
         switch entitlement.kind {
         case .none:
-            return localized("trial_or_purchase_required", "Trial or purchase required")
+            return localized("free_five_newest_items", "Free · 5 newest items")
         case .lifetime:
             return entitlement.isFamilyShared
                 ? localized("lifetime_family_shared", "Lifetime · shared with your family")
@@ -483,28 +483,6 @@ private struct PasteminPaywallView: View {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                proFeature(
-                    localized("wizard_trial_during_pastemin", "Keep and search your complete clipboard history."),
-                    symbol: "doc.on.clipboard"
-                )
-                proFeature(
-                    localized("privacy_local_history", "Clipboard history never leaves this Mac"),
-                    symbol: "lock.shield"
-                )
-                proFeature(
-                    localized("wizard_trial_plans_body", "Choose a yearly plan or lifetime access at any time."),
-                    symbol: "creditcard"
-                )
-            }
-
-            Text(localized(
-                "wizard_trial_after_pastemin",
-                "Pastemin keeps storing your history, but shows and searches only the 5 newest items."
-            ))
-                .font(.system(size: 12))
-                .foregroundStyle(.secondary)
-
-            VStack(alignment: .leading, spacing: 8) {
                 statusSection
                 if state.isWorking {
                     HStack(spacing: 8) {
@@ -565,17 +543,10 @@ private struct PasteminPaywallView: View {
                 )
                     .font(.system(size: 12))
             }
-        }
-    }
-
-    private func proFeature(_ title: String, symbol: String) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: symbol)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(Color.accentColor)
-                .frame(width: 20)
-            Text(title)
-                .font(.system(size: 13))
+        } else {
+            Text(store.statusText())
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
         }
     }
 

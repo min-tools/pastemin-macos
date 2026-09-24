@@ -23,7 +23,7 @@
 "wizard_auto_paste_title" = "Налепи након избора";
 "wizard_essentials_body" = "Изаберите колико дуго копиране ставке остају на овом Mac-у и да ли се Клипборд приказује у траци менија.";
 "wizard_essentials_title" = "Ваш клипборд";
-"wizard_ready_body" = "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged.";
+"wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Отвори Клипборд помоћу";
 "wizard_shortcut_note" = "Касније можете да снимите другу пречицу из менија Подешавања.";
 "wizard_welcome_body" = "Нека све што копирате буде надохват руке, претраживо и приватно на вашем Mac-у.\n\nСада изаберите неколико основних подешавања. Можете их променити у било ком тренутку из менија Подешавања.";
@@ -104,8 +104,7 @@
 "try_again" = "Покушај поново";
 "trial_ends" = "Пробни период · завршава %@";
 "trial_first_payment" = "Пробни период · прва уплата %@";
-"trial_or_purchase_required" = "Потребна је пробна верзија или куповина";
-"trial_expired_purchase_message" = "Pastemin now shows your 5 most recent items.";
+"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Купи";
 "restoring_purchases" = "Обнављање…";
@@ -128,3 +127,6 @@
 "wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
+
+/* Free · 5 newest items */
+"free_five_newest_items" = "Free · 5 newest items";
