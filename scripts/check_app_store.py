@@ -95,8 +95,10 @@ def blockers(check_online=False):
     )
     if not all(marker in build for marker in symbol_markers):
         issues.append('The release build must generate dSYM crash symbols.')
-    if 'PASTEMIN_APP_STORE' in build or 'DISTRIBUTIONS' in build:
-        issues.append('The build script still contains separate edition logic.')
+    if "command += ['-D', 'PASTEMIN_APP_STORE']" not in build:
+        issues.append('The App Store compiler flag is missing from the build script.')
+    if 'app_store=True' not in package:
+        issues.append('The App Store package does not enable the production trial authority.')
     signing_markers = (
         'com.apple.application-identifier',
         'com.apple.developer.team-identifier',

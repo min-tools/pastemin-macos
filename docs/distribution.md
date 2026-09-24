@@ -1,6 +1,6 @@
 # Build and test
 
-Pastemin has one codebase, one sandboxed app, and one bundle identifier: `tools.min.pastemin`. Public source builds use the same 30-day trial, five-item post-trial limit, StoreKit verification, setup, and optional automatic-paste behavior as the Mac App Store app.
+Pastemin has one codebase, one sandboxed app, and one bundle identifier: `tools.min.pastemin`. Public source builds start the same 30-day trial locally after its disclosure; Mac App Store production builds use Apple's signed original acquisition date. Both use the same five-item post-trial limit, StoreKit verification, setup, and optional automatic-paste behavior.
 
 ## Requirements
 

@@ -33,6 +33,7 @@ final class PasteminStore: ObservableObject {
     private let defaults = UserDefaults.standard
 
     private static let appTrialStartedAtKey = "PasteminAppTrialStartedAt"
+    private static let appTrialDisclosureAcceptedKey = "PasteminAppTrialDisclosureAccepted"
     private var developerOverride: Bool? { PasteminEdition.localAccess }
 
     var isPro: Bool { developerOverride ?? entitlement.hasAccess }
@@ -53,7 +54,10 @@ final class PasteminStore: ObservableObject {
             hasResolvedEntitlement = true
             return
         }
-        prepareAppTrial()
+        // Source and private previews restore their local trial immediately.
+        if !PasteminEdition.isAppStoreBuild {
+            prepareLocalAppTrial()
+        }
         guard updatesTask == nil else { return }
         updatesTask = Task { [weak self] in
             for await result in StoreKit.Transaction.updates {
@@ -70,9 +74,11 @@ final class PasteminStore: ObservableObject {
         ) { [weak self] _ in
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                self.prepareAppTrial()
-                self.objectWillChange.send()
-                NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
+                if !PasteminEdition.isAppStoreBuild {
+                    self.prepareLocalAppTrial()
+                    self.objectWillChange.send()
+                    NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
+                }
                 await self.refreshEntitlement()
             }
         }
@@ -92,6 +98,7 @@ final class PasteminStore: ObservableObject {
             hasResolvedEntitlement = true
             return
         }
+        await refreshAppTrial()
         refreshGeneration += 1
         let generation = refreshGeneration
         var summaries: [PasteminTransactionSummary] = []
@@ -169,7 +176,7 @@ final class PasteminStore: ObservableObject {
         if developerOverride == true {
             return PasteminEdition.localAccessStatus ?? localized("lifetime_access", "Lifetime access")
         }
-        // Describe the independent local trial before purchase entitlement details.
+        // Describe the independent app trial before purchase entitlement details.
         if isAppTrialActive, let appTrialStartedAt {
             let days = PasteminFreeAccessPolicy.trialDaysRemaining(startedAt: appTrialStartedAt)
             return days == 1
@@ -229,15 +236,58 @@ final class PasteminStore: ObservableObject {
         }
     }
 
-    /// Starts the local trial after its first-launch disclosure is accepted.
+    /// Records acceptance of the disclosed trial and resolves its start date.
     func beginAppTrial(now: Date = Date()) {
-        prepareAppTrial(startIfNeeded: true, now: now)
+        defaults.set(true, forKey: Self.appTrialDisclosureAcceptedKey)
+        // App Store builds must verify the transaction environment before choosing a clock.
+        if PasteminEdition.isAppStoreBuild {
+            Task { @MainActor [weak self] in
+                await self?.refreshAppTrial(now: now)
+            }
+        } else {
+            prepareLocalAppTrial(startIfNeeded: true, now: now)
+        }
     }
 
-    // prepareAppTrial([startIfNeeded = false], [now]): Restore trial state and optionally start it.
-    private func prepareAppTrial(startIfNeeded: Bool = false, now: Date = Date()) {
-        // Private builds never create public trial state.
-        guard developerOverride == nil else { return }
+    // refreshAppTrial([now]): Use Apple's signed acquisition date in production.
+    // Verified sandbox builds retain the local clock needed for review and testing.
+    private func refreshAppTrial(now: Date = Date()) async {
+        guard PasteminEdition.isAppStoreBuild else { return }
+        guard let result = try? await AppTransaction.shared,
+              case .verified(let transaction) = result,
+              transaction.bundleID == PasteminEdition.bundleIdentifier else {
+            // A production build must never replace a failed signed lookup with local state.
+            return
+        }
+        if transaction.environment == .production {
+            let authoritative = PasteminFreeAccessPolicy.authoritativeTrialStartDate(
+                appStoreOriginalPurchaseDate: transaction.originalPurchaseDate,
+                localStartedAt: nil,
+                usesAppStoreDate: true
+            )
+            if let authoritative {
+                applyAppTrialStartDate(authoritative, now: now)
+            }
+        } else {
+            let accepted = defaults.bool(forKey: Self.appTrialDisclosureAcceptedKey)
+            prepareLocalAppTrial(
+                startIfNeeded: accepted,
+                now: now,
+                allowAppStoreSandbox: true
+            )
+        }
+    }
+
+    // prepareLocalAppTrial([startIfNeeded = false], [now],
+    // [allowAppStoreSandbox = false]): Restore or start the local test clock.
+    private func prepareLocalAppTrial(
+        startIfNeeded: Bool = false,
+        now: Date = Date(),
+        allowAppStoreSandbox: Bool = false
+    ) {
+        // Only a verified sandbox transaction may use local state in an App Store build.
+        guard developerOverride == nil,
+              !PasteminEdition.isAppStoreBuild || allowAppStoreSandbox else { return }
         let previousStart = appTrialStartedAt
         if let forced = PasteminEdition.forcedTrialStartedAt {
             // Private previews must not change the real trial date in preferences.
@@ -256,7 +306,16 @@ final class PasteminStore: ObservableObject {
         scheduleAppTrialExpiry(now: now)
     }
 
-    // scheduleAppTrialExpiry([now]): Limit visible history as soon as the local trial expires.
+    // applyAppTrialStartDate(startedAt, [now]): Publish the signed production clock.
+    private func applyAppTrialStartDate(_ startedAt: Date, now: Date = Date()) {
+        if appTrialStartedAt != startedAt {
+            appTrialStartedAt = startedAt
+            NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
+        }
+        scheduleAppTrialExpiry(now: now)
+    }
+
+    // scheduleAppTrialExpiry([now]): Limit visible history as soon as the trial expires.
     private func scheduleAppTrialExpiry(now: Date = Date()) {
         appTrialTimer?.invalidate()
         appTrialTimer = nil

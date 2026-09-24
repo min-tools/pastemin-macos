@@ -94,11 +94,11 @@ Apps can mark password-manager output and other short-lived data as concealed, t
 
 **Mac App Store:** The free download starts with 30 days of full history access. No subscription starts, and there is no charge. After the trial, Pastemin keeps monitoring the clipboard while the window shows and searches the five newest items. A yearly subscription or lifetime purchase restores the complete history.
 
-**Build from source:** The public build follows the same access rules as the App Store build.
+**Build from source:** The public build starts the same 30-day trial locally after its disclosure; the Mac App Store build uses Apple's signed original acquisition date. Both use the same five-item limit and purchase rules.
 
 ## Build
 
-This source-available repository contains the public app source. Public builds use the same trial, five-item limit, StoreKit checks, and post-trial banner as the App Store app. See [Build and distribution](docs/distribution.md).
+This source-available repository contains the public app source. Public builds use the same 30-day duration, five-item limit, StoreKit checks, and post-trial banner as the App Store app. See [Build and distribution](docs/distribution.md).
 
 If Pastemin helps you, [contribute](CONTRIBUTING.md) to its development.
 

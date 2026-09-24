@@ -1,6 +1,6 @@
 # Pastemin Privacy Policy
 
-Effective and last updated: September 21, 2026
+Effective and last updated: September 24, 2026
 
 This policy explains what data Pastemin handles, where it goes, and how you can control it.
 
@@ -8,7 +8,7 @@ This policy explains what data Pastemin handles, where it goes, and how you can 
 
 While Pastemin is running, it watches the macOS general pasteboard for changes and stores supported text and images in its app container. Each history record can include the content, the time it was copied, its size, and the source app's display name and bundle identifier. Pastemin uses the source information only to label the item and show the app's icon.
 
-Pastemin also stores your retention period, global shortcut, menu-bar and automatic-paste settings, setup status, and local Pro trial start date. The trial date is used only on this Mac and is not sent to the developer.
+Pastemin also stores your retention period, global shortcut, menu-bar and automatic-paste settings, and setup status. The Mac App Store build reads Apple's signed original acquisition date to determine the 30-day Pro period. Source and test builds store a local trial start date instead. Trial information is not sent to the developer.
 
 Pastemin has no account system, advertising, analytics, or tracking SDKs. It does not sync clipboard history through iCloud or a developer-operated service.
 

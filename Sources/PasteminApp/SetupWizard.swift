@@ -202,7 +202,7 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         } else {
             // Build each page once per session so Back preserves unfinished selections.
             switch stepIndex {
-            // Disclose the local trial before its clock starts.
+            // Disclose the app trial before setup continues.
             case 0: step = readyStep()
             case 1: step = welcomeStep()
             case 2: step = essentialsStep()
@@ -405,7 +405,7 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             title: localized("wizard_ready_title", "30 days of full access"),
             body: localized(
                 "wizard_ready_body",
-                "Pastemin starts a free 30-day trial when you first open it. No subscription starts, and you will not be charged."
+                "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged."
             ),
             extra: [during, after, plans]
         )

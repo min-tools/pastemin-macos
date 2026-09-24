@@ -144,6 +144,7 @@ def build_app(
     sign=True,
     identity='-',
     provisioning_profile=None,
+    app_store=False,
 ):
     output = Path(output).expanduser().absolute()
     if output.suffix != '.app' or output.is_symlink():
@@ -184,6 +185,8 @@ def build_app(
             command += ['-O', '-whole-module-optimization', '-g']
         else:
             command += ['-Onone', '-D', 'DEBUG']
+        if app_store:
+            command += ['-D', 'PASTEMIN_APP_STORE']
         command += [*map(str, sources), '-framework', 'AppKit', '-framework', 'Carbon',
                     '-framework', 'CryptoKit', '-framework', 'ImageIO',
                     '-framework', 'StoreKit', '-o', str(executable)]
@@ -275,6 +278,11 @@ if __name__ == '__main__':
     parser.add_argument('--identity', default='-', help='codesign identity; default is ad-hoc signing')
     parser.add_argument('--provisioning-profile', type=Path)
     parser.add_argument('--unsigned', action='store_true')
+    parser.add_argument(
+        '--app-store',
+        action='store_true',
+        help='Compile the App Store trial authority path.',
+    )
     args = parser.parse_args()
     build_app(
         args.output or ROOT / 'build/Pastemin.app',
@@ -282,4 +290,5 @@ if __name__ == '__main__':
         sign=not args.unsigned,
         identity=args.identity,
         provisioning_profile=args.provisioning_profile,
+        app_store=args.app_store,
     )

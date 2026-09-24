@@ -4,6 +4,14 @@ import Foundation
 enum PasteminEdition {
     static let bundleIdentifier = "tools.min.pastemin"
 
+    #if PASTEMIN_APP_STORE
+    // Production App Store builds use the signed app acquisition date.
+    static let isAppStoreBuild = true
+    #else
+    // Source and private builds retain the disclosed local trial.
+    static let isAppStoreBuild = false
+    #endif
+
     // Reject a private override if an App Store flag is ever added to an archive.
     #if PASTEMIN_LOCAL_BUILD && PASTEMIN_APP_STORE
     #error("Local access must not be included in an App Store build.")

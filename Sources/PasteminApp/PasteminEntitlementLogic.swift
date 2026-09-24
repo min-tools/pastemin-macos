@@ -7,12 +7,23 @@ enum PasteminProductID {
     static let all = [yearly, lifetime]
 }
 
-// The public app grants its first 30 days locally, without starting a subscription.
+// The app grants 30 days of full access without starting a subscription.
 enum PasteminFreeAccessPolicy {
     static let trialLengthDays = 30
     static let trialDuration = TimeInterval(trialLengthDays * 24 * 60 * 60)
 
-    // isTrialActive(startedAt, [now]): Return whether the local full-access period remains active.
+    // authoritativeTrialStartDate(appStoreOriginalPurchaseDate,
+    // localStartedAt, usesAppStoreDate): Never fall back to resettable local
+    // state when a production App Store build requires Apple's signed date.
+    static func authoritativeTrialStartDate(
+        appStoreOriginalPurchaseDate: Date?,
+        localStartedAt: Date?,
+        usesAppStoreDate: Bool
+    ) -> Date? {
+        usesAppStoreDate ? appStoreOriginalPurchaseDate : localStartedAt
+    }
+
+    // isTrialActive(startedAt, [now]): Return whether the full-access period remains active.
     static func isTrialActive(startedAt: Date, now: Date = Date()) -> Bool {
         now < startedAt.addingTimeInterval(trialDuration)
     }

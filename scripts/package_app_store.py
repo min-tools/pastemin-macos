@@ -31,6 +31,7 @@ if __name__ == '__main__':
             work / 'Pastemin.app',
             identity=args.application_identity,
             provisioning_profile=args.provisioning_profile,
+            app_store=True,
         )
         candidate = work / 'Pastemin.pkg'
         subprocess.run([

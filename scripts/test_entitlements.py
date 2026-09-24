@@ -28,6 +28,23 @@ enum EntitlementTests {
         check(PasteminFreeAccessPolicy.trialDaysRemaining(startedAt: now, now: now) == 30,
               "A new local trial reports 30 days")
 
+        let localStart = now.addingTimeInterval(24 * 60 * 60)
+        check(PasteminFreeAccessPolicy.authoritativeTrialStartDate(
+            appStoreOriginalPurchaseDate: now,
+            localStartedAt: localStart,
+            usesAppStoreDate: true
+        ) == now, "The signed App Store date overrides local state")
+        check(PasteminFreeAccessPolicy.authoritativeTrialStartDate(
+            appStoreOriginalPurchaseDate: nil,
+            localStartedAt: localStart,
+            usesAppStoreDate: true
+        ) == nil, "A missing signed date never falls back to local state")
+        check(PasteminFreeAccessPolicy.authoritativeTrialStartDate(
+            appStoreOriginalPurchaseDate: nil,
+            localStartedAt: localStart,
+            usesAppStoreDate: false
+        ) == localStart, "Source builds retain their local trial date")
+
         let yearly = PasteminTransactionSummary(
             productID: PasteminProductID.yearly,
             expirationDate: now.addingTimeInterval(3600),
