@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Report local release failures and optionally verify public submission URLs."""
+from datetime import date
 from pathlib import Path
 import plistlib
 import re
@@ -44,6 +45,21 @@ def icns_chunks(path):
     return chunks
 
 
+def valid_release_version(version, build_number):
+    """Validate public month/patch versions and independent dated build numbers."""
+    # Keep public versions compact, without leading zeros or a day component.
+    if not isinstance(version, str) or re.fullmatch(r'[0-9]{2}\.(?:[1-9]|1[0-2])(?:\.[1-9][0-9]*)?', version) is None:
+        return False
+    if not isinstance(build_number, str) or re.fullmatch(r'[0-9]{10}', build_number) is None:
+        return False
+    # A patch can be built in a later month, but its build date must be real.
+    try:
+        date(int(build_number[:4]), int(build_number[4:6]), int(build_number[6:8]))
+    except ValueError:
+        return False
+    return True
+
+
 def blockers(check_online=False):
     issues = []
     _, localization_errors = localization_issues()
@@ -69,8 +85,6 @@ def blockers(check_online=False):
         'CFBundleIdentifier': 'tools.min.pastemin',
         'CFBundleExecutable': 'Pastemin',
         'CFBundleDisplayName': 'Pastemin',
-        'CFBundleShortVersionString': '2026.09.25',
-        'CFBundleVersion': '2026092500',
         'NSHumanReadableCopyright': '© 2026 Ilia Ross',
         'LSMinimumSystemVersion': '14.0',
         'LSApplicationCategoryType': 'public.app-category.productivity',
@@ -82,8 +96,8 @@ def blockers(check_online=False):
             issues.append(f'Info.plist has an unexpected {key}.')
     version = info.get('CFBundleShortVersionString', '')
     build_number = info.get('CFBundleVersion', '')
-    if re.fullmatch(r'\d{4}\.\d{2}\.\d{2}', version) is None or not build_number.startswith(version.replace('.', '')):
-        issues.append('The version does not use the YYYY.MM.DD and YYYYMMDDNN release model.')
+    if not valid_release_version(version, build_number):
+        issues.append('Use a YY.M or YY.M.N public version and a valid YYYYMMDDNN build number.')
     if not app_entitlements.get('com.apple.security.app-sandbox'):
         issues.append('The Pastemin app is not sandboxed.')
     if "'-target', 'arm64-apple-macos14.0'" not in build:
