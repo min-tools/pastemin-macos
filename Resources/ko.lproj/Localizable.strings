@@ -50,9 +50,9 @@
 "image_clipboard_item" = "이미지 클립보드 항목";
 "keep_copied_items" = "복사된 항목 유지";
 "key_number" = "키 %lld";
-"lifetime_access" = "평생 액세스";
+"lifetime_access" = "평생";
 "lifetime_access_price" = "평생 액세스 — %@";
-"lifetime_family_shared" = "평생 · 가족과 공유";
+"lifetime_family_shared" = "가족과 공유 중";
 "local_storage" = "로컬 저장소";
 "manage_subscription_ellipsis" = "구독 관리…";
 "minimize" = "최소화";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld 저장 항목";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "저장된 텍스트 항목을 최적화할 수 없습니다: %@";
-"subscription_family_shared" = "구독 · 가족과 공유됨";
+"subscription_family_shared" = "가족과 공유 중";
 "text" = "텍스트";
 "text_clipboard_item" = "텍스트 클립보드 항목";
 "text_clipboard_item_truncated" = "%@. 처음 1KB를 표시합니다.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "연간 요금제는 취소하지 않는 한 자동으로 갱신됩니다. 가족 공유가 지원됩니다. 결제 및 갱신은 Apple에서 관리합니다.";
 "yearly_subscription" = "연간 구독";
 "yearly_subscription_active" = "연간 구독 활성";
-"yearly_subscription_ends" = "연간 구독 · %@ 종료";
-"yearly_subscription_renews" = "연간 구독 · 갱신 %@";
-"yearly_subscription_through" = "연간 구독 · %@을(를) 통해";
+"yearly_subscription_ends" = "%@에 종료";
+"yearly_subscription_renews" = "%@에 갱신";
+"yearly_subscription_through" = "%@까지";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "App Store에 연결하는 중…";
+
+"pro_you_have" = "Pastemin Pro를 사용 중입니다.";

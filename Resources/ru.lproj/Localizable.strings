@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Элемент буфера обмена изображения";
 "keep_copied_items" = "Сохранять скопированные элементы";
 "key_number" = "Ключ %lld";
-"lifetime_access" = "Пожизненный доступ";
+"lifetime_access" = "Навсегда";
 "lifetime_access_price" = "Пожизненный доступ — %@";
-"lifetime_family_shared" = "На всю жизнь · доступен для всей семьи";
+"lifetime_family_shared" = "Семейный доступ";
 "local_storage" = "Локальное хранилище";
 "manage_subscription_ellipsis" = "Управление подпиской…";
 "minimize" = "Свернуть";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld сохраненный элемент";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Невозможно оптимизировать сохраненный текстовый элемент: %@";
-"subscription_family_shared" = "Подписка · доступен для всей семьи";
+"subscription_family_shared" = "Семейный доступ";
 "text" = "Текст";
 "text_clipboard_item" = "Элемент текстового буфера обмена";
 "text_clipboard_item_truncated" = "%@. Показаны первые 1 КБ.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Годовой план продлевается автоматически, если его не отменить. Поддерживается семейный доступ. Оплата и продление осуществляется Apple.";
 "yearly_subscription" = "Годовая подписка";
 "yearly_subscription_active" = "Годовая подписка активна";
-"yearly_subscription_ends" = "Годовая подписка · заканчивается %@";
-"yearly_subscription_renews" = "Годовая подписка · продлевается %@";
-"yearly_subscription_through" = "Годовая подписка · до %@";
+"yearly_subscription_ends" = "До %@";
+"yearly_subscription_renews" = "Продлится %@";
+"yearly_subscription_through" = "Действует до %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Связываемся с App Store…";
+
+"pro_you_have" = "У вас есть Pastemin Pro.";

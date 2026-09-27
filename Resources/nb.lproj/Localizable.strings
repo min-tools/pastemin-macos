@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Bildeutklippstavleelement";
 "keep_copied_items" = "Behold kopierte elementer";
 "key_number" = "Nøkkel %lld";
-"lifetime_access" = "Livstidstilgang";
+"lifetime_access" = "Livstid";
 "lifetime_access_price" = "Livstidstilgang — %@";
-"lifetime_family_shared" = "Lifetime · delt med familien din";
+"lifetime_family_shared" = "Delt med familien din";
 "local_storage" = "Lokal lagring";
 "manage_subscription_ellipsis" = "Administrer abonnement...";
 "minimize" = "Minimer";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld lagret element";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Et lagret tekstelement kunne ikke optimaliseres: %@";
-"subscription_family_shared" = "Abonnement · delt med familien din";
+"subscription_family_shared" = "Delt med familien din";
 "text" = "Tekst";
 "text_clipboard_item" = "Tekstutklippstavleelement";
 "text_clipboard_item_truncated" = "%@. Viser de første 1 KB.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Årsplanen fornyes automatisk med mindre den kanselleres. Familiedeling støttes. Betaling og fornyelse administreres av Apple.";
 "yearly_subscription" = "Årlig abonnement";
 "yearly_subscription_active" = "Årlig abonnement aktivt";
-"yearly_subscription_ends" = "Årlig abonnement · avsluttes %@";
-"yearly_subscription_renews" = "Årlig abonnement · fornyer %@";
-"yearly_subscription_through" = "Årlig abonnement · gjennom %@";
+"yearly_subscription_ends" = "Avsluttes %@";
+"yearly_subscription_renews" = "Fornyes %@";
+"yearly_subscription_through" = "Til %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Kontakter App Store …";
+
+"pro_you_have" = "Du har Pastemin Pro.";

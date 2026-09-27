@@ -50,9 +50,9 @@
 "image_clipboard_item" = "画像クリップボード項目";
 "keep_copied_items" = "コピーしたアイテムを保持する";
 "key_number" = "キー %lld";
-"lifetime_access" = "生涯アクセス";
+"lifetime_access" = "買い切り";
 "lifetime_access_price" = "生涯アクセス — %@";
-"lifetime_family_shared" = "生涯 · 家族と共有";
+"lifetime_family_shared" = "ファミリーと共有中";
 "local_storage" = "ローカルストレージ";
 "manage_subscription_ellipsis" = "サブスクリプションを管理…";
 "minimize" = "最小化";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld 格納アイテム";
 "stored_items_with_size" = "%@、%@";
 "stored_text_optimize_failed" = "保存されたテキスト項目を最適化できませんでした: %@";
-"subscription_family_shared" = "サブスクリプション · 家族と共有";
+"subscription_family_shared" = "ファミリーと共有中";
 "text" = "テキスト";
 "text_clipboard_item" = "テキストクリップボード項目";
 "text_clipboard_item_truncated" = "%@。最初の 1 KB を表示しています。";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "年間プランは、キャンセルされない限り自動的に更新されます。ファミリー共有がサポートされています。支払いと更新は Apple によって管理されます。";
 "yearly_subscription" = "年間サブスクリプション";
 "yearly_subscription_active" = "年間サブスクリプションが有効です";
-"yearly_subscription_ends" = "年間サブスクリプション · 終了 %@";
-"yearly_subscription_renews" = "年間サブスクリプション · %@ を更新";
-"yearly_subscription_through" = "年間サブスクリプション · %@ 経由";
+"yearly_subscription_ends" = "%@ に終了";
+"yearly_subscription_renews" = "%@ に更新";
+"yearly_subscription_through" = "%@ まで";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "App Store に接続中…";
+
+"pro_you_have" = "Pastemin Pro をご利用中です。";

@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Image clipboard item";
 "keep_copied_items" = "Keep copied items";
 "key_number" = "Key %lld";
-"lifetime_access" = "Lifetime access";
+"lifetime_access" = "Lifetime";
 "lifetime_access_price" = "Lifetime Access — %@";
-"lifetime_family_shared" = "Lifetime · shared with your family";
+"lifetime_family_shared" = "Shared with your family";
 "local_storage" = "Local storage";
 "manage_subscription_ellipsis" = "Manage Subscription…";
 "minimize" = "Minimize";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld stored item";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "A stored text item could not be optimized: %@";
-"subscription_family_shared" = "Subscription · shared with your family";
+"subscription_family_shared" = "Shared with your family";
 "text" = "Text";
 "text_clipboard_item" = "Text clipboard item";
 "text_clipboard_item_truncated" = "%@. Showing the first 1 KB.";
@@ -114,9 +114,9 @@
 "yearly_plan_disclosure" = "The yearly plan renews automatically unless canceled. Family Sharing is supported. Payment and renewal are managed by Apple.";
 "yearly_subscription" = "Yearly Subscription";
 "yearly_subscription_active" = "Yearly subscription active";
-"yearly_subscription_ends" = "Yearly subscription · ends %@";
-"yearly_subscription_renews" = "Yearly subscription · renews %@";
-"yearly_subscription_through" = "Yearly subscription · through %@";
+"yearly_subscription_ends" = "Expires %@";
+"yearly_subscription_renews" = "Renews %@";
+"yearly_subscription_through" = "Until %@";
 "purchase_or_subscribe" = "Purchase";
 "restoring_purchases" = "Restoring…";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Contacting the App Store…";
+
+"pro_you_have" = "You have Pastemin Pro.";

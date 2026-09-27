@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Képvágólap-elem";
 "keep_copied_items" = "Tartsa meg a másolt elemeket";
 "key_number" = "Kulcs %lld";
-"lifetime_access" = "Egész életen át tartó hozzáférés";
+"lifetime_access" = "Örökös";
 "lifetime_access_price" = "Élettartamra szóló hozzáférés – %@";
-"lifetime_family_shared" = "Élettartam · megosztva a családjával";
+"lifetime_family_shared" = "Megosztva a családdal";
 "local_storage" = "Helyi tárhely";
 "manage_subscription_ellipsis" = "Előfizetés kezelése…";
 "minimize" = "Minimalizálás";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld tárolt elem";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Egy tárolt szöveges elemet nem sikerült optimalizálni: %@";
-"subscription_family_shared" = "Előfizetés · megosztva a családdal";
+"subscription_family_shared" = "Megosztva a családdal";
 "text" = "Szöveg";
 "text_clipboard_item" = "Szöveges vágólap-elem";
 "text_clipboard_item_truncated" = "%@. Az első 1 KB megjelenítése.";
@@ -114,9 +114,9 @@
 "yearly_plan_disclosure" = "Az éves előfizetés automatikusan megújul, hacsak nem mondják le. A családi megosztás támogatott. A fizetést és a megújítást az Apple kezeli.";
 "yearly_subscription" = "Éves előfizetés";
 "yearly_subscription_active" = "Éves előfizetés aktív";
-"yearly_subscription_ends" = "Éves előfizetés · lejár %@";
-"yearly_subscription_renews" = "Éves előfizetés · megújul %@";
-"yearly_subscription_through" = "Éves előfizetés · %@-ig";
+"yearly_subscription_ends" = "Lejár: %@";
+"yearly_subscription_renews" = "Megújul: %@";
+"yearly_subscription_through" = "Eddig: %@";
 "purchase_or_subscribe" = "Vásárlás";
 "restoring_purchases" = "Visszaállítás…";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Kapcsolódás az App Store-hoz…";
+
+"pro_you_have" = "A Pastemin Pro aktív.";

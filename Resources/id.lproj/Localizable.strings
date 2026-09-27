@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Item papan klip gambar";
 "keep_copied_items" = "Simpan item yang disalin";
 "key_number" = "Kunci %lld";
-"lifetime_access" = "Akses seumur hidup";
+"lifetime_access" = "Seumur hidup";
 "lifetime_access_price" = "Akses Seumur Hidup — %@";
-"lifetime_family_shared" = "Seumur Hidup · dibagikan dengan keluarga Anda";
+"lifetime_family_shared" = "Dibagikan dengan keluarga";
 "local_storage" = "Penyimpanan lokal";
 "manage_subscription_ellipsis" = "Kelola Langganan…";
 "minimize" = "Minimalkan";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld item yang disimpan";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Item teks yang disimpan tidak dapat dioptimalkan: %@";
-"subscription_family_shared" = "Berlangganan · dibagikan dengan keluarga Anda";
+"subscription_family_shared" = "Dibagikan dengan keluarga";
 "text" = "Teks";
 "text_clipboard_item" = "Item papan klip teks";
 "text_clipboard_item_truncated" = "%@. Menampilkan 1 KB pertama.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Paket tahunan diperbarui secara otomatis kecuali dibatalkan. Keluarga Berbagi didukung. Pembayaran dan perpanjangan dikelola oleh Apple.";
 "yearly_subscription" = "Langganan Tahunan";
 "yearly_subscription_active" = "Langganan tahunan aktif";
-"yearly_subscription_ends" = "Langganan tahunan · berakhir %@";
-"yearly_subscription_renews" = "Langganan tahunan · memperbarui %@";
-"yearly_subscription_through" = "Langganan tahunan · hingga %@";
+"yearly_subscription_ends" = "Berakhir %@";
+"yearly_subscription_renews" = "Diperpanjang %@";
+"yearly_subscription_through" = "Hingga %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Menghubungi App Store…";
+
+"pro_you_have" = "Anda memiliki Pastemin Pro.";

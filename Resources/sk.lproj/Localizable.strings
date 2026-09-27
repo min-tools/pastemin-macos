@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Položka schránky obrázkov";
 "keep_copied_items" = "Ponechajte skopírované položky";
 "key_number" = "kľúč %lld";
-"lifetime_access" = "Doživotný prístup";
+"lifetime_access" = "Doživotne";
 "lifetime_access_price" = "doživotný prístup — %@";
-"lifetime_family_shared" = "Lifetime · zdieľané s rodinou";
+"lifetime_family_shared" = "Zdieľané s rodinou";
 "local_storage" = "Lokálne úložisko";
 "manage_subscription_ellipsis" = "Spravovať odber…";
 "minimize" = "Minimalizovať";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld uložená položka";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Uloženú textovú položku nebolo možné optimalizovať: %@";
-"subscription_family_shared" = "Predplatné · zdieľané s vašou rodinou";
+"subscription_family_shared" = "Zdieľané s rodinou";
 "text" = "Text";
 "text_clipboard_item" = "Položka textovej schránky";
 "text_clipboard_item_truncated" = "%@. Zobrazuje sa prvých 1 kB.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Ročný plán sa automaticky obnovuje, pokiaľ nie je zrušený. Rodinné zdieľanie je podporované. Platbu a obnovenie spravuje spoločnosť Apple.";
 "yearly_subscription" = "Ročné predplatné";
 "yearly_subscription_active" = "Ročné predplatné je aktívne";
-"yearly_subscription_ends" = "Ročné predplatné · končí %@";
-"yearly_subscription_renews" = "Ročné predplatné · obnovuje sa %@";
-"yearly_subscription_through" = "Ročné predplatné · cez %@";
+"yearly_subscription_ends" = "Končí %@";
+"yearly_subscription_renews" = "Obnoví sa %@";
+"yearly_subscription_through" = "Do %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Spájam sa s App Storom…";
+
+"pro_you_have" = "Máte Pastemin Pro.";

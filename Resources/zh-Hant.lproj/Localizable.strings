@@ -50,9 +50,9 @@
 "image_clipboard_item" = "影像剪貼簿項目";
 "keep_copied_items" = "保留複製的項目";
 "key_number" = "密鑰 %lld";
-"lifetime_access" = "終身訪問";
+"lifetime_access" = "永久";
 "lifetime_access_price" = "終身訪問 — %@";
-"lifetime_family_shared" = "終生·與家人分享";
+"lifetime_family_shared" = "與家人共享";
 "local_storage" = "本地存儲";
 "manage_subscription_ellipsis" = "管理訂閱...";
 "minimize" = "最小化";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld 儲存項目";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "無法最佳化儲存的文字項目：%@";
-"subscription_family_shared" = "訂閱·與家人分享";
+"subscription_family_shared" = "與家人共享";
 "text" = "文本";
 "text_clipboard_item" = "文字剪貼簿項目";
 "text_clipboard_item_truncated" = "%@。顯示前 1 KB。";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "年度計畫會自動續訂，除非取消。支持家庭共享。付款和續約由 Apple 管理。";
 "yearly_subscription" = "年度訂閱";
 "yearly_subscription_active" = "年度訂閱有效";
-"yearly_subscription_ends" = "年度訂閱 · 結束 %@";
-"yearly_subscription_renews" = "年度訂閱‧續約 %@";
-"yearly_subscription_through" = "依年訂閱 · 透過 %@";
+"yearly_subscription_ends" = "%@ 到期";
+"yearly_subscription_renews" = "%@ 續訂";
+"yearly_subscription_through" = "至 %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "正在連接 App Store…";
+
+"pro_you_have" = "你已擁有 Pastemin Pro。";

@@ -50,9 +50,9 @@
 "image_clipboard_item" = "รายการคลิปบอร์ดรูปภาพ";
 "keep_copied_items" = "เก็บรายการที่คัดลอกไว้";
 "key_number" = "คีย์ %lld";
-"lifetime_access" = "เข้าถึงได้ตลอดชีพ";
+"lifetime_access" = "ตลอดชีพ";
 "lifetime_access_price" = "การเข้าถึงตลอดชีพ — %@";
-"lifetime_family_shared" = "ตลอดชีวิต · แบ่งปันกับครอบครัวของคุณ";
+"lifetime_family_shared" = "แชร์กับครอบครัวของคุณ";
 "local_storage" = "ที่จัดเก็บในตัวเครื่อง";
 "manage_subscription_ellipsis" = "จัดการการสมัครสมาชิก...";
 "minimize" = "ย่อเล็กสุด";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld รายการที่เก็บไว้";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "ไม่สามารถเพิ่มประสิทธิภาพรายการข้อความที่เก็บไว้: %@";
-"subscription_family_shared" = "สมัครสมาชิก · แบ่งปันกับครอบครัวของคุณ";
+"subscription_family_shared" = "แชร์กับครอบครัวของคุณ";
 "text" = "ข้อความ";
 "text_clipboard_item" = "รายการคลิปบอร์ดข้อความ";
 "text_clipboard_item_truncated" = "%@. กำลังแสดง 1 KB แรก";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "แผนรายปีจะต่ออายุโดยอัตโนมัติเว้นแต่จะยกเลิก รองรับการแชร์กันในครอบครัว การชำระเงินและการต่ออายุได้รับการจัดการโดย Apple";
 "yearly_subscription" = "สมัครสมาชิกรายปี";
 "yearly_subscription_active" = "สมัครสมาชิกรายปีที่ใช้งานอยู่";
-"yearly_subscription_ends" = "การสมัครสมาชิกรายปี · สิ้นสุด %@";
-"yearly_subscription_renews" = "สมัครสมาชิกรายปี · ต่ออายุ %@";
-"yearly_subscription_through" = "สมัครสมาชิกรายปี · ถึง %@";
+"yearly_subscription_ends" = "สิ้นสุด %@";
+"yearly_subscription_renews" = "ต่ออายุ %@";
+"yearly_subscription_through" = "ถึง %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "กำลังติดต่อ App Store…";
+
+"pro_you_have" = "คุณมี Pastemin Pro แล้ว";

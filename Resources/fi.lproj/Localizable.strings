@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Kuvaleikepöydän kohde";
 "keep_copied_items" = "Säilytä kopioidut kohteet";
 "key_number" = "Avain %lld";
-"lifetime_access" = "Elinikäinen käyttöoikeus";
+"lifetime_access" = "Elinikäinen";
 "lifetime_access_price" = "Elinikäinen käyttöoikeus – %@";
-"lifetime_family_shared" = "Elinikäinen · jaettu perheesi kanssa";
+"lifetime_family_shared" = "Jaettu perheesi kanssa";
 "local_storage" = "Paikallinen tallennustila";
 "manage_subscription_ellipsis" = "Hallinnoi tilausta…";
 "minimize" = "Pienennä";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld tallennettu kohde";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Tallennettua tekstikohdetta ei voitu optimoida: %@";
-"subscription_family_shared" = "Tilaus · jaettu perheesi kanssa";
+"subscription_family_shared" = "Jaettu perheesi kanssa";
 "text" = "Teksti";
 "text_clipboard_item" = "Tekstileikepöydän kohde";
 "text_clipboard_item_truncated" = "%@. Näytetään ensimmäinen 1 kt.";
@@ -114,9 +114,9 @@
 "yearly_plan_disclosure" = "Vuositilaus uusitaan automaattisesti, ellei sitä peruuteta. Perhejakamista tuetaan. Apple hoitaa maksamisen ja uusimisen.";
 "yearly_subscription" = "Vuositilaus";
 "yearly_subscription_active" = "Vuositilaus aktiivinen";
-"yearly_subscription_ends" = "Vuositilaus · päättyy %@";
-"yearly_subscription_renews" = "Vuositilaus · uusitaan %@";
-"yearly_subscription_through" = "Vuositilaus · %@ asti";
+"yearly_subscription_ends" = "Päättyy %@";
+"yearly_subscription_renews" = "Uusiutuu %@";
+"yearly_subscription_through" = "%@ asti";
 "purchase_or_subscribe" = "Osta";
 "restoring_purchases" = "Palautetaan…";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Yhdistetään App Storeen…";
+
+"pro_you_have" = "Sinulla on Pastemin Pro.";

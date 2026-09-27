@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Bild aus der Zwischenablage";
 "keep_copied_items" = "Kopierte Elemente behalten";
 "key_number" = "Taste %lld";
-"lifetime_access" = "Lebenslanger Zugriff";
+"lifetime_access" = "Lebenslang";
 "lifetime_access_price" = "Lebenslanger Zugriff — %@";
-"lifetime_family_shared" = "Lebenslang · mit deiner Familie geteilt";
+"lifetime_family_shared" = "Mit deiner Familie geteilt";
 "local_storage" = "Lokaler Speicher";
 "manage_subscription_ellipsis" = "Abonnement verwalten…";
 "minimize" = "Minimieren";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld gespeichertes Element";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Ein gespeichertes Textelement konnte nicht optimiert werden: %@";
-"subscription_family_shared" = "Abonnement · mit deiner Familie geteilt";
+"subscription_family_shared" = "Mit deiner Familie geteilt";
 "text" = "Text";
 "text_clipboard_item" = "Text aus der Zwischenablage";
 "text_clipboard_item_truncated" = "%@. Das erste 1 KB wird angezeigt.";
@@ -114,9 +114,9 @@
 "yearly_plan_disclosure" = "Der Jahrestarif verlängert sich automatisch, sofern er nicht gekündigt wird. Familienfreigabe wird unterstützt. Zahlung und Verlängerung werden von Apple verwaltet.";
 "yearly_subscription" = "Jahresabonnement";
 "yearly_subscription_active" = "Jahresabonnement aktiv";
-"yearly_subscription_ends" = "Jahresabonnement · endet am %@";
-"yearly_subscription_renews" = "Jahresabonnement · verlängert sich am %@";
-"yearly_subscription_through" = "Jahresabonnement · bis %@";
+"yearly_subscription_ends" = "Endet am %@";
+"yearly_subscription_renews" = "Verlängert sich am %@";
+"yearly_subscription_through" = "Bis %@";
 "purchase_or_subscribe" = "Kaufen";
 "restoring_purchases" = "Wird wiederhergestellt…";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "App Store wird kontaktiert …";
+
+"pro_you_have" = "Du hast Pastemin Pro.";

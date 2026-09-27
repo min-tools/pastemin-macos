@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Στοιχείο του προχείρου εικόνας";
 "keep_copied_items" = "Διατήρηση αντιγραμμένων αντικειμένων";
 "key_number" = "Κλειδί %lld";
-"lifetime_access" = "Πρόσβαση εφ' όρου ζωής";
+"lifetime_access" = "Εφ' όρου ζωής";
 "lifetime_access_price" = "Πρόσβαση εφ’ όρου ζωής — %@";
-"lifetime_family_shared" = "Lifetime · κοινόχρηστο με την οικογένειά σας";
+"lifetime_family_shared" = "Σε κοινή χρήση με την οικογένειά σας";
 "local_storage" = "Τοπική αποθήκευση";
 "manage_subscription_ellipsis" = "Διαχείριση συνδρομής…";
 "minimize" = "Ελαχιστοποίηση";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld αποθηκευμένο αντικείμενο";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Δεν ήταν δυνατή η βελτιστοποίηση ενός αποθηκευμένου στοιχείου κειμένου: %@";
-"subscription_family_shared" = "Συνδρομή · κοινή χρήση με την οικογένειά σας";
+"subscription_family_shared" = "Σε κοινή χρήση με την οικογένειά σας";
 "text" = "Κείμενο";
 "text_clipboard_item" = "Στοιχείο του προχείρου κειμένου";
 "text_clipboard_item_truncated" = "%@. Εμφάνιση του πρώτου 1 KB.";
@@ -114,9 +114,9 @@
 "yearly_plan_disclosure" = "Το ετήσιο πρόγραμμα ανανεώνεται αυτόματα εκτός εάν ακυρωθεί. Το Family Sharing υποστηρίζεται. Η διαχείριση της πληρωμής και της ανανέωσης γίνεται από την Apple.";
 "yearly_subscription" = "Ετήσια συνδρομή";
 "yearly_subscription_active" = "Η ετήσια συνδρομή είναι ενεργή";
-"yearly_subscription_ends" = "Ετήσια συνδρομή · λήγει %@";
-"yearly_subscription_renews" = "Ετήσια συνδρομή · ανανεώνει %@";
-"yearly_subscription_through" = "Ετήσια συνδρομή · έως %@";
+"yearly_subscription_ends" = "Λήγει %@";
+"yearly_subscription_renews" = "Ανανεώνεται %@";
+"yearly_subscription_through" = "Έως %@";
 "purchase_or_subscribe" = "Αγορά";
 "restoring_purchases" = "Γίνεται επαναφορά…";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Επικοινωνία με το App Store…";
+
+"pro_you_have" = "Έχετε το Pastemin Pro.";

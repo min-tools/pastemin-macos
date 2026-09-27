@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Element din clipboard imagine";
 "keep_copied_items" = "Păstrați elementele copiate";
 "key_number" = "Cheie %lld";
-"lifetime_access" = "Acces pe viață";
+"lifetime_access" = "Pe viață";
 "lifetime_access_price" = "Acces pe viață — %@";
-"lifetime_family_shared" = "Viață · distribuit familiei tale";
+"lifetime_family_shared" = "Partajat cu familia";
 "local_storage" = "Stocare locală";
 "manage_subscription_ellipsis" = "Gestionați abonamentul...";
 "minimize" = "Minimizați";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld articol stocat";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Un articol de text stocat nu a putut fi optimizat: %@";
-"subscription_family_shared" = "Abonament · partajat cu familia ta";
+"subscription_family_shared" = "Partajat cu familia";
 "text" = "Text";
 "text_clipboard_item" = "Element din clipboard text";
 "text_clipboard_item_truncated" = "%@. Se afișează primul 1 KB.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Planul anual se reînnoiește automat, dacă nu este anulat. Partajarea în familie este acceptată. Plata și reînnoirea sunt gestionate de Apple.";
 "yearly_subscription" = "Abonament anual";
 "yearly_subscription_active" = "Abonament anual activ";
-"yearly_subscription_ends" = "Abonamentul anual · se încheie %@";
-"yearly_subscription_renews" = "Abonament anual · se reînnoiește %@";
-"yearly_subscription_through" = "Abonament anual · prin %@";
+"yearly_subscription_ends" = "Se încheie pe %@";
+"yearly_subscription_renews" = "Se reînnoiește pe %@";
+"yearly_subscription_through" = "Până pe %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Se contactează App Store…";
+
+"pro_you_have" = "Aveți Pastemin Pro.";

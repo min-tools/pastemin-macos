@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Image du presse-papiers";
 "keep_copied_items" = "Conserver les éléments copiés";
 "key_number" = "Touche %lld";
-"lifetime_access" = "Accès à vie";
+"lifetime_access" = "À vie";
 "lifetime_access_price" = "Accès à vie — %@";
-"lifetime_family_shared" = "À vie · partagé avec votre famille";
+"lifetime_family_shared" = "Partagé avec votre famille";
 "local_storage" = "Stockage local";
 "manage_subscription_ellipsis" = "Gérer l’abonnement…";
 "minimize" = "Réduire";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld élément enregistré";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Impossible d’optimiser un élément de texte enregistré : %@";
-"subscription_family_shared" = "Abonnement · partagé avec votre famille";
+"subscription_family_shared" = "Partagé avec votre famille";
 "text" = "Texte";
 "text_clipboard_item" = "Texte du presse-papiers";
 "text_clipboard_item_truncated" = "%@. Affichage du premier kilo-octet.";
@@ -114,9 +114,9 @@
 "yearly_plan_disclosure" = "L’offre annuelle se renouvelle automatiquement sauf annulation. Le partage familial est pris en charge. Le paiement et le renouvellement sont gérés par Apple.";
 "yearly_subscription" = "Abonnement annuel";
 "yearly_subscription_active" = "Abonnement annuel actif";
-"yearly_subscription_ends" = "Abonnement annuel · se termine le %@";
-"yearly_subscription_renews" = "Abonnement annuel · se renouvelle le %@";
-"yearly_subscription_through" = "Abonnement annuel · jusqu’au %@";
+"yearly_subscription_ends" = "Se termine le %@";
+"yearly_subscription_renews" = "Se renouvelle le %@";
+"yearly_subscription_through" = "Jusqu'au %@";
 "purchase_or_subscribe" = "Acheter";
 "restoring_purchases" = "Restauration…";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Connexion à l'App Store…";
+
+"pro_you_have" = "Vous avez Pastemin Pro.";

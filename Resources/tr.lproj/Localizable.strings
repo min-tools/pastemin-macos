@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Resim panosu öğesi";
 "keep_copied_items" = "Kopyalanan öğeleri sakla";
 "key_number" = "Anahtar %lld";
-"lifetime_access" = "Ömür boyu erişim";
+"lifetime_access" = "Ömür boyu";
 "lifetime_access_price" = "Ömür Boyu Erişim — %@";
-"lifetime_family_shared" = "Ömür boyu · ailenizle paylaşıldı";
+"lifetime_family_shared" = "Ailenizle paylaşılıyor";
 "local_storage" = "Yerel depolama";
 "manage_subscription_ellipsis" = "Aboneliği Yönet…";
 "minimize" = "Küçült";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld saklanan öğe";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Saklanan bir metin öğesi optimize edilemedi: %@";
-"subscription_family_shared" = "Abonelik · ailenizle paylaşıldı";
+"subscription_family_shared" = "Ailenizle paylaşılıyor";
 "text" = "Metin";
 "text_clipboard_item" = "Metin panosu öğesi";
 "text_clipboard_item_truncated" = "%@. İlk 1 KB gösteriliyor.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Yıllık plan, iptal edilmediği sürece otomatik olarak yenilenir. Aile Paylaşımı desteklenmektedir. Ödeme ve yenileme Apple tarafından yönetilir.";
 "yearly_subscription" = "Yıllık Abonelik";
 "yearly_subscription_active" = "Yıllık abonelik aktif";
-"yearly_subscription_ends" = "Yıllık abonelik · %@ tarihinde sona eriyor";
-"yearly_subscription_renews" = "Yıllık abonelik · %@ yenilenir";
-"yearly_subscription_through" = "Yıllık abonelik · %@ aracılığıyla";
+"yearly_subscription_ends" = "%@ tarihinde sona erer";
+"yearly_subscription_renews" = "%@ tarihinde yenilenir";
+"yearly_subscription_through" = "%@ tarihine kadar";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "App Store'a bağlanılıyor…";
+
+"pro_you_have" = "Pastemin Pro'ya sahipsiniz.";

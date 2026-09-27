@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Stavka međumemorije slike";
 "keep_copied_items" = "Zadrži kopirane stavke";
 "key_number" = "Taster %lld";
-"lifetime_access" = "Doživotni pristup";
+"lifetime_access" = "Doživotno";
 "lifetime_access_price" = "Doživotni pristup — %@";
-"lifetime_family_shared" = "Životni vek · delite sa porodicom";
+"lifetime_family_shared" = "Deljeno sa porodicom";
 "local_storage" = "Lokalno skladište";
 "manage_subscription_ellipsis" = "Upravljaj pretplatom…";
 "minimize" = "Minimiziraj";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld sačuvana stavka";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Ne može se optimizovati sačuvana tekstualna stavka: %@";
-"subscription_family_shared" = "Pretplata · delite sa vašom porodicom";
+"subscription_family_shared" = "Deljeno sa porodicom";
 "text" = "Tekst";
 "text_clipboard_item" = "Stavka međumemorije teksta";
 "text_clipboard_item_truncated" = "%@. Prikazuje prvi 1 KB.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Godišnji plan se automatski obnavlja osim ako se ne otkaže. Podržano je deljenje porodice. Plaćanjem i obnavljanjem upravlja Apple.";
 "yearly_subscription" = "Godišnja pretplata";
 "yearly_subscription_active" = "Aktivna godišnja pretplata";
-"yearly_subscription_ends" = "Godišnja pretplata · završava %@";
-"yearly_subscription_renews" = "Godišnja pretplata · obnavlja %@";
-"yearly_subscription_through" = "Godišnja pretplata · do %@";
+"yearly_subscription_ends" = "Ističe %@";
+"yearly_subscription_renews" = "Obnavlja se %@";
+"yearly_subscription_through" = "Do %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Povezivanje sa App Store-om…";
+
+"pro_you_have" = "Imate Pastemin Pro.";

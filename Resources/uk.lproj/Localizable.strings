@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Елемент буфера обміну зображеннями";
 "keep_copied_items" = "Зберігайте скопійовані елементи";
 "key_number" = "Ключ %lld";
-"lifetime_access" = "Довічний доступ";
+"lifetime_access" = "Назавжди";
 "lifetime_access_price" = "Довічний доступ — %@";
-"lifetime_family_shared" = "Довічно · ділиться з вашою родиною";
+"lifetime_family_shared" = "Сімейний доступ";
 "local_storage" = "Локальна пам'ять";
 "manage_subscription_ellipsis" = "Керувати підпискою…";
 "minimize" = "Згорнути";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld збережений елемент";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Збережений текстовий елемент не вдалося оптимізувати: %@";
-"subscription_family_shared" = "Підписка · спільно з вашою родиною";
+"subscription_family_shared" = "Сімейний доступ";
 "text" = "Текст";
 "text_clipboard_item" = "Текстовий елемент буфера обміну";
 "text_clipboard_item_truncated" = "%@. Показано перший 1 Кб.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Річний план поновлюється автоматично, якщо його не скасовано. Підтримується Family Sharing. Оплатою та поновленням керує Apple.";
 "yearly_subscription" = "Річна підписка";
 "yearly_subscription_active" = "Річна підписка активна";
-"yearly_subscription_ends" = "Річна підписка · закінчується %@";
-"yearly_subscription_renews" = "Річна підписка · поновлюється %@";
-"yearly_subscription_through" = "Річна підписка · через %@";
+"yearly_subscription_ends" = "До %@";
+"yearly_subscription_renews" = "Продовжиться %@";
+"yearly_subscription_through" = "Діє до %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Зв'язуємося з App Store…";
+
+"pro_you_have" = "У вас є Pastemin Pro.";

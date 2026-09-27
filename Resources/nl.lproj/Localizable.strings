@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Afbeeldingsklemborditem";
 "keep_copied_items" = "Gekopieerde items bewaren";
 "key_number" = "Sleutel %lld";
-"lifetime_access" = "Levenslange toegang";
+"lifetime_access" = "Levenslang";
 "lifetime_access_price" = "Levenslange toegang — %@";
-"lifetime_family_shared" = "Levenslang · gedeeld met je familie";
+"lifetime_family_shared" = "Gedeeld met je gezin";
 "local_storage" = "Lokale opslag";
 "manage_subscription_ellipsis" = "Abonnement beheren…";
 "minimize" = "Minimaliseren";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld opgeslagen item";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Een opgeslagen tekstitem kon niet worden geoptimaliseerd: %@";
-"subscription_family_shared" = "Abonnement · gedeeld met uw gezin";
+"subscription_family_shared" = "Gedeeld met je gezin";
 "text" = "Tekst";
 "text_clipboard_item" = "Tekstklemborditem";
 "text_clipboard_item_truncated" = "%@. Toont de eerste 1 KB.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Het jaarabonnement wordt automatisch verlengd, tenzij het wordt opgezegd. Delen met gezin wordt ondersteund. Betaling en verlenging worden beheerd door Apple.";
 "yearly_subscription" = "Jaarabonnement";
 "yearly_subscription_active" = "Jaarabonnement actief";
-"yearly_subscription_ends" = "Jaarabonnement · eindigt %@";
-"yearly_subscription_renews" = "Jaarabonnement · verlengt %@";
-"yearly_subscription_through" = "Jaarabonnement · via %@";
+"yearly_subscription_ends" = "Eindigt op %@";
+"yearly_subscription_renews" = "Verlengt op %@";
+"yearly_subscription_through" = "Tot %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Verbinden met de App Store…";
+
+"pro_you_have" = "Je hebt Pastemin Pro.";

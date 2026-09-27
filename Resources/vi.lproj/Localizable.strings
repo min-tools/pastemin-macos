@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Mục bảng nhớ tạm hình ảnh";
 "keep_copied_items" = "Giữ các mục đã sao chép";
 "key_number" = "Khóa %lld";
-"lifetime_access" = "Truy cập trọn đời";
+"lifetime_access" = "Trọn đời";
 "lifetime_access_price" = "Truy cập trọn đời — %@";
-"lifetime_family_shared" = "Trọn đời · chia sẻ với gia đình bạn";
+"lifetime_family_shared" = "Chia sẻ với gia đình";
 "local_storage" = "Bộ nhớ cục bộ";
 "manage_subscription_ellipsis" = "Quản lý đăng ký…";
 "minimize" = "Giảm thiểu";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld mục được lưu trữ";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Không thể tối ưu hóa mục văn bản được lưu trữ: %@";
-"subscription_family_shared" = "Đăng ký · chia sẻ với gia đình bạn";
+"subscription_family_shared" = "Chia sẻ với gia đình";
 "text" = "Văn bản";
 "text_clipboard_item" = "Mục bảng tạm văn bản";
 "text_clipboard_item_truncated" = "%@. Hiển thị 1 KB đầu tiên.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Gói hàng năm sẽ tự động gia hạn trừ khi bị hủy. Chia sẻ gia đình được hỗ trợ. Việc thanh toán và gia hạn do Apple quản lý.";
 "yearly_subscription" = "Đăng ký hàng năm";
 "yearly_subscription_active" = "Đăng ký hàng năm đang hoạt động";
-"yearly_subscription_ends" = "Đăng ký hàng năm · kết thúc %@";
-"yearly_subscription_renews" = "Đăng ký hàng năm · gia hạn %@";
-"yearly_subscription_through" = "Đăng ký hàng năm · thông qua %@";
+"yearly_subscription_ends" = "Kết thúc %@";
+"yearly_subscription_renews" = "Gia hạn %@";
+"yearly_subscription_through" = "Đến %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Đang kết nối với App Store…";
+
+"pro_you_have" = "Bạn đang có Pastemin Pro.";

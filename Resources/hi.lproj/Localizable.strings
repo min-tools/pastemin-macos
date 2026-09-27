@@ -50,9 +50,9 @@
 "image_clipboard_item" = "छवि क्लिपबोर्ड आइटम";
 "keep_copied_items" = "कॉपी किए गए आइटम रखें";
 "key_number" = "कुंजी %lld";
-"lifetime_access" = "आजीवन पहुंच";
+"lifetime_access" = "आजीवन";
 "lifetime_access_price" = "लाइफटाइम एक्सेस - %@";
-"lifetime_family_shared" = "लाइफटाइम · आपके परिवार के साथ साझा किया गया";
+"lifetime_family_shared" = "आपके परिवार के साथ साझा";
 "local_storage" = "स्थानीय भंडारण";
 "manage_subscription_ellipsis" = "सदस्यता प्रबंधित करें…";
 "minimize" = "न्यूनतम करें";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld संग्रहीत आइटम";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "एक संग्रहीत पाठ आइटम को अनुकूलित नहीं किया जा सका: %@";
-"subscription_family_shared" = "सदस्यता · आपके परिवार के साथ साझा की गई";
+"subscription_family_shared" = "आपके परिवार के साथ साझा";
 "text" = "पाठ";
 "text_clipboard_item" = "टेक्स्ट क्लिपबोर्ड आइटम";
 "text_clipboard_item_truncated" = "%@. पहला 1 KB दिखा रहा हूँ.";
@@ -114,9 +114,9 @@
 "yearly_plan_disclosure" = "वार्षिक योजना रद्द होने तक स्वचालित रूप से नवीनीकृत हो जाती है। पारिवारिक साझाकरण समर्थित है. भुगतान और नवीनीकरण का प्रबंधन Apple द्वारा किया जाता है।";
 "yearly_subscription" = "वार्षिक सदस्यता";
 "yearly_subscription_active" = "वार्षिक सदस्यता सक्रिय";
-"yearly_subscription_ends" = "वार्षिक सदस्यता · समाप्त होती है %@";
-"yearly_subscription_renews" = "वार्षिक सदस्यता · नवीनीकरण %@";
-"yearly_subscription_through" = "वार्षिक सदस्यता · %@ के माध्यम से";
+"yearly_subscription_ends" = "%@ को समाप्त";
+"yearly_subscription_renews" = "%@ को नवीनीकरण";
+"yearly_subscription_through" = "%@ तक";
 "purchase_or_subscribe" = "खरीदें";
 "restoring_purchases" = "बहाल किया जा रहा है…";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "App Store से संपर्क किया जा रहा है…";
+
+"pro_you_have" = "आपके पास Pastemin Pro है।";

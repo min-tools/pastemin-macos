@@ -50,9 +50,9 @@
 "image_clipboard_item" = "Elemento immagine degli appunti";
 "keep_copied_items" = "Conserva gli elementi copiati";
 "key_number" = "Tasto %lld";
-"lifetime_access" = "Accesso a vita";
+"lifetime_access" = "A vita";
 "lifetime_access_price" = "Accesso a vita — %@";
-"lifetime_family_shared" = "A vita · condiviso con la tua famiglia";
+"lifetime_family_shared" = "Condiviso con la famiglia";
 "local_storage" = "Archiviazione locale";
 "manage_subscription_ellipsis" = "Gestisci abbonamento…";
 "minimize" = "Contrai";
@@ -97,7 +97,7 @@
 "stored_item_count_one" = "%lld elemento salvato";
 "stored_items_with_size" = "%@, %@";
 "stored_text_optimize_failed" = "Impossibile ottimizzare un elemento di testo salvato: %@";
-"subscription_family_shared" = "Abbonamento · condiviso con la tua famiglia";
+"subscription_family_shared" = "Condiviso con la famiglia";
 "text" = "Testo";
 "text_clipboard_item" = "Elemento di testo degli appunti";
 "text_clipboard_item_truncated" = "%@. Viene mostrato il primo 1 KB.";
@@ -116,9 +116,9 @@
 "yearly_plan_disclosure" = "Il piano annuale si rinnova automaticamente salvo annullamento. La condivisione in famiglia è supportata. Il pagamento e il rinnovo sono gestiti da Apple.";
 "yearly_subscription" = "Abbonamento annuale";
 "yearly_subscription_active" = "Abbonamento annuale attivo";
-"yearly_subscription_ends" = "Abbonamento annuale · termina il %@";
-"yearly_subscription_renews" = "Abbonamento annuale · si rinnova il %@";
-"yearly_subscription_through" = "Abbonamento annuale · fino al %@";
+"yearly_subscription_ends" = "Termina il %@";
+"yearly_subscription_renews" = "Si rinnova il %@";
+"yearly_subscription_through" = "Fino al %@";
 "app_trial_one_day" = "Full access trial · 1 day remaining";
 "app_trial_days" = "Full access trial · %lld days remaining";
 "wizard_trial_during_title" = "Your first 30 days";
@@ -136,3 +136,5 @@
 
 /* Contacting the App Store… */
 "contacting_app_store" = "Connessione all'App Store…";
+
+"pro_you_have" = "Hai Pastemin Pro.";

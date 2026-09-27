@@ -174,7 +174,7 @@ final class PasteminStore: ObservableObject {
     func statusText() -> String {
         // Identify private development access separately from a purchase.
         if developerOverride == true {
-            return PasteminEdition.localAccessStatus ?? localized("lifetime_access", "Lifetime access")
+            return PasteminEdition.localAccessStatus ?? localized("lifetime_access", "Lifetime")
         }
         // Describe the independent app trial before purchase entitlement details.
         if isAppTrialActive, let appTrialStartedAt {
@@ -195,11 +195,11 @@ final class PasteminStore: ObservableObject {
             return localized("free_five_newest_items", "Free · 5 newest items")
         case .lifetime:
             return entitlement.isFamilyShared
-                ? localized("lifetime_family_shared", "Lifetime · shared with your family")
-                : localized("lifetime_access", "Lifetime access")
+                ? localized("lifetime_family_shared", "Shared with your family")
+                : localized("lifetime_access", "Lifetime")
         case .subscription:
             if entitlement.isFamilyShared {
-                return localized("subscription_family_shared", "Subscription · shared with your family")
+                return localized("subscription_family_shared", "Shared with your family")
             }
             guard let date = entitlement.expirationDate else {
                 return localized("yearly_subscription_active", "Yearly subscription active")
@@ -217,20 +217,20 @@ final class PasteminStore: ObservableObject {
             if entitlement.willAutoRenew == true {
                 return localizedFormat(
                     "yearly_subscription_renews",
-                    "Yearly subscription · renews %@",
+                    "Renews %@",
                     formatted
                 )
             }
             if entitlement.willAutoRenew == false {
                 return localizedFormat(
                     "yearly_subscription_ends",
-                    "Yearly subscription · ends %@",
+                    "Expires %@",
                     formatted
                 )
             }
             return localizedFormat(
                 "yearly_subscription_through",
-                "Yearly subscription · through %@",
+                "Until %@",
                 formatted
             )
         }
@@ -544,7 +544,7 @@ private struct PasteminPaywallView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(store.isAppTrialActive
                      ? localized("pro_app_trial_active", "Your Pro trial is active.")
-                     : "Pastemin Pro")
+                     : localized("pro_you_have", "You have Pastemin Pro."))
                     .font(.system(size: 13))
                 Text(store.statusText())
                     .font(.system(size: 12))
