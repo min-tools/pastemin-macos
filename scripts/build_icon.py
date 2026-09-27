@@ -10,16 +10,14 @@ from build import ROOT
 SOURCE = ROOT / 'Resources/AppIcon-1024.png'
 OUTPUT = ROOT / 'Resources/AppIcon.icns'
 
-# Retina 16/32-point chunks also provide clean downsampling for 1x displays. Do not
-# add manually packed icp4/icp5 PNG chunks: current ImageIO decodes them as legacy
-# low-resolution payloads and renders color noise.
+# Match Netmin's icon sizes so macOS uses the same border and corner sampling.
+# Include a dedicated 16-pixel image instead of rescaling a larger representation.
 REPRESENTATIONS = (
-    ('ic11', 32),
-    ('ic12', 64),
+    ('icp4', 16),
+    ('icp5', 32),
+    ('icp6', 64),
     ('ic07', 128),
-    ('ic13', 256),
     ('ic08', 256),
-    ('ic14', 512),
     ('ic09', 512),
     ('ic10', 1024),
 )

@@ -137,6 +137,33 @@ def swift_compiler():
     return ['xcrun', 'swiftc', '-sdk', sdk_path()]
 
 
+
+def bundle_build_metadata(sdk):
+    """Describe the actual SDK and tools used to compile this macOS bundle."""
+    version = subprocess.check_output(
+        ['xcrun', '--sdk', sdk, '--show-sdk-version'], text=True
+    ).strip()
+    sdk_build = subprocess.check_output(
+        ['xcrun', '--sdk', sdk, '--show-sdk-build-version'], text=True
+    ).strip()
+    metadata = {
+        'CFBundleSupportedPlatforms': ['MacOSX'],
+        'DTPlatformName': 'macosx',
+        'DTPlatformVersion': version,
+        'DTPlatformBuild': sdk_build,
+        'DTSDKName': f'macosx{version}',
+        'DTSDKBuild': sdk_build,
+    }
+    # Full Xcode supplies its own version; local Command Line Tools builds do not.
+    tools = subprocess.run(['xcodebuild', '-version'], capture_output=True, text=True)
+    match = re.search(r'Xcode (\d+)\.(\d+)(?:\.(\d+))?\s+Build version (\S+)', tools.stdout)
+    if tools.returncode == 0 and match:
+        major, minor, patch = (int(value or 0) for value in match.group(1, 2, 3))
+        metadata['DTXcode'] = str(major * 100 + minor * 10 + patch)
+        metadata['DTXcodeBuild'] = match.group(4)
+    return metadata
+
+
 def build_app(
     output,
     *,
@@ -199,7 +226,10 @@ def build_app(
             if not (generated_symbols / 'Contents/Resources/DWARF/Pastemin').is_file():
                 raise ValueError('The release build did not produce Pastemin crash symbols.')
             generated_symbols.replace(symbols)
-        shutil.copy2(ROOT / 'PasteminInfo.plist', bundle / 'Contents/Info.plist')
+        # Keep App Store platform and SDK detection consistent with Xcode-built apps.
+        info = plistlib.loads((ROOT / 'PasteminInfo.plist').read_bytes())
+        info.update(bundle_build_metadata(command[command.index('-sdk') + 1]))
+        (bundle / 'Contents/Info.plist').write_bytes(plistlib.dumps(info))
         shutil.copy2(ROOT / 'Resources/AppIcon.icns', resources / 'AppIcon.icns')
         shutil.copy2(ROOT / 'PrivacyInfo.xcprivacy', resources / 'PrivacyInfo.xcprivacy')
         shutil.copy2(

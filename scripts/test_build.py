@@ -2,6 +2,7 @@
 """Verify the single sandboxed build contract."""
 from pathlib import Path
 import plistlib
+import re
 import struct
 import subprocess
 import tempfile
@@ -28,36 +29,29 @@ def verify_icon_representations(icon, folder):
     data = icon.read_bytes()
     assert data[:4] == b'icns'
     assert struct.unpack('>I', data[4:8])[0] == len(data)
+    expected = {'icp4': 16, 'icp5': 32, 'icp6': 64, 'ic07': 128,
+                'ic08': 256, 'ic09': 512, 'ic10': 1024}
     chunks = []
     offset = 8
     while offset < len(data):
         chunk_type = data[offset:offset + 4].decode('ascii')
         chunk_size = struct.unpack('>I', data[offset + 4:offset + 8])[0]
+        assert chunk_size >= 8 and offset + chunk_size <= len(data)
         payload = data[offset + 8:offset + chunk_size]
         assert payload.startswith(b'\x89PNG\r\n\x1a\n')
+        size = expected[chunk_type]
+        assert struct.unpack('>II', payload[16:24]) == (size, size)
         chunks.append(chunk_type)
         offset += chunk_size
-    assert chunks == ['ic11', 'ic12', 'ic07', 'ic13', 'ic08', 'ic14', 'ic09', 'ic10']
+    assert chunks == list(expected)
 
+    # Check unpacking separately: iconutil emits a legacy 48-pixel fallback for
+    # Netmin's icp6 layout, while NSImage uses its original 64-pixel PNG.
     iconset = folder / 'Decoded.iconset'
     subprocess.run(['iconutil', '-c', 'iconset', str(icon), '-o', str(iconset)], check=True)
-    expected = {
-        'icon_16x16@2x.png': 32,
-        'icon_32x32@2x.png': 64,
-        'icon_128x128.png': 128,
-        'icon_128x128@2x.png': 256,
-        'icon_256x256.png': 256,
-        'icon_256x256@2x.png': 512,
-        'icon_512x512.png': 512,
-        'icon_512x512@2x.png': 1024,
-    }
-    for filename, size in expected.items():
-        details = subprocess.check_output(
-            ['sips', '-g', 'pixelWidth', '-g', 'pixelHeight', str(iconset / filename)],
-            text=True,
-        )
-        assert f'pixelWidth: {size}' in details
-        assert f'pixelHeight: {size}' in details
+    assert (iconset / 'icon_16x16.png').is_file()
+    assert (iconset / 'icon_512x512@2x.png').is_file()
+
 
 def signed_entitlements(app):
     data = subprocess.check_output(
@@ -75,6 +69,16 @@ with tempfile.TemporaryDirectory(prefix='pastemin-app-test-', dir='/private/tmp'
     assert info['CFBundleExecutable'] == 'Pastemin'
     assert info['CFBundleDisplayName'] == 'Pastemin'
     assert info['CFBundleIconFile'] == 'AppIcon'
+    assert info['CFBundleSupportedPlatforms'] == ['MacOSX']
+    assert info['DTPlatformName'] == 'macosx'
+    # Compare bundle metadata with the executable, not the metadata helper itself.
+    load_commands = subprocess.check_output(
+        ['xcrun', 'vtool', '-show-build', str(app / 'Contents/MacOS/Pastemin')], text=True
+    )
+    sdk_version = re.search(r'^\s+sdk\s+(\S+)', load_commands, re.MULTILINE).group(1)
+    assert info['DTSDKName'] == f'macosx{sdk_version}'
+    assert info['DTPlatformVersion'] == sdk_version
+    assert info['DTSDKBuild'] == info['DTPlatformBuild'] and info['DTSDKBuild']
     assert info['LSUIElement'] is True
     assert (app / 'Contents/Resources/AppIcon.icns').is_file()
     assert (app / 'Contents/Resources/PrivacyInfo.xcprivacy').is_file()

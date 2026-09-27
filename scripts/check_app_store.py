@@ -150,7 +150,7 @@ def blockers(check_online=False):
 
     if png_dimensions(ROOT / 'Resources/AppIcon-1024.png') != (1024, 1024):
         issues.append('The App Store icon master is not a 1024-pixel square PNG.')
-    expected_chunks = ['ic11', 'ic12', 'ic07', 'ic13', 'ic08', 'ic14', 'ic09', 'ic10']
+    expected_chunks = ['icp4', 'icp5', 'icp6', 'ic07', 'ic08', 'ic09', 'ic10']
     if icns_chunks(ROOT / 'Resources/AppIcon.icns') != expected_chunks:
         issues.append('The ICNS file has missing, corrupt, or unsafe representations.')
 
