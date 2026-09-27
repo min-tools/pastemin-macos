@@ -529,7 +529,7 @@ private struct PasteminPaywallView: View {
         if store.isPro || store.isAppTrialActive {
             VStack(alignment: .leading, spacing: 2) {
                 Text(store.isAppTrialActive
-                     ? localized("wizard_trial_during_title", "Your first 30 days")
+                     ? localized("pro_app_trial_active", "Your Pro trial is active.")
                      : "Pastemin Pro")
                     .font(.system(size: 13))
                 Text(store.statusText())

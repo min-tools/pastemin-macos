@@ -130,3 +130,6 @@
 
 /* Free · 5 newest items */
 "free_five_newest_items" = "Free · 5 newest items";
+
+/* Your Pro trial is active. */
+"pro_app_trial_active" = "Votre essai Pro est actif.";
