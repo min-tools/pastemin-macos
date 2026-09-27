@@ -133,3 +133,6 @@
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Pro-kokeilusi on aktiivinen.";
+
+/* Contacting the App Store… */
+"contacting_app_store" = "Yhdistetään App Storeen…";

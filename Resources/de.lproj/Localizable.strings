@@ -133,3 +133,6 @@
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Dein Pro-Testzeitraum ist aktiv.";
+
+/* Contacting the App Store… */
+"contacting_app_store" = "App Store wird kontaktiert …";

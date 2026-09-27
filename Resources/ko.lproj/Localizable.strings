@@ -133,3 +133,6 @@
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Pro 무료 체험이 활성화되어 있습니다.";
+
+/* Contacting the App Store… */
+"contacting_app_store" = "App Store에 연결하는 중…";

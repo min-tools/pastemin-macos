@@ -133,3 +133,6 @@
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Masa uji coba Pro Anda aktif.";
+
+/* Contacting the App Store… */
+"contacting_app_store" = "Menghubungi App Store…";

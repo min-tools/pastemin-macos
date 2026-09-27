@@ -133,3 +133,6 @@
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Thời gian dùng thử Pro của bạn đang hoạt động.";
+
+/* Contacting the App Store… */
+"contacting_app_store" = "Đang kết nối với App Store…";

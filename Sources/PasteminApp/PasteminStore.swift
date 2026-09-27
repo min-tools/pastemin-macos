@@ -449,9 +449,23 @@ final class PasteminPaywallController: NSWindowController, NSWindowDelegate {
 
 @MainActor
 private final class PasteminPaywallState: ObservableObject {
-    @Published var isWorking = false
+    // Keep the active operation so purchase and price loading never say restoring.
+    enum Operation { case loading, purchasing, restoring }
+    @Published var operation: Operation?
     @Published var storeError: String?
     @Published var message: String?
+
+    var isWorking: Bool { operation != nil }
+    var progressText: String? {
+        switch operation {
+        case .loading, .purchasing:
+            return localized("contacting_app_store", "Contacting the App Store…")
+        case .restoring:
+            return localized("restoring_purchases", "Restoring…")
+        case nil:
+            return nil
+        }
+    }
 }
 
 private struct PasteminPanelHeightKey: PreferenceKey {
@@ -484,10 +498,10 @@ private struct PasteminPaywallView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 statusSection
-                if state.isWorking {
+                if let progressText = state.progressText {
                     HStack(spacing: 8) {
                         ProgressView().controlSize(.small)
-                        Text(localized("restoring_purchases", "Restoring…"))
+                        Text(progressText)
                             .font(.system(size: 12))
                             .foregroundStyle(.secondary)
                     }
@@ -596,10 +610,10 @@ private struct PasteminPaywallView: View {
 
     private func load() async {
         guard !store.isPro, store.yearly == nil, store.lifetime == nil else { return }
-        state.isWorking = true
+        state.operation = .loading
         state.storeError = nil
         state.message = nil
-        defer { state.isWorking = false }
+        defer { state.operation = nil }
         do {
             try await store.loadProducts()
         } catch {
@@ -609,10 +623,10 @@ private struct PasteminPaywallView: View {
 
     private func purchase(_ product: Product) {
         guard !state.isWorking else { return }
-        state.isWorking = true
+        state.operation = .purchasing
         state.message = nil
         Task {
-            defer { state.isWorking = false }
+            defer { state.operation = nil }
             do {
                 switch try await store.purchase(product) {
                 case .unlocked: unlocked()
@@ -631,10 +645,10 @@ private struct PasteminPaywallView: View {
 
     private func restore() {
         guard !state.isWorking else { return }
-        state.isWorking = true
+        state.operation = .restoring
         state.message = nil
         Task {
-            defer { state.isWorking = false }
+            defer { state.operation = nil }
             do {
                 if try await store.restore() {
                     unlocked()

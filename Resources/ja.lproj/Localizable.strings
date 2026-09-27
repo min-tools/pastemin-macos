@@ -133,3 +133,6 @@
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Proの無料体験期間中です。";
+
+/* Contacting the App Store… */
+"contacting_app_store" = "App Store に接続中…";

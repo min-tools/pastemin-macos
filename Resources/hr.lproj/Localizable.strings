@@ -133,3 +133,6 @@
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Vaše probno razdoblje za Pro je aktivno.";
+
+/* Contacting the App Store… */
+"contacting_app_store" = "Povezivanje s App Storeom…";
