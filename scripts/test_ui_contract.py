@@ -122,9 +122,11 @@ assert '@Published var storeError: String?' in pro_store
 assert 'Button(localized("try_again", "Try Again"))' in pro_store
 assert 'state.storeError = error.localizedDescription' in pro_store
 assert 'Text(storeError)' in pro_store and '.foregroundStyle(.secondary)' in pro_store
-assert 'Link(localized("terms_of_use", "Terms of Use")' not in pro_store
-assert 'Button(localized("privacy_policy", "Privacy Policy"))' not in pro_store
-assert 'static let termsURL' not in pro_store and 'static let privacyURL' not in pro_store
+# Subscription purchases expose both required legal links inside the app.
+assert 'Link(localized("terms_of_use", "Terms of Use (EULA)"), destination: PasteminStore.termsOfUseURL)' in pro_store
+assert 'Link(localized("privacy_policy", "Privacy Policy"), destination: PasteminStore.privacyPolicyURL)' in pro_store
+assert 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/' in pro_store
+assert 'https://min.tools/pastemin/privacy/' in pro_store
 
 # Choosing an item makes it newest without replacing its identity or payload.
 assert 'if restored { markUsed(record) }' in store

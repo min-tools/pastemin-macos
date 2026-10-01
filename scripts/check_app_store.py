@@ -14,6 +14,7 @@ from check_localizations import localization_issues
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC_URLS = (
+    'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/',
     'https://min.tools/pastemin/',
     'https://min.tools/pastemin/privacy/',
     'https://min.tools/pastemin/support/',

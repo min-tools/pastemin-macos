@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Exercise the real paywall actions with suspended, isolated StoreKit substitutes."""
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 
@@ -55,6 +56,10 @@ struct Product { let displayPrice = "$1.00" }
 '''
 # Compile the complete production view and its state; replace only external store access.
 source = (ROOT / 'Sources/PasteminApp/PasteminStore.swift').read_text()
+# Keep the real legal destinations in the isolated store substitute.
+legal_urls = re.findall(r'    static let (?:termsOfUseURL|privacyPolicyURL) = .*', source)
+assert len(legal_urls) == 2
+fixture = fixture.replace('    var isPro = false', '\n'.join(legal_urls) + '\n    var isPro = false')
 fixture += '@MainActor\n' + source[source.index('private final class PasteminPaywallState:'):].replace('private ', '')
 fixture += r'''
 @main enum PaywallTests {

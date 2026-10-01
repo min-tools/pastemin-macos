@@ -7,6 +7,8 @@ final class PasteminStore: ObservableObject {
     static let shared = PasteminStore()
     static let entitlementDidChange = Notification.Name("tools.min.pastemin.entitlementDidChange")
     static let manageSubscriptionsURL = URL(string: "https://apps.apple.com/account/subscriptions")!
+    static let termsOfUseURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+    static let privacyPolicyURL = URL(string: "https://min.tools/pastemin/privacy/")!
 
     enum PurchaseOutcome {
         case unlocked
@@ -515,12 +517,20 @@ private struct PasteminPaywallView: View {
                 }
             }
 
+            if !store.isPro {
+                Button(localized("restore_purchases", "Restore Purchases"), action: restore)
+                    .buttonStyle(.link)
+                    .disabled(state.isWorking)
+            }
+
+            // Keep legal links beside the close action in every store state.
             HStack {
-                if !store.isPro {
-                    Button(localized("restore_purchases", "Restore Purchases"), action: restore)
-                        .buttonStyle(.link)
-                        .disabled(state.isWorking)
+                HStack(spacing: 16) {
+                    Link(localized("terms_of_use", "Terms of Use (EULA)"), destination: PasteminStore.termsOfUseURL)
+                    Link(localized("privacy_policy", "Privacy Policy"), destination: PasteminStore.privacyPolicyURL)
                 }
+                .font(.system(size: 11))
+                .buttonStyle(.link)
                 Spacer()
                 Button(localized(store.isPro ? "ok" : "close", store.isPro ? "OK" : "Close"), action: close)
                     .controlSize(.large)
