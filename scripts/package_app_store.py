@@ -13,7 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('--application-identity', required=True)
     parser.add_argument('--installer-identity', required=True)
     parser.add_argument('--provisioning-profile', type=Path, required=True)
-    parser.add_argument('--output', type=Path, default=ROOT / 'build/app-store/Pastemin.pkg')
+    parser.add_argument('--output', type=Path, default=ROOT / 'dist/app-store/Pastemin.pkg')
     args = parser.parse_args()
 
     package = args.output.expanduser().absolute()
