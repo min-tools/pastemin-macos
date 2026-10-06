@@ -1,4 +1,6 @@
+#if !PASTEMIN_APP_STORE
 import CoreGraphics
+#endif
 import Foundation
 
 @MainActor
@@ -26,6 +28,8 @@ final class ClipboardPreferences: ObservableObject {
         }
     }
 
+    #if !PASTEMIN_APP_STORE
+    // Keep the local edition's choice out of Store reads and writes.
     @Published var pasteAutomatically: Bool {
         didSet {
             defaults.set(pasteAutomatically, forKey: Keys.pasteAutomatically)
@@ -33,6 +37,7 @@ final class ClipboardPreferences: ObservableObject {
     }
 
     @Published private(set) var automaticPasteAuthorized: Bool
+    #endif
 
     @Published var hotKeyError: String?
     var onRetentionChange: ((RetentionPeriod) -> Void)?
@@ -44,7 +49,9 @@ final class ClipboardPreferences: ObservableObject {
         static let retention = "PasteminRetentionPeriod"
         static let shortcut = "PasteminGlobalShortcut"
         static let showInMenuBar = "PasteminShowInMenuBar"
+        #if !PASTEMIN_APP_STORE
         static let pasteAutomatically = "PasteminPasteAutomatically"
+        #endif
     }
 
     init(defaults: UserDefaults = .standard) {
@@ -55,11 +62,16 @@ final class ClipboardPreferences: ObservableObject {
             .flatMap { try? JSONDecoder().decode(GlobalShortcut.self, from: $0) }
             ?? .defaultShortcut
         showInMenuBar = defaults.object(forKey: Keys.showInMenuBar) as? Bool ?? true
+        #if !PASTEMIN_APP_STORE
         pasteAutomatically = defaults.object(forKey: Keys.pasteAutomatically) as? Bool ?? false
         automaticPasteAuthorized = CGPreflightPostEventAccess()
+        #endif
     }
 
+    #if !PASTEMIN_APP_STORE
+    /// refreshAutomaticPasteAuthorization() updates the local permission indicator.
     func refreshAutomaticPasteAuthorization() {
         automaticPasteAuthorized = CGPreflightPostEventAccess()
     }
+    #endif
 }

@@ -61,11 +61,6 @@ def method(name):
 
 # Keep the build-boundary and permission contract visible beside the behavioral fixture.
 controller = (ROOT / 'Sources/PasteminApp/ClipboardController.swift').read_text()
-preferences = (ROOT / 'Sources/PasteminApp/ClipboardPreferences.swift').read_text()
-options = (ROOT / 'Sources/PasteminApp/ClipboardOptionsMenu.swift').read_text()
-assert '#if !PASTEMIN_APP_STORE' not in controller
-assert '#if !PASTEMIN_APP_STORE' not in preferences
-assert '#if !PASTEMIN_APP_STORE' not in options
 assert 'preferences.pasteAutomatically\n                && (CGPreflightPostEventAccess() || requestAutomaticPasteAccess())' in controller
 assert 'CGRequestPostEventAccess()' in controller
 assert 'pasteWhenApplicationIsFrontmost(application, request: pasteRequest)' in controller
@@ -74,7 +69,6 @@ assert 'keyDown.postToPid(processIdentifier)' in controller
 assert 'keyUp.postToPid(processIdentifier)' in controller
 assert 'requestAutomaticPasteAccess' not in wizard
 assert 'CGPreflightPostEventAccess() || requestAutomaticPasteAccess()' in controller
-assert 'panel.orderOut(nil)\n            let shouldPaste = preferences.pasteAutomatically' in controller
 
 yield_call = 'NSApp.yieldActivation(to: application)'
 activate_call = 'application.activate(from: .current, options: [])'
@@ -113,14 +107,15 @@ final class Preferences {
     var shortcut = Shortcut()
     var pasteAutomatically = false
     var automaticPasteAuthorized = false
-    func refreshAutomaticPasteAuthorization() {}
+    var authorizationChecks = 0
+    func refreshAutomaticPasteAuthorization() { authorizationChecks += 1 }
 }
 
 final class LayoutFixture: NSObject, NSWindowDelegate {
     let preferences = Preferences()
     var window: NSWindow?
     var stepIndex = 0
-    let stepCount = 4
+    STEP_COUNT_DECLARATION
     var stepViews: [Int: NSView] = [:]
     var contentContainer: NSView!
     var progressLabel: NSTextField!
@@ -136,13 +131,16 @@ final class LayoutFixture: NSObject, NSWindowDelegate {
     @objc func goBack(_ sender: Any?) {}
     @objc func goForward(_ sender: Any?) {}
 '''
+step_count = wizard[wizard.index('    #if PASTEMIN_APP_STORE'):wizard.index('    private var stepViews')]
+fixture = fixture.replace('    STEP_COUNT_DECLARATION', step_count.replace('private let', 'let').rstrip())
 fixture += ''.join(method(name) for name in [
     'buildWindow()', 'showStep()', 'fitWindow(to step: NSView)',
     'stepStack(title: String, body: String, extra: [NSView] = [])',
-    'welcomeStep()', 'essentialsStep()', 'automaticPasteStep()', 'readyStep()',
+    'welcomeStep()', 'essentialsStep()', 'readyStep()',
     'trialRow(symbol: String, title: String, detail: String)',
     'labeledRow(_ title: String, control: NSView)',
 ])
+fixture += '#if !PASTEMIN_APP_STORE\n' + method('automaticPasteStep()') + '#endif\n'
 fixture += r'''
 }
 
@@ -186,6 +184,11 @@ for locale in locales {
     let data = try Data(contentsOf: locale.appendingPathComponent("Localizable.strings"))
     strings = (try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: String]) ?? [:]
     let layout = LayoutFixture()
+    #if PASTEMIN_APP_STORE
+    check(layout.stepCount == 3, "Store setup has welcome, essentials, and trial pages")
+    #else
+    check(layout.stepCount == 4, "local setup includes the automatic-paste page")
+    #endif
     layout.buildWindow()
     let window = layout.window!
     let top = window.frame.maxY
@@ -202,7 +205,13 @@ for locale in locales {
         check(abs(window.frame.maxY - top) < 0.5, "\(locale.lastPathComponent): resizing keeps the top edge fixed")
     }
     check(layout.loginItemCheckbox?.state == .off, "\(locale.lastPathComponent): login item reflects disabled state")
+    #if PASTEMIN_APP_STORE
+    check(layout.autoPasteCheckbox == nil, "\(locale.lastPathComponent): Store setup has no automatic-paste control")
+    check(layout.preferences.authorizationChecks == 0, "Store setup never checks event-posting permission")
+    #else
     check(layout.autoPasteCheckbox?.state == .off, "\(locale.lastPathComponent): automatic paste starts unchecked")
+    check(layout.preferences.authorizationChecks == 1, "local setup reads event-posting permission")
+    #endif
     window.close()
 }
 
@@ -241,7 +250,11 @@ var optedInLoginChoice: Bool?
 optedIn.setLoginItemSelected = { optedInLoginChoice = $0 }
 controls(optedIn, automaticPaste: true, openAtLogin: false)
 optedIn.finish()
+#if PASTEMIN_APP_STORE
+check(!optedIn.preferences.pasteAutomatically, "Store setup ignores an obsolete automatic-paste control")
+#else
 check(optedIn.preferences.pasteAutomatically, "explicit opt-in enables automatic paste")
+#endif
 check(optedIn.preferences.retention == .forever, "opt-in setup saves retention")
 check(!optedIn.preferences.showInMenuBar, "opt-in setup saves menu-bar visibility")
 check(optedInLoginChoice == false, "setup disables the unselected login item")
@@ -267,8 +280,11 @@ with tempfile.TemporaryDirectory(prefix='pastemin-setup-tests-', dir='/private/t
     source = folder / 'main.swift'
     source.write_text(fixture)
     cache = os.environ.get('PASTEMIN_TEST_MODULE_CACHE', str(folder / 'modules'))
-    subprocess.run([
-        'swiftc', '-swift-version', '5', '-module-cache-path', cache,
-        str(source), '-o', str(folder / 'tests'),
-    ], check=True)
-    subprocess.run([str(folder / 'tests'), str(ROOT / 'Resources')], check=True, timeout=30)
+    # Compile the real setup methods for both editions without touching login items.
+    for edition, flags in [('local', []), ('app-store', ['-D', 'PASTEMIN_APP_STORE'])]:
+        executable = folder / edition
+        subprocess.run([
+            'swiftc', '-swift-version', '5', '-module-cache-path', cache,
+            *flags, str(source), '-o', str(executable),
+        ], check=True)
+        subprocess.run([str(executable), str(ROOT / 'Resources')], check=True, timeout=30)

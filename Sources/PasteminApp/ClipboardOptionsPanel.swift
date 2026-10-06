@@ -12,7 +12,9 @@ enum OptionsRow: Hashable {
     case clearHistory
     case retention
     case menuBar
+    #if !PASTEMIN_APP_STORE
     case automaticPaste
+    #endif
     case shortcut
     case purchases
     case storage

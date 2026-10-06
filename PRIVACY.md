@@ -1,6 +1,6 @@
 # Pastemin Privacy Policy
 
-Effective and last updated: September 24, 2026
+Effective and last updated: October 6, 2026
 
 This policy explains what data Pastemin handles, where it goes, and how you can control it.
 
@@ -8,7 +8,7 @@ This policy explains what data Pastemin handles, where it goes, and how you can 
 
 While Pastemin is running, it watches the macOS general pasteboard for changes and stores supported text and images in its app container. Each history record can include the content, the time it was copied, its size, and the source app's display name and bundle identifier. Pastemin uses the source information only to label the item and show the app's icon.
 
-Pastemin also stores your retention period, global shortcut, menu-bar and automatic-paste settings, and setup status. The Mac App Store build reads Apple's signed original acquisition date to determine the 30-day Pro period. Source and test builds store a local trial start date instead. Trial information is not sent to the developer.
+Pastemin also stores your retention period, global shortcut, menu-bar setting, and setup status. Local builds also store an automatic-paste setting. The Mac App Store build reads Apple's signed original acquisition date to determine the 30-day Pro period. Source and test builds store a local trial start date instead. Trial information is not sent to the developer.
 
 Pastemin has no account system, advertising, analytics, or tracking SDKs. It does not sync clipboard history through iCloud or a developer-operated service.
 
@@ -22,7 +22,9 @@ Pastemin ignores pasteboard items that the source app marks as concealed, transi
 
 When you choose a history item, Pastemin writes it back to the general pasteboard and returns focus to the app you were using.
 
-Automatic paste is optional and disabled by default. After you enable it, the first selected item asks macOS for permission to post events, shown under **System Settings → Privacy & Security → Accessibility**. With permission, Pastemin sends one ⌘V after you choose an item. This feature does not read your keystrokes or inspect another app's interface. If permission is unavailable or denied, Pastemin still copies the item and returns focus to the previous app.
+The Mac App Store edition leaves pasting to you and does not request Accessibility permission. Press ⌘V in the destination app to paste the selected item.
+
+Automatic paste is available only in local builds and is disabled by default. After you enable it, the first selected item asks macOS for permission to post events, shown under **System Settings → Privacy & Security → Accessibility**. With permission, Pastemin sends one ⌘V after you choose an item. This feature does not read your keystrokes or inspect another app's interface. If permission is unavailable or denied, Pastemin still copies the item and returns focus to the previous app.
 
 ## Retention and deletion
 
@@ -36,7 +38,7 @@ Removing Pastemin and its app container deletes app-managed history and preferen
 
 ## Your choices
 
-You can quit Pastemin to stop clipboard monitoring, change the retention period, delete individual items, clear all history, keep automatic paste disabled, revoke its Accessibility permission in System Settings, or remove Pastemin and its container.
+You can quit Pastemin to stop clipboard monitoring, change the retention period, delete individual items, clear all history, or remove Pastemin and its container. In local builds, you can also keep automatic paste disabled or revoke its Accessibility permission in System Settings.
 
 ## Changes and contact
 

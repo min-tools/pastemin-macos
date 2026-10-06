@@ -41,7 +41,7 @@
 - **Made for the keyboard**  
   Move with the arrow keys, press Return to restore an item, delete one with **⌘Delete**, and dismiss with Escape.
 - **Optional automatic paste**  
-  Pastemin can send one **⌘V** after you choose an item. It is off by default and works only after you enable it and grant macOS permission.
+  The local edition can send one **⌘V** after you choose an item. It is off by default and works only after you enable it and grant macOS permission.
 - **Your history stays on this Mac**  
   Clipboard content lives inside Pastemin's sandbox. There is no Pastemin account, analytics, advertising, or developer server.
 - **You decide what remains**  
@@ -57,10 +57,10 @@
 2. Copy text or an image in any app.
 3. Press **⌃⌥C**, find the item, and press Return.
 
-Pastemin restores the selected item to the clipboard and returns you to the app you were using. When automatic paste is enabled and allowed, it also pastes the item for you.
+Pastemin restores the selected item to the clipboard and returns you to the app you were using. Press **⌘V** to paste it. Local builds can paste it automatically when that option is enabled and allowed.
 
 > [!NOTE]
-> Pastemin needs an Apple-silicon Mac running macOS 14 or later. Automatic paste is optional; normal copy and paste works without Accessibility permission.
+> Pastemin needs an Apple-silicon Mac running macOS 14 or later. The Mac App Store edition copies items for manual pasting and does not request Accessibility permission.
 
 ## Find and restore
 
@@ -82,7 +82,7 @@ Large text and image payloads load only when needed, so a long history does not 
 
 Choose how long copied items remain, whether Pastemin appears in the menu bar, and which shortcut opens it. The storage summary shows how much space the history uses, and **Show in Finder** opens its local folder.
 
-Automatic paste stays off until you turn it on. Pastemin requests macOS event-posting access only when you first select an item with the option enabled. If access is unavailable or declined, the item is still copied and focus returns to the previous app.
+In local builds, automatic paste stays off until you turn it on. Pastemin requests macOS event-posting access only when you first select an item with the option enabled. If access is unavailable or declined, the item is still copied and focus returns to the previous app. The Mac App Store edition does not include this option.
 
 ## Private by design
 

@@ -1,6 +1,6 @@
 # Build and test
 
-Pastemin has one codebase, one sandboxed app, and one bundle identifier: `tools.min.pastemin`. Public source builds start the same 30-day trial locally after its disclosure; Mac App Store production builds use Apple's signed original acquisition date. Both use the same five-item post-trial limit, StoreKit verification, setup, and optional automatic-paste behavior.
+Pastemin has one codebase, one sandboxed app, and one bundle identifier: `tools.min.pastemin`. Public source builds start the same 30-day trial locally after its disclosure; Mac App Store production builds use Apple's signed original acquisition date. Both use the same five-item post-trial limit and StoreKit verification. Automatic paste is available only in local builds.
 
 ## Requirements
 
@@ -14,7 +14,9 @@ python3 scripts/build.py
 
 The command creates an ad-hoc-signed app at `build/Pastemin.app`. It does not install or launch the app. A source build does not grant Pro access by itself.
 
-Automatic paste remains disabled by default. When enabled, Pastemin asks macOS for event-posting permission the first time you select an item. If permission is unavailable or declined, Pastemin still restores the item to the clipboard and returns focus to the previous app.
+Automatic paste remains disabled by default in local builds. When enabled, Pastemin asks macOS for event-posting permission the first time you select an item. If permission is unavailable or declined, Pastemin still restores the item to the clipboard and returns focus to the previous app.
+
+The Mac App Store build (`--app-store`) omits the automatic-paste setup page, settings control, and event-posting code. Selecting an item copies it and returns focus for manual pasting with ⌘V. Store builds neither read nor change a local build's saved automatic-paste preference.
 
 ## Test
 
@@ -22,7 +24,7 @@ Automatic paste remains disabled by default. When enabled, Pastemin asks macOS f
 python3 scripts/test_all.py
 ```
 
-The suite builds the sandboxed app and checks storage, search, pagination, localization, setup, privacy boundaries, StoreKit entitlement decisions, signing metadata, panel presentation, and the post-trial access limit.
+The suite builds both sandboxed editions and checks storage, search, pagination, localization, setup, privacy boundaries, StoreKit entitlement decisions, signing metadata, panel presentation, and the post-trial access limit. It also verifies that the Store executable contains no event-posting permission or synthetic-paste calls.
 
 Run the offline release audit after changing identity, entitlements, privacy metadata, StoreKit logic, icons, or public URLs:
 

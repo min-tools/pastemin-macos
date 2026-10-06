@@ -311,7 +311,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--app-store',
         action='store_true',
-        help='Compile the App Store trial authority path.',
+        help='Compile the App Store edition without automatic paste.',
     )
     args = parser.parse_args()
     build_app(

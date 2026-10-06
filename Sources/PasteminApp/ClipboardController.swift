@@ -128,7 +128,9 @@ final class ClipboardController: NSObject {
     private var statusItem: NSStatusItem?
     private var previousApplication: NSRunningApplication?
     private var lastExternalApplication: NSRunningApplication?
+    #if !PASTEMIN_APP_STORE
     private var automaticPasteRequest: UInt = 0
+    #endif
     private var workspaceActivationObserver: NSObjectProtocol?
     private var entitlementObserver: NSObjectProtocol?
 
@@ -187,8 +189,10 @@ final class ClipboardController: NSObject {
     private func prepareClipboardPresentationIfNeeded() {
         // AppKit can briefly report a deactivated, hidden panel as visible.
         guard !NSApp.isActive || !panel.isVisible else { return }
+        #if !PASTEMIN_APP_STORE
         // Opening the panel cancels a delayed paste from an earlier selection.
         automaticPasteRequest &+= 1
+        #endif
         rememberFrontmostApplication()
         viewModel.prepareForPresentation()
     }
@@ -259,12 +263,18 @@ final class ClipboardController: NSObject {
         }
         viewModel.onChoose = { [weak self] in
             guard let self else { return }
-            // The view model has restored the pasteboard; return focus before optional paste.
+            // The view model has restored the pasteboard; return focus to its owner.
             monitor.acknowledgeCurrentPasteboard()
             panel.orderOut(nil)
+            #if PASTEMIN_APP_STORE
+            // Store selections are copied for the user to paste with ⌘V.
+            restorePreviousApplication(andPaste: false)
+            #else
+            // Local builds can paste after opt-in and macOS permission.
             let shouldPaste = preferences.pasteAutomatically
                 && (CGPreflightPostEventAccess() || requestAutomaticPasteAccess())
             restorePreviousApplication(andPaste: shouldPaste)
+            #endif
         }
 
         paywallWindow = PasteminPaywallController(store: proStore)
@@ -343,23 +353,30 @@ final class ClipboardController: NSObject {
         NSWorkspace.shared.activateFileViewerSelecting([store.rootURL])
     }
 
+    /// restorePreviousApplication(andPaste:) returns focus and optionally pastes in local builds.
     private func restorePreviousApplication(andPaste shouldPaste: Bool) {
         guard let application = previousApplication else { return }
         previousApplication = nil
+        #if !PASTEMIN_APP_STORE
         automaticPasteRequest &+= 1
         let pasteRequest = automaticPasteRequest
+        #endif
         // Yield before the next-turn request so macOS restores the caller's key window and focus.
         NSApp.yieldActivation(to: application)
         DispatchQueue.main.async { [weak self] in
-            guard let self, !application.isTerminated else { return }
+            guard self != nil, !application.isTerminated else { return }
             _ = application.activate(from: .current, options: [])
+            #if !PASTEMIN_APP_STORE
             guard shouldPaste else { return }
             // Activation is asynchronous, so wait for the intended app instead of dropping the
             // paste when a single fixed delay is too short.
-            pasteWhenApplicationIsFrontmost(application, request: pasteRequest)
+            self?.pasteWhenApplicationIsFrontmost(application, request: pasteRequest)
+            #endif
         }
     }
 
+    #if !PASTEMIN_APP_STORE
+    // Event-posting permission and synthetic keystrokes are local-edition features.
     private func pasteWhenApplicationIsFrontmost(
         _ application: NSRunningApplication,
         request: UInt,
@@ -413,6 +430,7 @@ final class ClipboardController: NSObject {
         keyDown.postToPid(processIdentifier)
         keyUp.postToPid(processIdentifier)
     }
+    #endif
 
     private func configureHotKey() {
         // Keep live services in sync with settings without recreating the controller.

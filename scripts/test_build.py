@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the single sandboxed build contract."""
+"""Verify sandboxed builds and the local-only automatic-paste boundary."""
 from pathlib import Path
 import plistlib
 import re
@@ -93,7 +93,11 @@ with tempfile.TemporaryDirectory(prefix='pastemin-app-test-', dir='/private/tmp'
     symbols = subprocess.check_output(
         ['nm', '-u', str(app / 'Contents/MacOS/Pastemin')], text=True
     )
-    assert '_CGEventPostToPid' in symbols
+    event_posting_symbols = (
+        '_CGEventPostToPid', '_CGRequestPostEventAccess', '_CGPreflightPostEventAccess',
+    )
+    for symbol in event_posting_symbols:
+        assert symbol in symbols, f'Local build lost {symbol}'
     binary = (app / 'Contents/MacOS/Pastemin').read_bytes()
     assert b'Paste automatically' in binary
     assert b'PasteminDidCompleteSetupWizard' in binary
@@ -103,7 +107,17 @@ with tempfile.TemporaryDirectory(prefix='pastemin-app-test-', dir='/private/tmp'
     assert b'tools.min.pastemin.pro.yearly' in binary
     assert b'tools.min.pastemin.pro.lifetime' in binary
 
-    release_app = build_app(folder / 'PasteminRelease.app')
+    release_app = build_app(folder / 'PasteminRelease.app', app_store=True)
+    # A saved local preference cannot enable code that is absent from the Store binary.
+    store_symbols = subprocess.check_output(
+        ['nm', '-u', str(release_app / 'Contents/MacOS/Pastemin')], text=True
+    )
+    for symbol in event_posting_symbols:
+        assert symbol not in store_symbols, f'App Store build includes {symbol}'
+    store_binary = (release_app / 'Contents/MacOS/Pastemin').read_bytes()
+    for marker in (b'Paste automatically', b'PasteminPasteAutomatically', b'automatic_paste_access_needed'):
+        assert marker not in store_binary, f'App Store build includes {marker!r}'
+    assert signed_entitlements(release_app)['com.apple.security.app-sandbox'] is True
     release_symbols = folder / 'PasteminRelease.app.dSYM'
     assert release_symbols.is_dir()
     assert not (release_app / 'Contents/MacOS/Pastemin.dSYM').exists()
@@ -114,4 +128,4 @@ with tempfile.TemporaryDirectory(prefix='pastemin-app-test-', dir='/private/tmp'
         'dwarfdump', '--uuid', str(release_symbols),
     ], text=True).split()[1]
     assert app_uuid == symbols_uuid
-print('Pastemin build: unified sandboxed app passed')
+print('Pastemin build: sandboxed local and App Store editions passed')

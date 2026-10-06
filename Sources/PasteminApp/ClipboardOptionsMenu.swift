@@ -80,6 +80,8 @@ struct ClipboardOptionsMenuView: View {
                     .toggleStyle(.switch)
             }
 
+            #if !PASTEMIN_APP_STORE
+            // Automatic paste is available only in the local edition.
             OptionsControlRow(
                 row: .automaticPaste,
                 title: localized("paste_automatically", "Paste automatically"),
@@ -90,6 +92,7 @@ struct ClipboardOptionsMenuView: View {
                     .labelsHidden()
                     .toggleStyle(.switch)
             }
+            #endif
 
             OptionsDivider()
 
@@ -141,7 +144,9 @@ struct ClipboardOptionsMenuView: View {
         .background(Color.clear)
         .onAppear(perform: configureKeyboard)
         .task(id: store.items.count) { await store.refreshStorageByteCount() }
+        #if !PASTEMIN_APP_STORE
         .onAppear { preferences.refreshAutomaticPasteAuthorization() }
+        #endif
     }
 
     private var privacyFooter: some View {
@@ -181,7 +186,9 @@ struct ClipboardOptionsMenuView: View {
     /// Register the rows in display order and what Return, Space, Left and Right do on each.
     private func configureKeyboard() {
         var rows: [OptionsRow] = [.clearCurrent, .clearHistory, .retention, .menuBar]
+        #if !PASTEMIN_APP_STORE
         rows.append(.automaticPaste)
+        #endif
         rows.append(.shortcut)
         rows += [.storage, .purchases, .about, .privacy]
         selection.rows = rows
@@ -192,7 +199,9 @@ struct ClipboardOptionsMenuView: View {
             case .retention:
                 NotificationCenter.default.post(name: .activateClipboardRetentionPicker, object: nil)
             case .menuBar: preferences.showInMenuBar.toggle()
+            #if !PASTEMIN_APP_STORE
             case .automaticPaste: toggleAutomaticPaste()
+            #endif
             case .shortcut:
                 NotificationCenter.default.post(name: .activateClipboardShortcutRecorder, object: nil)
             case .storage: dismissThen(revealStorage)()
@@ -210,7 +219,9 @@ struct ClipboardOptionsMenuView: View {
                 let target = min(max(index + delta, 0), periods.count - 1)
                 preferences.retention = periods[target]
             case .menuBar: preferences.showInMenuBar = delta > 0
+            #if !PASTEMIN_APP_STORE
             case .automaticPaste: setAutomaticPaste(delta > 0)
+            #endif
             default: break
             }
         }
@@ -223,6 +234,7 @@ struct ClipboardOptionsMenuView: View {
         }
     }
 
+    #if !PASTEMIN_APP_STORE
     private func toggleAutomaticPaste() {
         setAutomaticPaste(!preferences.pasteAutomatically)
     }
@@ -247,6 +259,7 @@ struct ClipboardOptionsMenuView: View {
             "macOS will ask for permission on first use"
         )
     }
+    #endif
 
     private var localStorageDetail: String {
         let count = store.items.count == 1

@@ -1,8 +1,7 @@
 import AppKit
 import ServiceManagement
 
-/// Guides first-run choices and waits to request Accessibility access until
-/// automatic paste is first used.
+/// Guides first-run choices, including optional automatic paste in local builds.
 @MainActor
 final class SetupWizardController: NSObject, NSWindowDelegate {
     static let completedKey = "PasteminDidCompleteSetupWizard"
@@ -15,7 +14,11 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
 
     private var window: NSWindow?
     private var stepIndex = 0
+    #if PASTEMIN_APP_STORE
+    private let stepCount = 3
+    #else
     private let stepCount = 4
+    #endif
     private var stepViews: [Int: NSView] = [:]
 
     private var contentContainer: NSView!
@@ -27,7 +30,9 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
     private var retentionPopup: NSPopUpButton?
     private var menuBarCheckbox: NSButton?
     private var loginItemCheckbox: NSButton?
+    #if !PASTEMIN_APP_STORE
     private var autoPasteCheckbox: NSButton?
+    #endif
 
     /// init(preferences:, [defaults:], [loginItemIsSelected:],
     /// [setLoginItemSelected:], [presentLoginItemError:]) creates the setup
@@ -94,7 +99,9 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             retentionPopup = nil
             menuBarCheckbox = nil
             loginItemCheckbox = nil
+            #if !PASTEMIN_APP_STORE
             autoPasteCheckbox = nil
+            #endif
         }
         showStep()
         NSApp.activate(ignoringOtherApps: true)
@@ -204,7 +211,9 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             switch stepIndex {
             case 0: step = welcomeStep()
             case 1: step = essentialsStep()
+            #if !PASTEMIN_APP_STORE
             case 2: step = automaticPasteStep()
+            #endif
             // Finish by disclosing the app trial before it begins.
             default: step = readyStep()
             }
@@ -339,7 +348,8 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         )
     }
 
-    /// Explains the exact event used by automatic paste and when macOS requests permission.
+    #if !PASTEMIN_APP_STORE
+    /// Explains the local edition's paste shortcut and when macOS requests permission.
     private func automaticPasteStep() -> NSView {
         preferences.refreshAutomaticPasteAuthorization()
         let checkbox = NSButton(
@@ -374,6 +384,7 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             extra: [checkbox, permission]
         )
     }
+    #endif
 
     /// Explains the automatic trial, limited history view, and optional plans before setup ends.
     private func readyStep() -> NSView {
@@ -501,9 +512,11 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             }
         }
 
+        #if !PASTEMIN_APP_STORE
         // Save automatic paste without requesting Accessibility permission yet.
         let automaticPasteEnabled = autoPasteCheckbox?.state == .on
         preferences.pasteAutomatically = automaticPasteEnabled
+        #endif
         defaults.set(true, forKey: Self.completedKey)
         window?.close()
     }
