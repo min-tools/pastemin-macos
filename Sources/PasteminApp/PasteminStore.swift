@@ -26,6 +26,10 @@ final class PasteminStore: ObservableObject {
     @Published private(set) var lifetime: Product?
     @Published private(set) var appTrialStartedAt: Date?
     @Published private(set) var hasResolvedEntitlement = false
+    /// Returning users skip setup; first-run users wait for its trial lookup to finish.
+    @Published private(set) var isTrialWelcomePending = !UserDefaults.standard.bool(
+        forKey: PasteminStore.appTrialDisclosureAcceptedKey
+    )
 
     private var updatesTask: Task<Void, Never>?
     private var activationObserver: NSObjectProtocol?
@@ -46,6 +50,10 @@ final class PasteminStore: ObservableObject {
         return PasteminFreeAccessPolicy.isTrialActive(startedAt: appTrialStartedAt)
     }
     var hasFullAccess: Bool { isPro || isAppTrialActive }
+    /// Private editions have no trial welcome to complete.
+    var hasPreparedAppTrial: Bool {
+        developerOverride != nil || PasteminEdition.isExpiredTrialPreview || !isTrialWelcomePending
+    }
     var canManageSubscription: Bool {
         developerOverride == nil && entitlement.kind == .subscription && !entitlement.isFamilyShared
     }
@@ -244,10 +252,13 @@ final class PasteminStore: ObservableObject {
         // App Store builds must verify the transaction environment before choosing a clock.
         if PasteminEdition.isAppStoreBuild {
             Task { @MainActor [weak self] in
-                await self?.refreshAppTrial(now: now)
+                guard let self else { return }
+                await self.refreshAppTrial(now: now)
+                self.isTrialWelcomePending = false
             }
         } else {
             prepareLocalAppTrial(startIfNeeded: true, now: now)
+            isTrialWelcomePending = false
         }
     }
 

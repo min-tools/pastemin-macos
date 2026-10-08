@@ -101,7 +101,7 @@ assert 'requestAutomaticPasteAccess' not in wizard and 'requestAutomaticPasteAcc
 assert 'refreshEntitlement()' not in controller
 assert 'showPurchases(preservePreviousApplication:' not in controller
 assert 'AccessLimitedBanner(' in view
-assert 'proStore.hasResolvedEntitlement && !proStore.hasFullAccess' in view
+assert 'proStore.hasResolvedEntitlement && proStore.hasPreparedAppTrial && !proStore.hasFullAccess' in view
 assert 'You can still view and search your 5 most recent items.' in banner
 assert 'Restore Purchases' in banner and 'localized("purchase_or_subscribe", "Purchase")' in banner
 assert 'restoreMessage = await restorePurchases()' in banner

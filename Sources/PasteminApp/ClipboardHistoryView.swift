@@ -52,7 +52,7 @@ struct ClipboardHistoryView: View {
                 // Show the stable current results while any new search runs.
                 historyContent
             }
-            if proStore.hasResolvedEntitlement && !proStore.hasFullAccess {
+            if proStore.hasResolvedEntitlement && proStore.hasPreparedAppTrial && !proStore.hasFullAccess {
                 AccessLimitedBanner(
                     state: accessBannerState,
                     showPurchases: showPurchases,
