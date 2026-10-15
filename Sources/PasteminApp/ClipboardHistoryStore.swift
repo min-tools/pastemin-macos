@@ -350,6 +350,13 @@ final class ClipboardHistoryStore: ObservableObject {
         return icon
     }
 
+    /// registerSourceIcon(_:forBundleIdentifier:) seeds the icon cache for the required
+    /// bundle identifier. Offscreen renders in a sandbox cannot reach the icon service and
+    /// use it to show real app icons.
+    func registerSourceIcon(_ icon: NSImage, forBundleIdentifier bundleIdentifier: String) {
+        sourceIconCache["bundle:\(bundleIdentifier)"] = icon
+    }
+
     func delete(_ record: ClipboardRecord) {
         guard let index = items.firstIndex(where: { $0.id == record.id }) else { return }
         let removed = items.remove(at: index)

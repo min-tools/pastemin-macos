@@ -32,6 +32,14 @@ Run the offline release audit after changing identity, entitlements, privacy met
 python3 scripts/check_app_store.py
 ```
 
+## Images
+
+```sh
+python3 scripts/render_hero.py --no-app-store
+```
+
+Renders the README images in `docs/images` from the real panel view with a fictional history, drawn as the glass panel over a wallpaper. The renderer compiles the app sources and never launches the app or reads your clipboard. Without `--no-app-store` it also writes the Mac App Store screenshot set to `private/app-store/screenshots`, and `--profile <directory>` adds 900-pixel copies for the GitHub organization profile.
+
 ## Source layout
 
 | Path | Contents |
