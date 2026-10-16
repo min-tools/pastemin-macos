@@ -28,6 +28,26 @@ enum EntitlementTests {
         check(PasteminFreeAccessPolicy.trialDaysRemaining(startedAt: now, now: now) == 30,
               "A new local trial reports 30 days")
 
+        // TestFlight remains a test environment with production-style receipt metadata.
+        let sandboxPurchaseDate = Date(timeIntervalSince1970: 1_375_340_400)
+        check(PasteminFreeAccessPolicy.usesLocalTrialClock(
+            transactionIsProduction: true, hasSandboxReceipt: true, originalPurchaseDate: now
+        ), "A sandbox receipt identifies TestFlight")
+        check(PasteminFreeAccessPolicy.usesLocalTrialClock(
+            transactionIsProduction: true,
+            hasSandboxReceipt: false,
+            originalPurchaseDate: sandboxPurchaseDate
+        ), "The fixed sandbox date identifies macOS TestFlight")
+        check(!PasteminFreeAccessPolicy.usesLocalTrialClock(
+            transactionIsProduction: true, hasSandboxReceipt: false, originalPurchaseDate: now
+        ), "The production App Store keeps Apple's signed clock")
+        check(PasteminFreeAccessPolicy.shouldRestartLocalTrial(
+            firstAcceptance: false, isTestEnvironment: true, didMigrateTestClock: false
+        ), "An existing test install receives the corrected clock once")
+        check(!PasteminFreeAccessPolicy.shouldRestartLocalTrial(
+            firstAcceptance: false, isTestEnvironment: true, didMigrateTestClock: true
+        ), "A migrated test install keeps its clock")
+
         let localStart = now.addingTimeInterval(24 * 60 * 60)
         check(PasteminFreeAccessPolicy.authoritativeTrialStartDate(
             appStoreOriginalPurchaseDate: now,

@@ -12,6 +12,35 @@ enum PasteminFreeAccessPolicy {
     static let trialLengthDays = 30
     static let trialDuration = TimeInterval(trialLengthDays * 24 * 60 * 60)
 
+    // Apple's fixed AppTransaction.originalPurchaseDate in StoreKit test environments.
+    private static let sandboxOriginalPurchaseTime: TimeInterval = 1_375_340_400
+
+    // isSandboxOriginalPurchaseDate(date): Detect Apple's fixed sandbox acquisition date.
+    static func isSandboxOriginalPurchaseDate(_ date: Date) -> Bool {
+        abs(date.timeIntervalSince1970 - sandboxOriginalPurchaseTime) < 1
+    }
+
+    // usesLocalTrialClock(transactionIsProduction, hasSandboxReceipt,
+    // originalPurchaseDate): Choose a local clock for Xcode, sandbox, and TestFlight.
+    static func usesLocalTrialClock(
+        transactionIsProduction: Bool,
+        hasSandboxReceipt: Bool,
+        originalPurchaseDate: Date
+    ) -> Bool {
+        !transactionIsProduction || hasSandboxReceipt
+            || isSandboxOriginalPurchaseDate(originalPurchaseDate)
+    }
+
+    // shouldRestartLocalTrial(firstAcceptance, isTestEnvironment,
+    // didMigrateTestClock): Restart after first consent or once during test migration.
+    static func shouldRestartLocalTrial(
+        firstAcceptance: Bool,
+        isTestEnvironment: Bool,
+        didMigrateTestClock: Bool
+    ) -> Bool {
+        firstAcceptance || (isTestEnvironment && !didMigrateTestClock)
+    }
+
     // authoritativeTrialStartDate(appStoreOriginalPurchaseDate,
     // localStartedAt, usesAppStoreDate): Never fall back to resettable local
     // state when a production App Store build requires Apple's signed date.

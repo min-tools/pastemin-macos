@@ -58,6 +58,7 @@ final class TrialPreferences {
         let old = now.addingTimeInterval(-31 * 24 * 60 * 60)
         let startKey = "PasteminAppTrialStartedAt"
         let acceptedKey = "PasteminAppTrialDisclosureAccepted"
+        let testClockMigrationKey = "PasteminTestTrialClockV1"
         let store = PasteminStore()
         store.hasResolvedEntitlement = true
 
@@ -91,8 +92,35 @@ final class TrialPreferences {
         precondition(store.appTrialStartedAt == now,
                      "Sandbox uses the accepted local clock, not Apple's fixed test date")
 
-        // A returning sandbox user keeps the original clock and receives Free limits after expiry.
+        // A stale local date without an accepted disclosure can remain after development builds.
+        // Accepting the first-launch notice must start the promised trial now.
+        TrialFixture.defaults.values = [startKey: old]
+        let firstSandboxLaunch = PasteminStore()
+        firstSandboxLaunch.hasResolvedEntitlement = true
+        firstSandboxLaunch.beginAppTrial(now: now)
+        try await waitFor { !firstSandboxLaunch.isTrialWelcomePending }
+        precondition(firstSandboxLaunch.appTrialStartedAt == now)
+        precondition(firstSandboxLaunch.hasFullAccess)
+
+        // Repair a TestFlight install whose transaction looks like production but carries Apple's
+        // fixed sandbox acquisition date.
         TrialFixture.defaults.values = [startKey: old, acceptedKey: true]
+        TrialFixture.transaction.environment = .production
+        TrialFixture.transaction.originalPurchaseDate = Date(timeIntervalSince1970: 1_375_340_400)
+        let migrated = PasteminStore()
+        migrated.hasResolvedEntitlement = true
+        await migrated.refreshAppTrial(now: now)
+        precondition(migrated.appTrialStartedAt == now && migrated.hasFullAccess)
+        precondition(TrialFixture.defaults.bool(forKey: testClockMigrationKey))
+
+        // A returning sandbox user keeps the original clock and receives Free limits after expiry.
+        TrialFixture.defaults.values = [
+            startKey: old,
+            acceptedKey: true,
+            testClockMigrationKey: true,
+        ]
+        TrialFixture.transaction.environment = .sandbox
+        TrialFixture.transaction.originalPurchaseDate = Date(timeIntervalSince1970: 0)
         let expired = PasteminStore()
         expired.hasResolvedEntitlement = true
         await expired.refreshAppTrial(now: now)

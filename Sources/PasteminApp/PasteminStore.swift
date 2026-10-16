@@ -37,9 +37,16 @@ final class PasteminStore: ObservableObject {
     private var entitlementTimer: Timer?
     private var appTrialTimer: Timer?
     private let defaults = UserDefaults.standard
+    /// True when StoreKit installed its sandbox-named receipt in this bundle.
+    private var hasSandboxReceipt: Bool {
+        let receipt = Bundle.main.bundleURL
+            .appendingPathComponent("Contents/_MASReceipt/sandboxReceipt")
+        return FileManager.default.fileExists(atPath: receipt.path)
+    }
 
     private static let appTrialStartedAtKey = "PasteminAppTrialStartedAt"
     private static let appTrialDisclosureAcceptedKey = "PasteminAppTrialDisclosureAccepted"
+    private static let testTrialClockMigrationKey = "PasteminTestTrialClockV1"
     private var developerOverride: Bool? { PasteminEdition.localAccess }
 
     var isPro: Bool { developerOverride ?? entitlement.hasAccess }
@@ -248,23 +255,34 @@ final class PasteminStore: ObservableObject {
 
     /// Records acceptance of the disclosed trial and resolves its start date.
     func beginAppTrial(now: Date = Date()) {
+        let isFirstAcceptance = !defaults.bool(forKey: Self.appTrialDisclosureAcceptedKey)
         defaults.set(true, forKey: Self.appTrialDisclosureAcceptedKey)
         // App Store builds must verify the transaction environment before choosing a clock.
         if PasteminEdition.isAppStoreBuild {
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                await self.refreshAppTrial(now: now)
+                await self.refreshAppTrial(
+                    now: now,
+                    restartLocalTrial: isFirstAcceptance
+                )
                 self.isTrialWelcomePending = false
             }
         } else {
-            prepareLocalAppTrial(startIfNeeded: true, now: now)
+            prepareLocalAppTrial(
+                startIfNeeded: true,
+                restartTrial: isFirstAcceptance,
+                now: now
+            )
             isTrialWelcomePending = false
         }
     }
 
-    // refreshAppTrial([now]): Use Apple's signed acquisition date in production.
-    // Verified sandbox builds retain the local clock needed for review and testing.
-    private func refreshAppTrial(now: Date = Date()) async {
+    // refreshAppTrial([now], [restartLocalTrial = false]): Use Apple's signed production date or
+    // the disclosed local clock in a verified test environment.
+    private func refreshAppTrial(
+        now: Date = Date(),
+        restartLocalTrial: Bool = false
+    ) async {
         guard PasteminEdition.isAppStoreBuild else { return }
         guard let result = try? await AppTransaction.shared,
               case .verified(let transaction) = result,
@@ -272,7 +290,12 @@ final class PasteminStore: ObservableObject {
             // A production build must never replace a failed signed lookup with local state.
             return
         }
-        if transaction.environment == .production {
+        let usesLocalClock = PasteminFreeAccessPolicy.usesLocalTrialClock(
+            transactionIsProduction: transaction.environment == .production,
+            hasSandboxReceipt: hasSandboxReceipt,
+            originalPurchaseDate: transaction.originalPurchaseDate
+        )
+        if !usesLocalClock {
             let authoritative = PasteminFreeAccessPolicy.authoritativeTrialStartDate(
                 appStoreOriginalPurchaseDate: transaction.originalPurchaseDate,
                 localStartedAt: nil,
@@ -283,18 +306,32 @@ final class PasteminStore: ObservableObject {
             }
         } else {
             let accepted = defaults.bool(forKey: Self.appTrialDisclosureAcceptedKey)
+            let didMigrateTestClock = defaults.bool(
+                forKey: Self.testTrialClockMigrationKey
+            )
+            let shouldRestart = accepted && PasteminFreeAccessPolicy.shouldRestartLocalTrial(
+                firstAcceptance: restartLocalTrial,
+                isTestEnvironment: usesLocalClock,
+                didMigrateTestClock: didMigrateTestClock
+            )
             prepareLocalAppTrial(
                 startIfNeeded: accepted,
+                restartTrial: shouldRestart,
                 now: now,
                 allowAppStoreSandbox: true
             )
+            // Repair an existing test install once without changing production trial state.
+            if accepted {
+                defaults.set(true, forKey: Self.testTrialClockMigrationKey)
+            }
         }
     }
 
-    // prepareLocalAppTrial([startIfNeeded = false], [now],
-    // [allowAppStoreSandbox = false]): Restore or start the local test clock.
+    // prepareLocalAppTrial([startIfNeeded = false], [restartTrial = false], [now],
+    // [allowAppStoreSandbox = false]): Restore, start, or replace the local test clock.
     private func prepareLocalAppTrial(
         startIfNeeded: Bool = false,
+        restartTrial: Bool = false,
         now: Date = Date(),
         allowAppStoreSandbox: Bool = false
     ) {
@@ -305,6 +342,10 @@ final class PasteminStore: ObservableObject {
         if let forced = PasteminEdition.forcedTrialStartedAt {
             // Private previews must not change the real trial date in preferences.
             appTrialStartedAt = forced
+        } else if restartTrial {
+            // First consent or a one-time test migration starts the promised trial now.
+            appTrialStartedAt = now
+            defaults.set(now, forKey: Self.appTrialStartedAtKey)
         } else if appTrialStartedAt == nil {
             if let stored = defaults.object(forKey: Self.appTrialStartedAtKey) as? Date {
                 appTrialStartedAt = stored
