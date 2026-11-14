@@ -36,6 +36,7 @@ final class PasteminStore: ObservableObject {
     private var refreshGeneration = 0
     private var entitlementTimer: Timer?
     private var appTrialTimer: Timer?
+    private var lastNotifiedFullAccess: Bool?
     private let defaults = UserDefaults.standard
     /// True when StoreKit installed its sandbox-named receipt in this bundle.
     private var hasSandboxReceipt: Bool {
@@ -94,7 +95,6 @@ final class PasteminStore: ObservableObject {
                 if !PasteminEdition.isAppStoreBuild {
                     self.prepareLocalAppTrial()
                     self.objectWillChange.send()
-                    NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
                 }
                 await self.refreshEntitlement()
             }
@@ -338,7 +338,6 @@ final class PasteminStore: ObservableObject {
         // Only a verified sandbox transaction may use local state in an App Store build.
         guard developerOverride == nil,
               !PasteminEdition.isAppStoreBuild || allowAppStoreSandbox else { return }
-        let previousStart = appTrialStartedAt
         if let forced = PasteminEdition.forcedTrialStartedAt {
             // Private previews must not change the real trial date in preferences.
             appTrialStartedAt = forced
@@ -354,9 +353,7 @@ final class PasteminStore: ObservableObject {
                 defaults.set(now, forKey: Self.appTrialStartedAtKey)
             }
         }
-        if appTrialStartedAt != previousStart {
-            NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
-        }
+        notifyAccessChange()
         scheduleAppTrialExpiry(now: now)
     }
 
@@ -364,8 +361,8 @@ final class PasteminStore: ObservableObject {
     private func applyAppTrialStartDate(_ startedAt: Date, now: Date = Date()) {
         if appTrialStartedAt != startedAt {
             appTrialStartedAt = startedAt
-            NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
         }
+        notifyAccessChange()
         scheduleAppTrialExpiry(now: now)
     }
 
@@ -384,15 +381,29 @@ final class PasteminStore: ObservableObject {
         ) { [weak self] _ in
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                self.objectWillChange.send()
-                NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
+                self.notifyAccessChange()
+                // Re-arm if a clock correction left the trial active.
+                self.scheduleAppTrialExpiry()
             }
         }
     }
 
+    // apply(updated): Store the verified entitlement and refresh history access.
     private func apply(_ updated: PasteminEntitlement) {
-        guard updated != entitlement else { return }
-        entitlement = updated
+        // Publish purchase details only when they changed.
+        if updated != entitlement {
+            entitlement = updated
+        }
+        notifyAccessChange()
+    }
+
+    // notifyAccessChange(): Keep history limits in sync even when only time changed.
+    private func notifyAccessChange() {
+        let fullAccess = hasFullAccess
+        // An unchanged refresh must preserve the current search and selection.
+        guard lastNotifiedFullAccess != fullAccess else { return }
+        lastNotifiedFullAccess = fullAccess
+        objectWillChange.send()
         NotificationCenter.default.post(name: Self.entitlementDidChange, object: self)
     }
 

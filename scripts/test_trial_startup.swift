@@ -43,17 +43,21 @@ final class TrialPreferences {
 }
 
 @main enum TrialStartupTests {
-    // waitFor(condition): Bound each asynchronous wait so a broken transition fails clearly.
-    @MainActor static func waitFor(_ condition: () -> Bool) async throws {
+    // waitFor([message], condition): Bound waits and identify a broken transition.
+    @MainActor static func waitFor(
+        _ message: String = "Trial startup did not complete",
+        _ condition: () -> Bool
+    ) async throws {
         for _ in 0..<2000 {
             if condition() { return }
             try await Task.sleep(nanoseconds: 1_000_000)
         }
-        fatalError("Trial startup did not complete")
+        fatalError(message)
     }
 
-    // main(): Check welcome, delayed lookup, expiry, production dates, and failed verification.
+    // main(): Check live expiry, welcome, delayed lookup, dates, and failed verification.
     @MainActor static func main() async throws {
+        try await TrialExpiryTests.run()
         let now = Date()
         let old = now.addingTimeInterval(-31 * 24 * 60 * 60)
         let startKey = "PasteminAppTrialStartedAt"
