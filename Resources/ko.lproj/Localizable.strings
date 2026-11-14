@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "항목을 선택한 후 자동으로 붙여넣기";
 "wizard_auto_paste_permission" = "활성화하면 자동 붙여넣기를 처음 사용할 때 macOS가 손쉬운 사용 권한을 요청합니다. 거부해도 선택한 항목은 계속 복사됩니다.";
 "wizard_auto_paste_title" = "선택 후 붙여넣기";
-"wizard_essentials_body" = "복사한 항목을 이 Mac에 보관할 기간과 메뉴 막대에 클립보드를 표시할지 선택하십시오.";
+"wizard_essentials_body" = "복사한 항목을 사용자의 Mac에 보관할 기간과 메뉴 막대에 클립보드를 표시할지 선택하십시오.";
 "wizard_essentials_title" = "클립보드";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "다음으로 클립보드 열기";
@@ -33,7 +33,7 @@
 "clear_history" = "기록 지우기";
 "clear_history_ellipsis" = "기록 지우기…";
 "clear_history_question" = "클립보드 기록을 지우시겠습니까?";
-"clear_history_warning" = "저장된 모든 텍스트 및 이미지 항목이 이 Mac에서 영구적으로 제거됩니다.";
+"clear_history_warning" = "별표가 없는 항목은 사용자의 Mac에서 영구적으로 삭제됩니다. 별표 항목은 포함하도록 선택하지 않으면 유지됩니다.";
 "close" = "닫기";
 "copied_image_save_failed" = "복사한 이미지를 저장할 수 없습니다: %@";
 "copied_items_appear_here" = "복사한 항목이 여기에 표시됩니다.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin 저장 오류";
 "paywall_description" = "클립보드 기록을 Mac에서 비공개로 유지하고 검색 가능하게 유지하세요.";
 "price_per_year" = "%@/년";
-"privacy_local_history" = "클립보드 기록은 이 Mac을 벗어나지 않습니다";
+"privacy_local_history" = "클립보드 기록은 사용자의 Mac을 벗어나지 않습니다";
 "privacy_policy" = "개인 정보 보호 정책";
 "purchase_verification_failed" = "App Store에서 이 구매를 확인할 수 없습니다.";
 "purchase_waiting_for_approval" = "구매가 승인 대기 중입니다.";
@@ -104,7 +104,7 @@
 "try_again" = "다시 시도";
 "trial_ends" = "평가판 · 종료 %@";
 "trial_first_payment" = "평가판 · 첫 번째 지불 %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "최대 5개 항목을 보고 검색하세요.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "구입";
 "restoring_purchases" = "복원 중…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "최대 5개 항목을 보고 검색하세요. 전체 기록은 계속 저장됩니다.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Pro 무료 체험이 활성화되어 있습니다.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Pastemin Pro를 사용 중입니다.";
 "terms_of_use" = "이용 약관(EULA)";
+"remove_filter" = "필터 해제";
+"starred_items" = "별표 항목";
+"starred" = "별표 표시됨";
+"star_item" = "이 항목에 별표 표시";
+"unstar_item" = "별표 제거";
+"tags" = "태그";
+"tags_help" = "태그를 쉼표로 구분하세요. 태그로 검색할 수 있습니다.";
+"save" = "저장";
+"on" = "켬";
+"off" = "끔";
+"include_starred_items" = "별표 항목 포함";
+"free_five_items" = "무료 · 5개 항목";
+"no_starred_items" = "별표 표시한 항목 없음";
+"starred_items_appear_here" = "별표를 표시한 항목이 여기에 나타납니다.";
+"tagged" = "태그 지정됨";
+"tagged_items" = "태그 항목";
+"no_tagged_items" = "태그를 지정한 항목 없음";
+"tagged_items_appear_here" = "태그를 지정한 항목이 여기에 나타납니다.";
+"tag_item" = "이 항목에 태그 추가";

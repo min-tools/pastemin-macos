@@ -12,7 +12,7 @@ wizard_path = ROOT / 'Sources/PasteminApp/SetupWizard.swift'
 wizard = wizard_path.read_text()
 assert '30 days of full access' in wizard
 assert 'No subscription starts, and you will not be charged.' in wizard
-assert 'shows and searches only the 5 newest items' in wizard
+assert 'View and search up to 5 items. Your full history stays stored.' in wizard
 assert 'Open at login' in wizard
 assert 'try service.register()' in wizard
 assert 'try service.unregister()' in wizard

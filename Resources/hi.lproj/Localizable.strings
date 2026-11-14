@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "आइटम चुनने के बाद अपने-आप पेस्ट करें";
 "wizard_auto_paste_permission" = "सक्षम होने पर, अपने-आप पेस्ट के पहली बार उपयोग पर macOS Accessibility अनुमति माँगेगा। मना करने पर भी चुने गए आइटम कॉपी होते रहेंगे।";
 "wizard_auto_paste_title" = "चुनने के बाद पेस्ट करें";
-"wizard_essentials_body" = "चुनें कि कॉपी किए गए आइटम इस Mac पर कितने समय रहें और क्लिपबोर्ड मेनू बार में दिखाई दे या नहीं।";
+"wizard_essentials_body" = "चुनें कि कॉपी किए गए आइटम आपके Mac पर कितने समय रहें और क्लिपबोर्ड मेनू बार में दिखाई दे या नहीं।";
 "wizard_essentials_title" = "आपका क्लिपबोर्ड";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "इससे क्लिपबोर्ड खोलें";
@@ -33,7 +33,7 @@
 "clear_history" = "इतिहास साफ़ करें";
 "clear_history_ellipsis" = "इतिहास साफ़ करें...";
 "clear_history_question" = "क्लिपबोर्ड इतिहास साफ़ करें?";
-"clear_history_warning" = "प्रत्येक संग्रहीत पाठ और छवि आइटम को इस मैक से स्थायी रूप से हटा दिया जाएगा।";
+"clear_history_warning" = "बिना तारे वाले आइटम आपके Mac से हमेशा के लिए हटा दिए जाएँगे। तारे वाले आइटम तब तक रखे जाएँगे जब तक आप उन्हें शामिल नहीं करते।";
 "close" = "बंद करें";
 "copied_image_save_failed" = "कॉपी की गई छवि सहेजी नहीं जा सकी: %@";
 "copied_items_appear_here" = "आपके द्वारा कॉपी किए गए आइटम यहां दिखाई देंगे।";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "पास्टेमिन भंडारण त्रुटि";
 "paywall_description" = "अपने मैक पर अपने क्लिपबोर्ड इतिहास को बंद, खोजने योग्य और निजी रखें।";
 "price_per_year" = "%@ प्रति वर्ष";
-"privacy_local_history" = "क्लिपबोर्ड इतिहास कभी भी इस Mac से बाहर नहीं जाता";
+"privacy_local_history" = "क्लिपबोर्ड इतिहास कभी भी आपके Mac से बाहर नहीं जाता";
 "privacy_policy" = "गोपनीयता नीति";
 "purchase_verification_failed" = "ऐप स्टोर इस खरीदारी को सत्यापित नहीं कर सका।";
 "purchase_waiting_for_approval" = "खरीद अनुमोदन की प्रतीक्षा कर रही है।";
@@ -104,7 +104,7 @@
 "try_again" = "फिर कोशिश करें";
 "trial_ends" = "परीक्षण · समाप्त %@";
 "trial_first_payment" = "परीक्षण · पहला भुगतान %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "अधिकतम 5 आइटम देखें और खोजें।";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "परीक्षण · %@ के माध्यम से";
 "type_shortcut" = "शॉर्टकट टाइप करें...";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "अधिकतम 5 आइटम देखें और खोजें। आपका पूरा इतिहास सहेजा रहता है।";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "आपका Pro ट्रायल सक्रिय है।";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "आपके पास Pastemin Pro है।";
 "terms_of_use" = "उपयोग की शर्तें (EULA)";
+"remove_filter" = "फ़िल्टर हटाएँ";
+"starred_items" = "तारे वाले आइटम";
+"starred" = "तारा लगा है";
+"star_item" = "इस आइटम पर तारा लगाएँ";
+"unstar_item" = "तारा हटाएँ";
+"tags" = "टैग";
+"tags_help" = "टैग को कॉमा से अलग करें। टैग से खोज की जा सकती है।";
+"save" = "सहेजें";
+"on" = "चालू";
+"off" = "बंद";
+"include_starred_items" = "तारे वाले आइटम शामिल करें";
+"free_five_items" = "मुफ़्त · 5 आइटम";
+"no_starred_items" = "कोई तारांकित आइटम नहीं";
+"starred_items_appear_here" = "जिन आइटम पर आप तारा लगाएँगे, वे यहाँ दिखेंगे।";
+"tagged" = "टैग लगा है";
+"tagged_items" = "टैग वाले आइटम";
+"no_tagged_items" = "कोई टैग वाला आइटम नहीं";
+"tagged_items_appear_here" = "जिन आइटम पर आप टैग लगाएँगे, वे यहाँ दिखेंगे।";
+"tag_item" = "इस आइटम को टैग करें";

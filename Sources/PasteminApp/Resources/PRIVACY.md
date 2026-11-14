@@ -1,12 +1,14 @@
 # Pastemin Privacy Policy
 
-Effective and last updated: October 6, 2026
+Effective and last updated: November 14, 2026
 
 This policy explains what data Pastemin handles, where it goes, and how you can control it.
 
 ## Data on your Mac
 
 While Pastemin is running, it watches the macOS general pasteboard for changes and stores supported text and images in its app container. Each history record can include the content, the time it was copied, its size, and the source app's display name and bundle identifier. Pastemin uses the source information only to label the item and show the app's icon.
+
+Stars and custom tags are stored with the item on your Mac. Tags are included in local searches. Copying the same content again keeps its star and tags.
 
 Pastemin also stores your retention period, global shortcut, menu-bar setting, and setup status. Local builds also store an automatic-paste setting. The Mac App Store build reads Apple's signed original acquisition date to determine the 30-day Pro period. Source and test builds store a local trial start date instead. Trial information is not sent to the developer.
 
@@ -28,11 +30,11 @@ Automatic paste is available only in local builds and is disabled by default. Af
 
 ## Retention and deletion
 
-You choose whether Pastemin keeps copied items for one hour, one day, one week, one month, three months, or forever. Expired items and their stored text or image files are removed automatically.
+You choose whether Pastemin keeps copied items for one hour, one day, one week, one month, three months, or forever. Expired unstarred items and their stored text or image files are removed automatically. Starred items remain until you delete them or remove their stars. Removing a star makes the item subject to the retention period again.
 
-You can delete one history item or clear the complete history. **Clear Current Clipboard** clears the macOS general pasteboard; it does not clear saved history. Clearing history does not change clipboard content that another app may still hold.
+You can delete individual items, including starred items. Clearing history preserves starred items unless you explicitly include them. Clearing the current clipboard removes its contents without deleting stored history. Clearing stored history does not change clipboard content that another app may still hold.
 
-After the 30-day Pro trial, Pastemin shows and searches only the five newest items without a purchase. Older items remain on this Mac and become visible again if Pro access is restored. The limit does not upload, move, or delete them.
+After the 30-day Pro trial, Free access shows and searches up to five items: the three most recently starred items, when available, plus recent unstarred items to fill the remaining slots. Additional stars remain stored and protected from cleanup. Other unstarred history remains subject to the retention period. Restoring Pro makes all retained items available again. The access limit does not upload, move, or delete items.
 
 Removing Pastemin and its app container deletes app-managed history and preferences. Apple controls purchase records associated with your Apple Account.
 

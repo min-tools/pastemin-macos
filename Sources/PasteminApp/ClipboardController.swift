@@ -173,17 +173,37 @@ final class ClipboardController: NSObject {
         monitor.acknowledgeCurrentPasteboard()
     }
 
+    // confirmClearHistory(): Confirm deletion, preserving stars unless the
+    // user explicitly includes them.
     func confirmClearHistory() {
         let alert = NSAlert()
         alert.messageText = localized("clear_history_question", "Clear Clipboard History?")
         alert.informativeText = localized(
             "clear_history_warning",
-            "Every stored text and image item will be permanently removed from this Mac."
+            "Unstarred items will be permanently removed from your Mac. Starred items are kept unless included."
         )
+        // Start unchecked so ordinary history clearing keeps saved items.
+        let includeStarred = NSButton(
+            checkboxWithTitle: localized("include_starred_items", "Include starred items"),
+            target: nil,
+            action: nil
+        )
+        includeStarred.sizeToFit()
+        // NSAlert centers accessories; a full-width wrapper aligns the checkbox
+        // with the text instead.
+        let accessory = NSView(frame: NSRect(
+            x: 0, y: 0, width: max(220, includeStarred.frame.width), height: includeStarred.frame.height
+        ))
+        includeStarred.setFrameOrigin(.zero)
+        accessory.addSubview(includeStarred)
+        alert.accessoryView = accessory
         alert.alertStyle = .warning
         alert.addButton(withTitle: localized("clear_history", "Clear History"))
         alert.addButton(withTitle: localized("cancel", "Cancel"))
-        if alert.runModal() == .alertFirstButtonReturn { store.clearHistory() }
+        // Cancellation leaves all history untouched.
+        if alert.runModal() == .alertFirstButtonReturn {
+            store.clearHistory(includeStarred: includeStarred.state == .on)
+        }
     }
 
     private func prepareClipboardPresentationIfNeeded() {
@@ -230,6 +250,8 @@ final class ClipboardController: NSObject {
         }
     }
 
+    // configureWindows(): Build the history and purchase windows and connect
+    // their actions to the store, selection and application focus handling.
     private func configureWindows() {
         let history = ClipboardHistoryView(
             model: viewModel,
@@ -251,11 +273,15 @@ final class ClipboardController: NSObject {
             clearCurrentClipboard: { [weak self] in self?.clearCurrentClipboard() },
             clearHistory: { [weak self] in self?.confirmClearHistory() }
         )
+        // Keyboard actions share the same selection and checks as preview
+        // buttons.
         panel = ClipboardPanel(rootView: history)
         panel.moveUp = { [weak viewModel] in viewModel?.moveSelection(by: -1) }
         panel.moveDown = { [weak viewModel] in viewModel?.moveSelection(by: 1) }
         panel.choose = { [weak viewModel] in viewModel?.chooseSelected() }
         panel.deleteSelection = { [weak viewModel] in viewModel?.deleteSelected() }
+        panel.toggleStarSelection = history.toggleSelectedStar
+        panel.editTagsSelection = history.editSelectedTags
         panel.pointerDidMove = { [weak viewModel] in viewModel?.enablePointerSelection() }
         panel.didDismiss = { [weak viewModel] in
             // Clear hidden search state after the panel has left the screen.

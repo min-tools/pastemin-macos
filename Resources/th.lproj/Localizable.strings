@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "วางอัตโนมัติหลังจากเลือกรายการ";
 "wizard_auto_paste_permission" = "หากเปิดใช้ macOS จะขอสิทธิ์การช่วยการเข้าถึงเมื่อใช้การวางอัตโนมัติครั้งแรก หากคุณปฏิเสธ รายการที่เลือกจะยังคงถูกคัดลอก";
 "wizard_auto_paste_title" = "วางหลังจากเลือก";
-"wizard_essentials_body" = "เลือกระยะเวลาที่จะเก็บรายการที่คัดลอกไว้บน Mac เครื่องนี้ และเลือกว่าจะแสดงคลิปบอร์ดในแถบเมนูหรือไม่";
+"wizard_essentials_body" = "เลือกระยะเวลาที่จะเก็บรายการที่คัดลอกไว้บน Mac ของคุณ และเลือกว่าจะแสดงคลิปบอร์ดในแถบเมนูหรือไม่";
 "wizard_essentials_title" = "คลิปบอร์ดของคุณ";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "เปิดคลิปบอร์ดด้วย";
@@ -33,7 +33,7 @@
 "clear_history" = "ล้างประวัติ";
 "clear_history_ellipsis" = "ล้างประวัติ...";
 "clear_history_question" = "ล้างประวัติคลิปบอร์ดใช่ไหม";
-"clear_history_warning" = "ทุกรายการข้อความและรูปภาพที่เก็บไว้จะถูกลบออกจาก Mac เครื่องนี้อย่างถาวร";
+"clear_history_warning" = "รายการที่ไม่ได้ติดดาวจะถูกลบจาก Mac ของคุณอย่างถาวร รายการติดดาวจะถูกเก็บไว้เว้นแต่คุณจะเลือกให้รวมด้วย";
 "close" = "ปิด";
 "copied_image_save_failed" = "ไม่สามารถบันทึกภาพที่คัดลอกได้: %@";
 "copied_items_appear_here" = "รายการที่คุณคัดลอกจะปรากฏที่นี่";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "ข้อผิดพลาดในการจัดเก็บข้อมูลของ Pastemin";
 "paywall_description" = "เก็บประวัติคลิปบอร์ดของคุณไว้ใกล้ตัว ค้นหาได้ และเป็นส่วนตัวบน Mac ของคุณ";
 "price_per_year" = "%@ ต่อปี";
-"privacy_local_history" = "ประวัติคลิปบอร์ดจะไม่ออกจาก Mac เครื่องนี้";
+"privacy_local_history" = "ประวัติคลิปบอร์ดจะไม่ออกจาก Mac ของคุณ";
 "privacy_policy" = "นโยบายความเป็นส่วนตัว";
 "purchase_verification_failed" = "App Store ไม่สามารถยืนยันการซื้อนี้ได้";
 "purchase_waiting_for_approval" = "การซื้อกำลังรอการอนุมัติ";
@@ -104,7 +104,7 @@
 "try_again" = "ลองอีกครั้ง";
 "trial_ends" = "ทดลองใช้ · สิ้นสุด %@";
 "trial_first_payment" = "ทดลองใช้ · ชำระเงินครั้งแรก %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "ดูและค้นหาได้สูงสุด 5 รายการ";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "ซื้อ";
 "restoring_purchases" = "กำลังกู้คืน…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "ดูและค้นหาได้สูงสุด 5 รายการ ประวัติทั้งหมดของคุณยังคงถูกเก็บไว้";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "ช่วงทดลองใช้ Pro ของคุณยังใช้งานอยู่";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "คุณมี Pastemin Pro แล้ว";
 "terms_of_use" = "ข้อกำหนดการใช้งาน (EULA)";
+"remove_filter" = "นำตัวกรองออก";
+"starred_items" = "รายการติดดาว";
+"starred" = "ติดดาวแล้ว";
+"star_item" = "ติดดาวรายการนี้";
+"unstar_item" = "เอาดาวออก";
+"tags" = "แท็ก";
+"tags_help" = "คั่นแท็กด้วยเครื่องหมายจุลภาค สามารถค้นหาจากแท็กได้";
+"save" = "บันทึก";
+"on" = "เปิด";
+"off" = "ปิด";
+"include_starred_items" = "รวมรายการติดดาว";
+"free_five_items" = "ฟรี · 5 รายการ";
+"no_starred_items" = "ยังไม่มีรายการที่ติดดาว";
+"starred_items_appear_here" = "รายการที่คุณติดดาวจะปรากฏที่นี่";
+"tagged" = "ติดแท็กแล้ว";
+"tagged_items" = "รายการติดแท็ก";
+"no_tagged_items" = "ยังไม่มีรายการที่ติดแท็ก";
+"tagged_items_appear_here" = "รายการที่คุณติดแท็กจะปรากฏที่นี่";
+"tag_item" = "เพิ่มแท็กให้รายการนี้";

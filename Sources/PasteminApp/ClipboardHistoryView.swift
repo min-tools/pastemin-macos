@@ -19,6 +19,199 @@ private struct HistoryBottomPositionKey: PreferenceKey {
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = nextValue() }
 }
 
+/// Shared symbol weight, hit areas and alignment for panel icon buttons.
+private enum PanelIcon {
+    /// Side of the square hit area and its highlight.
+    static let side: CGFloat = 28
+    /// Gap between neighboring item actions.
+    static let spacing: CGFloat = 6
+    /// Aligns the trailing header and preview actions.
+    static let trailingInset: CGFloat = 16
+    static let cornerRadius: CGFloat = 8
+    static let headerSymbolSize: CGFloat = 17
+    static let actionSymbolSize: CGFloat = 15
+    static let symbolWeight = Font.Weight.medium
+    /// The same weight for the options button, which AppKit draws.
+    static let appKitSymbolWeight = NSFont.Weight.medium
+
+    // symbol(name, size, tint): Draw the required SF Symbol with the supplied
+    // nominal point size and color, using the shared weight.
+    static func symbol(_ name: String, size: CGFloat, tint: Color) -> some View {
+        // Reduce the tag by a point to balance its visual size with other
+        // icons.
+        let opticalSize = name.hasPrefix("tag") ? size - 1 : size
+        return Image(systemName: name)
+            .font(.system(size: opticalSize, weight: symbolWeight))
+            .foregroundStyle(tint)
+    }
+}
+
+/// Draws icon and filter-chip highlights using AppKit pointer tracking,
+/// without adding hover state to the SwiftUI hierarchy.
+private struct PanelIconBackdrop: NSViewRepresentable {
+    var isActive = false
+    var isPressed = false
+    /// A chip passes half its height to get a capsule.
+    var cornerRadius = PanelIcon.cornerRadius
+
+    /// makeNSView(context:) creates the tracking view with the required context.
+    func makeNSView(context: Context) -> PanelIconBackdropView { PanelIconBackdropView() }
+
+    /// updateNSView(view, context): Sync the required native view with button
+    /// state. The required SwiftUI context is unused.
+    func updateNSView(_ view: PanelIconBackdropView, context: Context) {
+        view.isActive = isActive
+        view.isPressed = isPressed
+        view.cornerRadius = cornerRadius
+    }
+}
+
+/// Tracks one control's hover state and draws its current interaction fill.
+private final class PanelIconBackdropView: NSView {
+    // Redraw only when filter activation changes.
+    var isActive = false { didSet { if isActive != oldValue { needsDisplay = true } } }
+    // Redraw only when the button enters or leaves its pressed state.
+    var isPressed = false { didSet { if isPressed != oldValue { needsDisplay = true } } }
+    // A changed radius switches between icon and capsule-shaped fills.
+    var cornerRadius = PanelIcon.cornerRadius {
+        didSet { if cornerRadius != oldValue { needsDisplay = true } }
+    }
+    // Ignore repeated hover assignments that would produce the same fill.
+    private var isHovering = false { didSet { if isHovering != oldValue { needsDisplay = true } } }
+    private var keyObserver: NSObjectProtocol?
+
+    /// init(frame:) installs pointer tracking for the required frame.
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        // Track visible controls even when this nonactivating panel is not key.
+        addTrackingArea(NSTrackingArea(
+            rect: .zero,
+            options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect],
+            owner: self
+        ))
+    }
+
+    /// init(coder): Reject the required archive decoder; create this view in
+    /// code.
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    /// deinit: Release any observer owned by this tracking view.
+    deinit {
+        // A view removed before joining a window has no observer.
+        if let keyObserver { NotificationCenter.default.removeObserver(keyObserver) }
+    }
+
+    /// hitTest(point): Pass clicks at the required point through to the button.
+    override func hitTest(_ point: NSPoint) -> NSView? { nil }
+
+    /// mouseEntered(with:) shows the hover fill for the required event.
+    override func mouseEntered(with event: NSEvent) { isHovering = true }
+
+    /// mouseExited(with:) removes the hover fill for the required event.
+    override func mouseExited(with event: NSEvent) { isHovering = false }
+
+    /// viewDidMoveToWindow() follows the new window's key status.
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        // Stop observing the previous window before following the new one.
+        if let keyObserver { NotificationCenter.default.removeObserver(keyObserver) }
+        keyObserver = nil
+        guard let window else { return }
+        // Losing key status may not send a pointer exit. Clear stale hover
+        // then.
+        keyObserver = NotificationCenter.default.addObserver(
+            forName: NSWindow.didResignKeyNotification, object: window, queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in self?.isHovering = false }
+        }
+    }
+
+    /// draw(dirtyRect): Redraw the control fill when AppKit invalidates the
+    /// required region. The shape always uses the full view bounds.
+    override func draw(_ dirtyRect: NSRect) {
+        let fill: NSColor
+        if isActive {
+            // Keep active filters visibly tinted even without hover or a press.
+            fill = .controlAccentColor.withAlphaComponent(isPressed ? 0.30 : isHovering ? 0.24 : 0.18)
+        } else if isPressed {
+            // A stronger fill provides immediate feedback during a press.
+            fill = .labelColor.withAlphaComponent(0.16)
+        } else if isHovering {
+            // A subtle fill identifies the control under the pointer.
+            fill = .labelColor.withAlphaComponent(0.09)
+        } else {
+            // An idle icon has no fill.
+            return
+        }
+        // Clamp the radius so short controls keep a valid rounded outline.
+        fill.setFill()
+        let radius = min(cornerRadius, bounds.height / 2)
+        NSBezierPath(roundedRect: bounds, xRadius: radius, yRadius: radius).fill()
+    }
+}
+
+/// Gives icon buttons consistent hover feedback without dimming their labels.
+private struct PanelIconButtonStyle: ButtonStyle {
+    /// makeBody(configuration:) centers the required label in the shared hit area.
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(width: PanelIcon.side, height: PanelIcon.side)
+            .background(PanelIconBackdrop(isPressed: configuration.isPressed))
+            .contentShape(Rectangle())
+    }
+}
+
+/// Shows an active filter and lets the user remove it independently.
+private struct FilterChip: View {
+    static let height: CGFloat = 24
+
+    let symbol: String
+    let title: String
+    /// The filter's full name, for VoiceOver.
+    let name: String
+    let remove: () -> Void
+
+    var body: some View {
+        Button(action: remove) {
+            HStack(spacing: 5) {
+                Image(systemName: symbol)
+                    .font(.system(size: 11, weight: .medium))
+                Text(title)
+                    .font(.system(size: 12, weight: .medium))
+                    .lineLimit(1)
+                Image(systemName: "xmark")
+                    .font(.system(size: 8, weight: .bold))
+                    .opacity(0.7)
+            }
+            .foregroundStyle(Color.accentColor)
+        }
+        .buttonStyle(FilterChipButtonStyle())
+        // Keep chips compact and announce the full filter name and active
+        // state.
+        .fixedSize()
+        .help(localized("remove_filter", "Remove filter"))
+        .accessibilityLabel(name)
+        .accessibilityValue(localized("on", "On"))
+        .accessibilityHint(localized("remove_filter", "Remove filter"))
+    }
+}
+
+/// Gives active filters an accent capsule with icon-style interaction feedback.
+private struct FilterChipButtonStyle: ButtonStyle {
+    /// makeBody(configuration:) pads the required label inside the capsule.
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(.horizontal, 10)
+            .frame(height: FilterChip.height)
+            .background(PanelIconBackdrop(
+                isActive: true,
+                isPressed: configuration.isPressed,
+                cornerRadius: FilterChip.height / 2
+            ))
+            .contentShape(Capsule())
+    }
+}
+
 struct ClipboardHistoryView: View {
     @ObservedObject var model: ClipboardViewModel
     @ObservedObject var store: ClipboardHistoryStore
@@ -38,20 +231,22 @@ struct ClipboardHistoryView: View {
         VStack(spacing: 0) {
             header
             Divider().opacity(0.65)
+            // Keep storage failures visible alongside the current history.
             if let storageError = store.storageError {
                 storageErrorBanner(storageError)
                 Divider().opacity(0.65)
             }
-            if store.items.isEmpty {
-                // No persisted history is available.
+            if store.items.isEmpty && !model.showsStarredOnly && !model.showsTaggedOnly {
+                // With no filters or stored items, explain how history begins.
                 emptyState
             } else if model.filteredItems.isEmpty {
-                // The current query has no matches.
+                // No accessible items match the current query or filters.
                 noMatches
             } else {
                 // Show the stable current results while any new search runs.
                 historyContent
             }
+            // Show the limit only after both purchase and trial status resolve.
             if proStore.hasResolvedEntitlement && proStore.hasPreparedAppTrial && !proStore.hasFullAccess {
                 AccessLimitedBanner(
                     state: accessBannerState,
@@ -78,21 +273,47 @@ struct ClipboardHistoryView: View {
             )
             .frame(height: 32)
 
-            ClipboardOptionsButton(
-                preferences: preferences,
-                store: store,
-                recordingChanged: recordingChanged,
-                showPurchases: showPurchases,
-                showPrivacyPolicy: showPrivacyPolicy,
-                showAbout: showAbout,
-                revealStorage: revealStorage,
-                clearCurrentClipboard: clearCurrentClipboard,
-                clearHistory: clearHistory
-            )
-            .frame(width: 38, height: 34)
-            .fixedSize()
+            // Each chip removes only its own filter, preserving the other
+            // filter and the query.
+            HStack(spacing: 8) {
+                // Indicate saved-only results independently of tagged-only
+                // results.
+                if model.showsStarredOnly {
+                    FilterChip(
+                        symbol: "star.fill",
+                        title: localized("starred", "Starred"),
+                        name: localized("starred_items", "Starred Items"),
+                        remove: model.toggleStarredFilter
+                    )
+                }
+                // Both chips remain visible when the filters are combined.
+                if model.showsTaggedOnly {
+                    FilterChip(
+                        symbol: "tag.fill",
+                        title: localized("tagged", "Tagged"),
+                        name: localized("tagged_items", "Tagged Items"),
+                        remove: model.toggleTaggedFilter
+                    )
+                }
+
+                ClipboardOptionsButton(
+                    model: model,
+                    preferences: preferences,
+                    store: store,
+                    recordingChanged: recordingChanged,
+                    showPurchases: showPurchases,
+                    showPrivacyPolicy: showPrivacyPolicy,
+                    showAbout: showAbout,
+                    revealStorage: revealStorage,
+                    clearCurrentClipboard: clearCurrentClipboard,
+                    clearHistory: clearHistory
+                )
+                .frame(width: PanelIcon.side, height: PanelIcon.side)
+                .background(PanelIconBackdrop())
+            }
         }
-        .padding(.horizontal, 24)
+        .padding(.leading, 24)
+        .padding(.trailing, PanelIcon.trailingInset)
         .frame(height: 60)
     }
 
@@ -138,8 +359,41 @@ struct ClipboardHistoryView: View {
     }
 
     private var noMatches: some View {
-        ContentUnavailableView.search(text: model.query)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        Group {
+            if model.query.isEmpty && model.showsStarredOnly && !model.showsTaggedOnly {
+                // An empty saved collection is different from an unmatched query.
+                emptyCollection(
+                    symbol: "star",
+                    title: localized("no_starred_items", "No Starred Items"),
+                    detail: localized("starred_items_appear_here", "Items you star will appear here.")
+                )
+            } else if model.query.isEmpty && model.showsTaggedOnly && !model.showsStarredOnly {
+                // No accessible item has tags; hidden history may still have
+                // them.
+                emptyCollection(
+                    symbol: "tag",
+                    title: localized("no_tagged_items", "No Tagged Items"),
+                    detail: localized("tagged_items_appear_here", "Items you tag will appear here.")
+                )
+            } else {
+                // A query, or both filters together, simply found nothing.
+                ContentUnavailableView.search(text: model.query)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    // emptyCollection(symbol, title, detail): Explain an empty filtered list
+    // using the required SF Symbol name, heading and supporting text.
+    private func emptyCollection(symbol: String, title: String, detail: String) -> some View {
+        VStack(spacing: 11) {
+            Image(systemName: symbol)
+                .font(.system(size: 42, weight: .light))
+                .foregroundStyle(.secondary)
+            Text(title).font(.title2.weight(.medium))
+            Text(detail).foregroundStyle(.secondary)
+        }
+        .offset(y: -18)
     }
 
     private var historyContent: some View {
@@ -149,8 +403,47 @@ struct ClipboardHistoryView: View {
             ClipboardPreview(
                 record: model.selectedItem,
                 store: store,
-                delete: model.deleteSelected
+                delete: model.deleteSelected,
+                toggleStar: toggleSelectedStar,
+                editTags: editSelectedTags
             )
+        }
+    }
+
+    // toggleSelectedStar(): Toggle the selected star, offering full access
+    // only when adding another star would exceed the Free allowance.
+    func toggleSelectedStar() {
+        guard model.selectedItem != nil else { return }
+        guard model.canStarSelectedItem else {
+            showPurchases()
+            return
+        }
+        model.toggleSelectedStar()
+    }
+
+    // editSelectedTags(): Edit the selected item's tags in a native modal
+    // window that handles Return and Escape independently of the history.
+    func editSelectedTags() {
+        // Capture identity before the modal loop allows new clipboard captures.
+        guard let record = model.selectedItem else { return }
+        let alert = NSAlert()
+        alert.messageText = localized("tags", "Tags")
+        alert.informativeText = localized("tags_help", "Separate tags with commas. Tags are searchable.")
+        // Fit the native compact dialog instead of widening its content and buttons.
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
+        field.stringValue = record.tagNames.joined(separator: ", ")
+        field.placeholderString = "work, documentation"
+        field.identifier = NSUserInterfaceItemIdentifier("PasteminTagsField")
+        field.setAccessibilityLabel(localized("tags", "Tags"))
+        alert.accessoryView = field
+        // Native button order gives Return to Save; focus the editable field.
+        alert.addButton(withTitle: localized("save", "Save"))
+        alert.addButton(withTitle: localized("cancel", "Cancel"))
+        alert.window.initialFirstResponder = field
+        // Save only on confirmation, still targeting the originally selected
+        // item.
+        if alert.runModal() == .alertFirstButtonReturn {
+            model.updateTags(for: record.id, input: field.stringValue)
         }
     }
 
@@ -352,6 +645,7 @@ private final class ClipboardSearchScrollView: NSScrollView {
 }
 
 private struct ClipboardOptionsButton: NSViewRepresentable {
+    let model: ClipboardViewModel
     @ObservedObject var preferences: ClipboardPreferences
     @ObservedObject var store: ClipboardHistoryStore
     let recordingChanged: (Bool) -> Void
@@ -362,8 +656,10 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
     let clearCurrentClipboard: () -> Void
     let clearHistory: () -> Void
 
+    // makeCoordinator(): Retain the model and actions for native button events.
     func makeCoordinator() -> Coordinator {
         Coordinator(
+            model: model,
             preferences: preferences,
             store: store,
             recordingChanged: recordingChanged,
@@ -376,6 +672,8 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
         )
     }
 
+    // makeNSView(context): Build the options button using the required SwiftUI
+    // context to route clicks and the keyboard shortcut to its coordinator.
     func makeNSView(context: Context) -> NSButton {
         let button = NSButton()
         button.isBordered = false
@@ -385,7 +683,10 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
         button.image = NSImage(
             systemSymbolName: "ellipsis",
             accessibilityDescription: localized("pastemin_options", "Pastemin options")
-        )?.withSymbolConfiguration(.init(pointSize: 18, weight: .semibold))
+        )?.withSymbolConfiguration(.init(
+            pointSize: PanelIcon.headerSymbolSize, weight: PanelIcon.appKitSymbolWeight
+        ))
+        // Share icon tint with the panel and route native events to the model.
         button.contentTintColor = .labelColor
         button.target = context.coordinator
         button.action = #selector(Coordinator.showMenu(_:))
@@ -396,7 +697,10 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
         return button
     }
 
+    // updateNSView(button, context): Refresh coordinator inputs through the
+    // required context. The required button itself needs no visual changes.
     func updateNSView(_ button: NSButton, context: Context) {
+        context.coordinator.model = model
         context.coordinator.preferences = preferences
         context.coordinator.store = store
         context.coordinator.recordingChanged = recordingChanged
@@ -410,6 +714,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
 
     @MainActor
     final class Coordinator: NSObject {
+        var model: ClipboardViewModel
         var preferences: ClipboardPreferences
         var store: ClipboardHistoryStore
         var recordingChanged: (Bool) -> Void
@@ -420,7 +725,12 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
         var clearCurrentClipboard: () -> Void
         var clearHistory: () -> Void
 
+        // init(model, preferences, store, recordingChanged, showPurchases,
+        // showPrivacyPolicy, showAbout, revealStorage, clearCurrentClipboard,
+        // clearHistory): Retain the required models and action callbacks
+        // used to build and operate the options dropdown.
         init(
+            model: ClipboardViewModel,
             preferences: ClipboardPreferences,
             store: ClipboardHistoryStore,
             recordingChanged: @escaping (Bool) -> Void,
@@ -431,6 +741,7 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
             clearCurrentClipboard: @escaping () -> Void,
             clearHistory: @escaping () -> Void
         ) {
+            self.model = model
             self.preferences = preferences
             self.store = store
             self.recordingChanged = recordingChanged
@@ -462,22 +773,27 @@ private struct ClipboardOptionsButton: NSViewRepresentable {
             }
         }
 
+        // showMenu(button): Handle the required native button sender.
         @objc func showMenu(_ button: NSButton) {
             toggleOptions()
         }
 
+        // toggleOptions(): Close an open dropdown, or build it with current
+        // inputs.
         func toggleOptions() {
             guard let button, button.window?.isVisible == true else { return }
+            // A second click or shortcut dismisses the already visible
+            // dropdown.
             if let optionsPanel, optionsPanel.isVisible {
                 optionsPanel.dismiss()
                 return
             }
-            // A dropdown window, unlike an NSMenu, lets the pop-up button open and routes key
-            // events to the shortcut recorder; unlike a popover it has no arrow and can be
-            // driven from the keyboard like a menu.
+            // A child window supports native controls and shortcut recording
+            // while retaining menu-style keyboard navigation.
             let selection = OptionsSelectionModel()
             let panel = ClipboardOptionsPanel(
                 rootView: ClipboardOptionsMenuView(
+                    model: model,
                     preferences: preferences,
                     store: store,
                     selection: selection,
@@ -507,16 +823,22 @@ private struct ClipboardRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Group {
+                // Prefer the source app icon to identify where the item came
+                // from.
                 if let sourceAppIcon {
                     Image(nsImage: sourceAppIcon)
                         .resizable()
                         .scaledToFit()
                         .padding(2)
                 } else if let itemImage {
+                    // Fall back to the captured image when the app icon is
+                    // absent.
                     Image(nsImage: itemImage)
                         .resizable()
                         .scaledToFill()
                 } else {
+                    // Use a content-type symbol when neither image is
+                    // available.
                     Image(systemName: record.kind == .image ? "photo" : "doc.text")
                         .font(.title3)
                         .foregroundStyle(selected ? Color.white.opacity(0.9) : Color.primary)
@@ -532,6 +854,12 @@ private struct ClipboardRow: View {
                     .lineLimit(2)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 HStack(spacing: 5) {
+                    // Identify saved items even outside the starred filter.
+                    if record.isStarred {
+                        Image(systemName: "star.fill")
+                            .accessibilityLabel(localized("starred_items", "Starred Items"))
+                    }
+                    // Omit the separator as well when the source is unknown.
                     if let source = record.sourceAppName {
                         Text(source).lineLimit(1)
                         Text("·")
@@ -540,6 +868,13 @@ private struct ClipboardRow: View {
                 }
                 .font(.system(size: 13))
                 .foregroundStyle(selected ? .white.opacity(0.78) : .secondary)
+                // Untagged items need no extra metadata line.
+                if !record.tagNames.isEmpty {
+                    Text(record.tagNames.joined(separator: " · "))
+                        .font(.system(size: 11))
+                        .lineLimit(1)
+                        .foregroundStyle(selected ? .white.opacity(0.78) : .secondary)
+                }
             }
         }
         .foregroundStyle(selected ? Color.white : Color.primary)
@@ -549,6 +884,11 @@ private struct ClipboardRow: View {
         .contentShape(RoundedRectangle(cornerRadius: 11))
         .accessibilityElement(children: .combine)
         .accessibilityLabel(record.accessibilityDescription)
+        // Announce saved status and tags alongside the content description.
+        .accessibilityValue(
+            (record.isStarred ? localized("starred", "Starred") + ". " : "")
+                + record.tagNames.joined(separator: ", ")
+        )
     }
 }
 
@@ -556,8 +896,11 @@ private struct ClipboardPreview: View {
     let record: ClipboardRecord?
     @ObservedObject var store: ClipboardHistoryStore
     let delete: () -> Void
+    let toggleStar: () -> Void
+    let editTags: () -> Void
 
     var body: some View {
+        // Selection controls both the preview payload and its metadata actions.
         if let record {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 10) {
@@ -568,6 +911,8 @@ private struct ClipboardPreview: View {
                         systemImage: record.kind == .image ? "photo" : "doc.text"
                     )
                         .font(.system(size: 18, weight: .semibold))
+                    // Explain the preview limit without implying a truncated
+                    // paste.
                     if record.isTextPreviewTruncated {
                         Text(localized("one_kb_preview", "1 KB preview"))
                             .font(.system(size: 10, weight: .semibold))
@@ -590,19 +935,63 @@ private struct ClipboardPreview: View {
                             ))
                     }
                     Spacer()
-                    Button(action: delete) {
-                        Image(systemName: "trash")
-                            .font(.system(size: 16))
-                            .foregroundStyle(.primary)
+                    // Match action geometry to the header and tint saved
+                    // metadata.
+                    HStack(spacing: PanelIcon.spacing) {
+                        // Filled accent stars show persistent cleanup
+                        // protection.
+                        Button(action: toggleStar) {
+                            PanelIcon.symbol(
+                                record.isStarred ? "star.fill" : "star",
+                                size: PanelIcon.actionSymbolSize,
+                                tint: record.isStarred ? .accentColor : .secondary
+                            )
+                        }
+                        .buttonStyle(PanelIconButtonStyle())
+                        .help((record.isStarred
+                            ? localized("unstar_item", "Remove star")
+                            : localized("star_item", "Star this item")) + " (⌘F)")
+                        .accessibilityLabel(record.isStarred
+                            ? localized("unstar_item", "Remove star")
+                            : localized("star_item", "Star this item"))
+                        // Fill and tint the tag only when metadata is present.
+                        Button(action: editTags) {
+                            PanelIcon.symbol(
+                                record.tagNames.isEmpty ? "tag" : "tag.fill",
+                                size: PanelIcon.actionSymbolSize,
+                                tint: record.tagNames.isEmpty ? .secondary : .accentColor
+                            )
+                        }
+                        .buttonStyle(PanelIconButtonStyle())
+                        .help(localized("tag_item", "Tag this item") + " (⌘T)")
+                        .accessibilityLabel(localized("tag_item", "Tag this item"))
+                        // Explicit deletion remains available for starred items
+                        // too.
+                        Button(action: delete) {
+                            PanelIcon.symbol("trash", size: PanelIcon.actionSymbolSize, tint: .secondary)
+                        }
+                        .buttonStyle(PanelIconButtonStyle())
+                        .help(localized("delete_item_shortcut", "Delete this item (⌘⌫)"))
                     }
-                    .buttonStyle(.borderless)
-                    .help(localized("delete_item_shortcut", "Delete this item (⌘⌫)"))
                 }
-                .padding(.horizontal, 22)
+                .padding(.leading, 22)
+                .padding(.trailing, PanelIcon.trailingInset)
                 .frame(height: 54)
                 Divider().opacity(0.55)
 
+                // Show the selected item's tags separately from clipboard
+                // content.
+                if !record.tagNames.isEmpty {
+                    Text(record.tagNames.joined(separator: " · "))
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                        .padding(.horizontal, 22)
+                        .padding(.top, 10)
+                }
+
                 Group {
+                    // Load image data only for the selected image record.
                     if record.kind == .image, let image = store.image(for: record) {
                         Image(nsImage: image)
                             .resizable()
@@ -610,6 +999,8 @@ private struct ClipboardPreview: View {
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding(28)
                     } else {
+                        // Bound text rendering to the stored preview, allowing
+                        // selection.
                         ScrollView {
                             Text(record.previewText)
                                 .font(.system(size: 18, design: .default))
@@ -636,6 +1027,7 @@ private struct ClipboardPreview: View {
                 .frame(height: 44)
             }
         } else {
+            // Avoid showing actions or stale content without a selection.
             Text(localized("select_item_to_preview", "Select an item to preview it"))
                 .font(.system(size: 18))
                 .foregroundStyle(.secondary)

@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Po výběru položky automaticky vložit";
 "wizard_auto_paste_permission" = "Pokud tuto možnost zapnete, macOS při prvním automatickém vložení požádá o oprávnění Zpřístupnění. Když žádost odmítnete, vybrané položky se přesto zkopírují.";
 "wizard_auto_paste_title" = "Vložit po výběru";
-"wizard_essentials_body" = "Zvolte, jak dlouho zkopírované položky zůstanou na tomto Macu a zda se Schránka zobrazí v řádku nabídek.";
+"wizard_essentials_body" = "Zvolte, jak dlouho zkopírované položky zůstanou na vašem Macu a zda se Schránka zobrazí v řádku nabídek.";
 "wizard_essentials_title" = "Vaše schránka";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Otevřít Schránku pomocí";
@@ -33,7 +33,7 @@
 "clear_history" = "Vymazat historii";
 "clear_history_ellipsis" = "Vymazat historii…";
 "clear_history_question" = "Vymazat historii schránky?";
-"clear_history_warning" = "Každá uložená textová a obrázková položka bude z tohoto Macu trvale odstraněna.";
+"clear_history_warning" = "Položky bez hvězdičky budou z vašeho Macu trvale odstraněny. Položky s hvězdičkou zůstanou, pokud je nezahrnete.";
 "close" = "Zavřít";
 "copied_image_save_failed" = "Zkopírovaný obrázek nelze uložit: %@";
 "copied_items_appear_here" = "Zde se zobrazí položky, které zkopírujete.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Chyba úložiště Pastemin";
 "paywall_description" = "Udržujte historii schránky blízko, prohledávatelné a soukromé na vašem Macu.";
 "price_per_year" = "%@ za rok";
-"privacy_local_history" = "Historie schránky nikdy neopustí tento Mac";
+"privacy_local_history" = "Historie schránky nikdy neopustí váš Mac";
 "privacy_policy" = "Zásady ochrany osobních údajů";
 "purchase_verification_failed" = "App Store nemohl tento nákup ověřit.";
 "purchase_waiting_for_approval" = "Nákup čeká na schválení.";
@@ -104,7 +104,7 @@
 "try_again" = "Zkusit znovu";
 "trial_ends" = "zkušební verze · končí %@";
 "trial_first_payment" = "zkušební verze · první platba %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Prohlížejte a prohledávejte až 5 položek.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "zkušební verze · až %@";
 "type_shortcut" = "Zadejte zástupce…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Prohlížejte a prohledávejte až 5 položek. Celá historie zůstává uložená.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Vaše zkušební období Pro je aktivní.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Máte Pastemin Pro.";
 "terms_of_use" = "Podmínky použití (EULA)";
+"remove_filter" = "Zrušit filtr";
+"starred_items" = "Položky s hvězdičkou";
+"starred" = "S hvězdičkou";
+"star_item" = "Označit tuto položku hvězdičkou";
+"unstar_item" = "Odebrat hvězdičku";
+"tags" = "Štítky";
+"tags_help" = "Oddělujte štítky čárkami. Podle štítků lze vyhledávat.";
+"save" = "Uložit";
+"on" = "Zapnuto";
+"off" = "Vypnuto";
+"include_starred_items" = "Zahrnout položky s hvězdičkou";
+"free_five_items" = "Zdarma · 5 položek";
+"no_starred_items" = "Žádné položky s hvězdičkou";
+"starred_items_appear_here" = "Zde se zobrazí položky označené hvězdičkou.";
+"tagged" = "Se štítkem";
+"tagged_items" = "Položky se štítkem";
+"no_tagged_items" = "Žádné položky se štítkem";
+"tagged_items_appear_here" = "Zde se zobrazí položky označené štítkem.";
+"tag_item" = "Přidat štítky k této položce";

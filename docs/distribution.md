@@ -2,6 +2,8 @@
 
 Pastemin has one codebase, one sandboxed app, and one bundle identifier: `tools.min.pastemin`. Public source builds start the same 30-day trial locally after its disclosure; Mac App Store production builds use Apple's signed original acquisition date. Both use the same five-item post-trial limit and StoreKit verification. Automatic paste is available only in local builds.
 
+Free access reserves up to three of those five items for stars and fills unused slots with recent unstarred history. Pro permits unlimited stars. Stars and tags persist across duplicate copies, and automatic cleanup preserves all starred items, including stars outside the Free allowance.
+
 ## Requirements
 
 Building requires an Apple-silicon Mac running macOS 14 or later, Python 3, and Apple Command Line Tools or Xcode with the macOS SDK.

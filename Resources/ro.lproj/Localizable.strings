@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Lipește automat după alegerea unui element";
 "wizard_auto_paste_permission" = "Dacă este activată, macOS va solicita permisiunea Accesibilitate la prima utilizare a lipirii automate. Dacă refuzi, elementele selectate vor fi copiate în continuare.";
 "wizard_auto_paste_title" = "Lipește după selectare";
-"wizard_essentials_body" = "Alege cât timp rămân elementele copiate pe acest Mac și dacă Clipboard apare în bara de meniu.";
+"wizard_essentials_body" = "Alege cât timp rămân elementele copiate pe Mac-ul tău și dacă Clipboard apare în bara de meniu.";
 "wizard_essentials_title" = "Clipboardul tău";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Deschide Clipboard cu";
@@ -33,7 +33,7 @@
 "clear_history" = "Ștergeți istoricul";
 "clear_history_ellipsis" = "Ștergeți istoricul...";
 "clear_history_question" = "Ștergeți istoricul clipboard-ului?";
-"clear_history_warning" = "Fiecare element de text și imagine stocat va fi eliminat definitiv de pe acest Mac.";
+"clear_history_warning" = "Elementele fără stea vor fi șterse definitiv de pe Mac-ul tău. Elementele cu stea sunt păstrate dacă nu le incluzi.";
 "close" = "Închide";
 "copied_image_save_failed" = "O imagine copiată nu a putut fi salvată: %@";
 "copied_items_appear_here" = "Elementele pe care le copiați vor apărea aici.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Eroare de stocare Pastemin";
 "paywall_description" = "Păstrați istoricul clipboard-ului aproape, căutat și privat pe Mac.";
 "price_per_year" = "%@ pe an";
-"privacy_local_history" = "Istoricul clipboardului nu părăsește niciodată acest Mac";
+"privacy_local_history" = "Istoricul clipboardului nu părăsește niciodată Mac-ul tău";
 "privacy_policy" = "Politica de confidențialitate";
 "purchase_verification_failed" = "App Store nu a putut verifica această achiziție.";
 "purchase_waiting_for_approval" = "Achiziția așteaptă aprobare.";
@@ -104,7 +104,7 @@
 "try_again" = "Reîncearcă";
 "trial_ends" = "Proba · se încheie %@";
 "trial_first_payment" = "Probă · prima plată %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Vezi și caută până la 5 elemente.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Cumpără";
 "restoring_purchases" = "Se restaurează…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Vezi și caută până la 5 elemente. Întregul istoric rămâne salvat.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Perioada ta de probă Pro este activă.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Aveți Pastemin Pro.";
 "terms_of_use" = "Condiții de utilizare (EULA)";
+"remove_filter" = "Elimină filtrul";
+"starred_items" = "Elemente cu stea";
+"starred" = "Cu stea";
+"star_item" = "Marchează acest element cu o stea";
+"unstar_item" = "Elimină steaua";
+"tags" = "Etichete";
+"tags_help" = "Separă etichetele prin virgule. Etichetele pot fi căutate.";
+"save" = "Salvează";
+"on" = "Activat";
+"off" = "Dezactivat";
+"include_starred_items" = "Include elementele cu stea";
+"free_five_items" = "Gratuit · 5 elemente";
+"no_starred_items" = "Niciun element cu stea";
+"starred_items_appear_here" = "Elementele pe care le marcați cu o stea vor apărea aici.";
+"tagged" = "Cu etichetă";
+"tagged_items" = "Elemente cu etichetă";
+"no_tagged_items" = "Niciun element cu etichetă";
+"tagged_items_appear_here" = "Elementele cărora le adăugați o etichetă vor apărea aici.";
+"tag_item" = "Etichetează acest element";

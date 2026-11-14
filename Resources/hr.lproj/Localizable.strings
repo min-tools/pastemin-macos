@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Automatski zalijepi nakon odabira stavke";
 "wizard_auto_paste_permission" = "Ako je uključeno, macOS će zatražiti dopuštenje Pristupačnosti pri prvoj upotrebi automatskog lijepljenja. Ako odbijete, odabrane stavke i dalje će se kopirati.";
 "wizard_auto_paste_title" = "Zalijepi nakon odabira";
-"wizard_essentials_body" = "Odaberite koliko dugo kopirane stavke ostaju na ovom Macu i hoće li se Međuspremnik prikazivati u traci izbornika.";
+"wizard_essentials_body" = "Odaberite koliko dugo kopirane stavke ostaju na vašem Macu i hoće li se Međuspremnik prikazivati u traci izbornika.";
 "wizard_essentials_title" = "Vaš međuspremnik";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Otvori Međuspremnik pomoću";
@@ -33,7 +33,7 @@
 "clear_history" = "Očisti povijest";
 "clear_history_ellipsis" = "Očisti povijest…";
 "clear_history_question" = "Očistiti povijest međuspremnika?";
-"clear_history_warning" = "Svaka pohranjena tekstualna i slikovna stavka bit će trajno uklonjena s ovog Maca.";
+"clear_history_warning" = "Stavke bez zvjezdice trajno će se ukloniti s vašeg Maca. Stavke sa zvjezdicom ostaju ako ih ne uključite.";
 "close" = "Zatvori";
 "copied_image_save_failed" = "Kopiranu sliku nije bilo moguće spremiti: %@";
 "copied_items_appear_here" = "Stavke koje kopirate pojavit će se ovdje.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pogreška pohrane Pastemina";
 "paywall_description" = "Držite svoju povijest međuspremnika blizu, pretraživom i privatnom na svom Macu.";
 "price_per_year" = "%@ godišnje";
-"privacy_local_history" = "Povijest međuspremnika nikad ne napušta ovaj Mac";
+"privacy_local_history" = "Povijest međuspremnika nikad ne napušta vaš Mac";
 "privacy_policy" = "Politika privatnosti";
 "purchase_verification_failed" = "App Store nije mogao potvrditi ovu kupnju.";
 "purchase_waiting_for_approval" = "Kupnja čeka odobrenje.";
@@ -104,7 +104,7 @@
 "try_again" = "Pokušaj ponovno";
 "trial_ends" = "Proba · završava %@";
 "trial_first_payment" = "Probno vrijeme · prva uplata %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Pregledajte i pretražujte do 5 stavki.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "Proba · do %@";
 "type_shortcut" = "Upišite prečac…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Pregledajte i pretražujte do 5 stavki. Cijela povijest ostaje spremljena.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Vaše probno razdoblje za Pro je aktivno.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Imate Pastemin Pro.";
 "terms_of_use" = "Uvjeti korištenja (EULA)";
+"remove_filter" = "Ukloni filtar";
+"starred_items" = "Stavke sa zvjezdicom";
+"starred" = "Sa zvjezdicom";
+"star_item" = "Označi ovu stavku zvjezdicom";
+"unstar_item" = "Ukloni zvjezdicu";
+"tags" = "Oznake";
+"tags_help" = "Odvojite oznake zarezima. Oznake se mogu pretraživati.";
+"save" = "Spremi";
+"on" = "Uključeno";
+"off" = "Isključeno";
+"include_starred_items" = "Uključi stavke sa zvjezdicom";
+"free_five_items" = "Besplatno · 5 stavki";
+"no_starred_items" = "Nema stavki sa zvjezdicom";
+"starred_items_appear_here" = "Stavke koje označite zvjezdicom pojavit će se ovdje.";
+"tagged" = "S oznakom";
+"tagged_items" = "Stavke s oznakom";
+"no_tagged_items" = "Nema stavki s oznakom";
+"tagged_items_appear_here" = "Stavke kojima dodate oznaku pojavit će se ovdje.";
+"tag_item" = "Dodaj oznake ovoj stavci";

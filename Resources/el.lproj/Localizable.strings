@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Αυτόματη επικόλληση μετά την επιλογή στοιχείου";
 "wizard_auto_paste_permission" = "Αν ενεργοποιηθεί, το macOS θα ζητήσει άδεια Προσβασιμότητας την πρώτη φορά που θα χρησιμοποιηθεί η αυτόματη επικόλληση. Αν αρνηθείτε, τα επιλεγμένα στοιχεία εξακολουθούν να αντιγράφονται.";
 "wizard_auto_paste_title" = "Επικόλληση μετά την επιλογή";
-"wizard_essentials_body" = "Επιλέξτε πόσο θα παραμένουν τα αντιγραμμένα στοιχεία σε αυτό το Mac και αν το Πρόχειρο θα εμφανίζεται στη γραμμή μενού.";
+"wizard_essentials_body" = "Επιλέξτε πόσο θα παραμένουν τα αντιγραμμένα στοιχεία στο Mac σας και αν το Πρόχειρο θα εμφανίζεται στη γραμμή μενού.";
 "wizard_essentials_title" = "Το πρόχειρό σας";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Άνοιγμα Προχείρου με";
@@ -33,7 +33,7 @@
 "clear_history" = "Εκκαθάριση ιστορικού";
 "clear_history_ellipsis" = "Εκκαθάριση ιστορικού…";
 "clear_history_question" = "Διαγραφή του ιστορικού του προχείρου;";
-"clear_history_warning" = "Κάθε αποθηκευμένο στοιχείο κειμένου και εικόνας θα αφαιρεθεί οριστικά από αυτό το Mac.";
+"clear_history_warning" = "Τα στοιχεία χωρίς αστέρι θα διαγραφούν οριστικά από το Mac σας. Τα στοιχεία με αστέρι διατηρούνται, εκτός αν τα συμπεριλάβετε.";
 "close" = "Κλείσιμο";
 "copied_image_save_failed" = "Δεν ήταν δυνατή η αποθήκευση μιας αντιγραμμένης εικόνας: %@";
 "copied_items_appear_here" = "Τα στοιχεία που αντιγράφετε θα εμφανίζονται εδώ.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Σφάλμα αποθήκευσης Pastemin";
 "paywall_description" = "Διατηρήστε το ιστορικό του προχείρου σας κοντά, με δυνατότητα αναζήτησης και ιδιωτικό στο Mac σας.";
 "price_per_year" = "%@ ανά έτος";
-"privacy_local_history" = "Το ιστορικό του πρόχειρου δεν φεύγει ποτέ από αυτό το Mac";
+"privacy_local_history" = "Το ιστορικό του πρόχειρου δεν φεύγει ποτέ από το Mac σας";
 "privacy_policy" = "Πολιτική απορρήτου";
 "purchase_verification_failed" = "Το App Store δεν μπόρεσε να επαληθεύσει αυτήν την αγορά.";
 "purchase_waiting_for_approval" = "Η αγορά περιμένει έγκριση.";
@@ -104,7 +104,7 @@
 "try_again" = "Επανάληψη";
 "trial_ends" = "Δοκιμαστική περίοδος · λήγει %@";
 "trial_first_payment" = "Δοκιμαστική · πρώτη πληρωμή %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Προβολή και αναζήτηση έως 5 στοιχείων.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "Δοκιμαστική · έως %@";
 "type_shortcut" = "Πληκτρολογήστε συντόμευση…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Προβολή και αναζήτηση έως 5 στοιχείων. Ολόκληρο το ιστορικό σας παραμένει αποθηκευμένο.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Η δοκιμαστική περίοδος Pro είναι ενεργή.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Έχετε το Pastemin Pro.";
 "terms_of_use" = "Όροι χρήσης (EULA)";
+"remove_filter" = "Κατάργηση φίλτρου";
+"starred_items" = "Στοιχεία με αστέρι";
+"starred" = "Με αστέρι";
+"star_item" = "Σημείωση αυτού του στοιχείου με αστέρι";
+"unstar_item" = "Αφαίρεση αστεριού";
+"tags" = "Ετικέτες";
+"tags_help" = "Χωρίστε τις ετικέτες με κόμματα. Οι ετικέτες είναι αναζητήσιμες.";
+"save" = "Αποθήκευση";
+"on" = "Ενεργό";
+"off" = "Ανενεργό";
+"include_starred_items" = "Συμπερίληψη στοιχείων με αστέρι";
+"free_five_items" = "Δωρεάν · 5 στοιχεία";
+"no_starred_items" = "Δεν υπάρχουν στοιχεία με αστέρι";
+"starred_items_appear_here" = "Τα στοιχεία που σημειώνετε με αστέρι θα εμφανίζονται εδώ.";
+"tagged" = "Με ετικέτα";
+"tagged_items" = "Στοιχεία με ετικέτα";
+"no_tagged_items" = "Δεν υπάρχουν στοιχεία με ετικέτα";
+"tagged_items_appear_here" = "Τα στοιχεία στα οποία προσθέτετε ετικέτα θα εμφανίζονται εδώ.";
+"tag_item" = "Προσθήκη ετικετών σε αυτό το στοιχείο";

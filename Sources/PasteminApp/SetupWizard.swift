@@ -294,14 +294,14 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
         retentionPopup = retention
 
         let retentionRow = labeledRow(
-            localized("keep_copied_items", "Keep copied items"),
+            localized("keep_copied_items", "Keep Copied Items"),
             control: retention
         )
 
         // Let the user choose whether Clipboard remains available in the
         // menu bar.
         let menuBar = NSButton(
-            checkboxWithTitle: localized("show_in_menu_bar", "Show in menu bar"),
+            checkboxWithTitle: localized("show_in_menu_bar", "Show in Menu Bar"),
             target: nil,
             action: nil
         )
@@ -342,7 +342,7 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             title: localized("wizard_essentials_title", "Your clipboard"),
             body: localized(
                 "wizard_essentials_body",
-                "Choose how long copied items stay on this Mac and whether Clipboard appears in the menu bar."
+                "Choose how long copied items stay on your Mac and whether Clipboard appears in the menu bar."
             ),
             extra: [retentionRow, menuBar, loginItem, shortcutRow, note]
         )
@@ -386,7 +386,8 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
     }
     #endif
 
-    /// Explains the automatic trial, limited history view, and optional plans before setup ends.
+    /// readyStep(): Explain the trial, Free allowance and optional paid access
+    /// before setup ends.
     private func readyStep() -> NSView {
         let during = trialRow(
             symbol: "clock",
@@ -401,7 +402,7 @@ final class SetupWizardController: NSObject, NSWindowDelegate {
             title: localized("wizard_trial_after_title", "After the trial"),
             detail: localized(
                 "wizard_trial_after_pastemin",
-                "Pastemin keeps storing your history, but shows and searches only the 5 newest items."
+                "View and search up to 5 items. Your full history stays stored."
             )
         )
         let plans = trialRow(

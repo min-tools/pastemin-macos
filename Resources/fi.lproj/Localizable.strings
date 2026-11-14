@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Liitä automaattisesti kohteen valitsemisen jälkeen";
 "wizard_auto_paste_permission" = "Jos toiminto otetaan käyttöön, macOS pyytää Käyttöapu-luvan, kun automaattista liittämistä käytetään ensimmäisen kerran. Jos kieltäydyt, valitut kohteet kopioidaan silti.";
 "wizard_auto_paste_title" = "Liitä valinnan jälkeen";
-"wizard_essentials_body" = "Valitse, kuinka kauan kopioidut kohteet säilyvät tällä Macilla ja näkyykö Leikepöytä valikkorivillä.";
+"wizard_essentials_body" = "Valitse, kuinka kauan kopioidut kohteet säilyvät Macillasi ja näkyykö Leikepöytä valikkorivillä.";
 "wizard_essentials_title" = "Leikepöytäsi";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Avaa Leikepöytä näppäimillä";
@@ -33,7 +33,7 @@
 "clear_history" = "Tyhjennä historia";
 "clear_history_ellipsis" = "Tyhjennä historia…";
 "clear_history_question" = "Tyhjennä leikepöydän historia?";
-"clear_history_warning" = "Jokainen tallennettu teksti- ja kuvakohde poistetaan pysyvästi tästä Macista.";
+"clear_history_warning" = "Kohteet, joilla ei ole tähteä, poistetaan pysyvästi Macistasi. Tähdellä merkityt kohteet säilytetään, ellet sisällytä niitä.";
 "close" = "Sulje";
 "copied_image_save_failed" = "Kopioitua kuvaa ei voitu tallentaa: %@";
 "copied_items_appear_here" = "Kopioimasi kohteet näkyvät tässä.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin-tallennusvirhe";
 "paywall_description" = "Pidä leikepöydän historia lähellä, haettavissa ja yksityisenä Macissasi.";
 "price_per_year" = "%@ vuodessa";
-"privacy_local_history" = "Leikepöydän historia ei koskaan poistu tästä Macista";
+"privacy_local_history" = "Leikepöydän historia ei koskaan poistu Macistasi";
 "privacy_policy" = "Tietosuojakäytäntö";
 "purchase_verification_failed" = "App Store ei voinut vahvistaa tätä ostosta.";
 "purchase_waiting_for_approval" = "Ostos odottaa hyväksyntää.";
@@ -104,7 +104,7 @@
 "try_again" = "Yritä uudelleen";
 "trial_ends" = "Kokeilu · päättyy %@";
 "trial_first_payment" = "Kokeilu · ensimmäinen maksu %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Näytä ja hae enintään 5 kohdetta.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "Kokeilu · - %@";
 "type_shortcut" = "Kirjoita pikakuvake…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Näytä ja hae enintään 5 kohdetta. Koko historiasi säilyy tallennettuna.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Pro-kokeilusi on aktiivinen.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Sinulla on Pastemin Pro.";
 "terms_of_use" = "Käyttöehdot (EULA)";
+"remove_filter" = "Poista suodatin";
+"starred_items" = "Tähdellä merkityt kohteet";
+"starred" = "Tähdellä merkitty";
+"star_item" = "Merkitse tämä kohde tähdellä";
+"unstar_item" = "Poista tähti";
+"tags" = "Tunnisteet";
+"tags_help" = "Erota tunnisteet pilkuilla. Tunnisteilla voi hakea.";
+"save" = "Tallenna";
+"on" = "Päällä";
+"off" = "Pois";
+"include_starred_items" = "Sisällytä tähdellä merkityt kohteet";
+"free_five_items" = "Ilmainen · 5 kohdetta";
+"no_starred_items" = "Ei tähdellä merkittyjä kohteita";
+"starred_items_appear_here" = "Tähdellä merkitsemäsi kohteet näkyvät tässä.";
+"tagged" = "Tunnisteella merkitty";
+"tagged_items" = "Tunnisteella merkityt kohteet";
+"no_tagged_items" = "Ei tunnisteella merkittyjä kohteita";
+"tagged_items_appear_here" = "Tunnisteella merkitsemäsi kohteet näkyvät tässä.";
+"tag_item" = "Lisää tunnisteita tähän kohteeseen";

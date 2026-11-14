@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Tự động dán sau khi chọn một mục";
 "wizard_auto_paste_permission" = "Nếu được bật, macOS sẽ yêu cầu quyền Trợ năng trong lần đầu sử dụng tính năng tự động dán. Nếu bạn từ chối, các mục đã chọn vẫn được sao chép.";
 "wizard_auto_paste_title" = "Dán sau khi chọn";
-"wizard_essentials_body" = "Chọn thời gian lưu các mục đã sao chép trên máy Mac này và có hiển thị Bảng nhớ tạm trên thanh menu hay không.";
+"wizard_essentials_body" = "Chọn thời gian lưu các mục đã sao chép trên máy Mac của bạn và có hiển thị Bảng nhớ tạm trên thanh menu hay không.";
 "wizard_essentials_title" = "Bảng nhớ tạm của bạn";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Mở Bảng nhớ tạm bằng";
@@ -33,7 +33,7 @@
 "clear_history" = "Xóa lịch sử";
 "clear_history_ellipsis" = "Xóa lịch sử…";
 "clear_history_question" = "Xóa lịch sử bảng tạm?";
-"clear_history_warning" = "Mọi mục văn bản và hình ảnh được lưu trữ sẽ bị xóa vĩnh viễn khỏi máy Mac này.";
+"clear_history_warning" = "Các mục không có sao sẽ bị xóa vĩnh viễn khỏi máy Mac của bạn. Mục có sao được giữ lại trừ khi bạn bao gồm chúng.";
 "close" = "Đóng";
 "copied_image_save_failed" = "Không thể lưu hình ảnh đã sao chép: %@";
 "copied_items_appear_here" = "Các mục bạn sao chép sẽ xuất hiện ở đây.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Lỗi lưu trữ Pastemin";
 "paywall_description" = "Giữ lịch sử clipboard của bạn luôn ở trạng thái gần gũi, có thể tìm kiếm và riêng tư trên máy Mac của bạn.";
 "price_per_year" = "%@ mỗi năm";
-"privacy_local_history" = "Lịch sử bảng nhớ tạm không bao giờ rời khỏi máy Mac này";
+"privacy_local_history" = "Lịch sử bảng nhớ tạm không bao giờ rời khỏi máy Mac của bạn";
 "privacy_policy" = "Chính sách quyền riêng tư";
 "purchase_verification_failed" = "App Store không thể xác minh giao dịch mua này.";
 "purchase_waiting_for_approval" = "Giao dịch mua đang chờ phê duyệt.";
@@ -104,7 +104,7 @@
 "try_again" = "Thử lại";
 "trial_ends" = "Bản dùng thử · kết thúc %@";
 "trial_first_payment" = "Dùng thử · thanh toán lần đầu %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Xem và tìm kiếm tối đa 5 mục.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Mua";
 "restoring_purchases" = "Đang khôi phục…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Xem và tìm kiếm tối đa 5 mục. Toàn bộ lịch sử vẫn được lưu.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Thời gian dùng thử Pro của bạn đang hoạt động.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Bạn đang có Pastemin Pro.";
 "terms_of_use" = "Điều khoản sử dụng (EULA)";
+"remove_filter" = "Bỏ bộ lọc";
+"starred_items" = "Mục có sao";
+"starred" = "Có sao";
+"star_item" = "Gắn sao mục này";
+"unstar_item" = "Bỏ sao";
+"tags" = "Thẻ";
+"tags_help" = "Phân cách thẻ bằng dấu phẩy. Có thể tìm kiếm theo thẻ.";
+"save" = "Lưu";
+"on" = "Bật";
+"off" = "Tắt";
+"include_starred_items" = "Bao gồm mục có sao";
+"free_five_items" = "Miễn phí · 5 mục";
+"no_starred_items" = "Chưa có mục gắn sao";
+"starred_items_appear_here" = "Các mục bạn gắn sao sẽ xuất hiện ở đây.";
+"tagged" = "Có thẻ";
+"tagged_items" = "Mục có thẻ";
+"no_tagged_items" = "Chưa có mục gắn thẻ";
+"tagged_items_appear_here" = "Các mục bạn gắn thẻ sẽ xuất hiện ở đây.";
+"tag_item" = "Gắn thẻ mục này";

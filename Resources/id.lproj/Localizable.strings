@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Tempel otomatis setelah memilih item";
 "wizard_auto_paste_permission" = "Jika diaktifkan, macOS akan meminta izin Aksesibilitas saat tempel otomatis digunakan untuk pertama kali. Jika Anda menolak, item yang dipilih tetap disalin.";
 "wizard_auto_paste_title" = "Tempel setelah memilih";
-"wizard_essentials_body" = "Pilih berapa lama item yang disalin disimpan di Mac ini dan apakah Papan Klip muncul di bar menu.";
+"wizard_essentials_body" = "Pilih berapa lama item yang disalin disimpan di Mac Anda dan apakah Papan Klip muncul di bar menu.";
 "wizard_essentials_title" = "Papan klip Anda";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Buka Papan Klip dengan";
@@ -33,7 +33,7 @@
 "clear_history" = "Hapus Riwayat";
 "clear_history_ellipsis" = "Hapus Riwayat…";
 "clear_history_question" = "Hapus Riwayat Papan Klip?";
-"clear_history_warning" = "Setiap item teks dan gambar yang disimpan akan dihapus secara permanen dari Mac ini.";
+"clear_history_warning" = "Item tanpa bintang akan dihapus permanen dari Mac Anda. Item berbintang tetap disimpan kecuali Anda menyertakannya.";
 "close" = "Tutup";
 "copied_image_save_failed" = "Gambar yang disalin tidak dapat disimpan: %@";
 "copied_items_appear_here" = "Item yang Anda salin akan muncul di sini.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Kesalahan Penyimpanan Pastemin";
 "paywall_description" = "Jaga agar riwayat papan klip Anda tetap dekat, dapat dicari, dan pribadi di Mac Anda.";
 "price_per_year" = "%@ per tahun";
-"privacy_local_history" = "Riwayat papan klip tidak pernah meninggalkan Mac ini";
+"privacy_local_history" = "Riwayat papan klip tidak pernah meninggalkan Mac Anda";
 "privacy_policy" = "Kebijakan Privasi";
 "purchase_verification_failed" = "App Store tidak dapat memverifikasi pembelian ini.";
 "purchase_waiting_for_approval" = "Pembelian menunggu persetujuan.";
@@ -104,7 +104,7 @@
 "try_again" = "Coba lagi";
 "trial_ends" = "Uji Coba · berakhir %@";
 "trial_first_payment" = "Uji Coba · pembayaran pertama %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Lihat dan cari hingga 5 item.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Beli";
 "restoring_purchases" = "Memulihkan…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Lihat dan cari hingga 5 item. Seluruh riwayat Anda tetap tersimpan.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Masa uji coba Pro Anda aktif.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Anda memiliki Pastemin Pro.";
 "terms_of_use" = "Ketentuan Penggunaan (EULA)";
+"remove_filter" = "Hapus filter";
+"starred_items" = "Item berbintang";
+"starred" = "Berbintang";
+"star_item" = "Beri bintang pada item ini";
+"unstar_item" = "Hapus bintang";
+"tags" = "Tag";
+"tags_help" = "Pisahkan tag dengan koma. Tag dapat dicari.";
+"save" = "Simpan";
+"on" = "Aktif";
+"off" = "Nonaktif";
+"include_starred_items" = "Sertakan item berbintang";
+"free_five_items" = "Gratis · 5 item";
+"no_starred_items" = "Belum ada item berbintang";
+"starred_items_appear_here" = "Item yang Anda beri bintang akan muncul di sini.";
+"tagged" = "Bertag";
+"tagged_items" = "Item bertag";
+"no_tagged_items" = "Belum ada item bertag";
+"tagged_items_appear_here" = "Item yang Anda beri tag akan muncul di sini.";
+"tag_item" = "Beri tag pada item ini";

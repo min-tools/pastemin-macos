@@ -6,8 +6,10 @@ extension Notification.Name {
     static let showClipboardOptions = Notification.Name("tools.min.pastemin.showClipboardOptions")
 }
 
-/// Every row the options dropdown can highlight, in display order.
+/// Identifiers for highlightable rows; configureKeyboard() sets display order.
 enum OptionsRow: Hashable {
+    case starred
+    case tagged
     case clearCurrent
     case clearHistory
     case retention

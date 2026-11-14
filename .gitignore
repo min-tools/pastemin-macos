@@ -23,7 +23,7 @@ DerivedData/
 *.swiftdoc
 *.swiftsourceinfo
 
-# Maintainer procedures and local signing/configuration files stay on this Mac.
+# Maintainer procedures and local signing/configuration files stay on your Mac.
 /private/
 .env
 .env.*

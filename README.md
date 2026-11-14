@@ -42,7 +42,7 @@
   Move with the arrow keys, press Return to restore an item, delete one with **⌘Delete**, and dismiss with Escape.
 - **Optional automatic paste**  
   The local edition can send one **⌘V** after you choose an item. It is off by default and works only after you enable it and grant macOS permission.
-- **Your history stays on this Mac**  
+- **Your history stays on your Mac**  
   Clipboard content lives inside Pastemin's sandbox. There is no Pastemin account, analytics, advertising, or developer server.
 - **You decide what remains**  
   Keep copied items for an hour, a day, a week, a month, three months, or forever. Clear one item, the current clipboard, or the whole history whenever you want.
@@ -73,10 +73,24 @@ The search field is ready as soon as Pastemin opens. Results update while you ty
 | Move through results | **↑** and **↓** |
 | Restore the selected item | **Return** |
 | Delete the selected item | **⌘Delete** |
+| Add or remove a star | **⌘F** |
+| Edit the selected item's tags | **⌘T** |
 | Close Pastemin | **Escape** |
 | Open options | **⌘,** |
 
 Large text and image payloads load only when needed, so a long history does not have to enter memory at launch. The list renders in batches as you scroll.
+
+## Starred items and tags
+
+Star an item to keep it until you delete it or remove its star. Starred items survive automatic cleanup and ordinary history clearing. You can explicitly include them when clearing all history.
+
+Add comma-separated tags to text or images to make them easier to find. Search includes tags, with exact tag matches first, partial tag matches next, and content matches after that. Stars give otherwise similar matches priority. Browsing without a query stays newest first.
+
+You can filter the list to starred items, to tagged items, or to both. Tagged items are those with at least one tag. Filters combine with search. Turning off one filter leaves the other filter and search in effect.
+
+Free access includes five items in total: up to three starred items, with the remaining slots filled by recent unstarred items. With three stars you can access two recent items. With no stars you can access five recent items. Filtering and searching use the same allowance.
+
+Pro allows unlimited stars. If full access expires, the three most recently starred items remain accessible. Extra starred items stay stored and protected from cleanup, and return when full access is restored. Copying the same content again preserves its star and tags.
 
 ## Your clipboard, your rules
 
@@ -92,7 +106,7 @@ Apps can mark password-manager output and other short-lived data as concealed, t
 
 ## One app, two ways to use it
 
-**Mac App Store:** The free download starts with 30 days of full history access. No subscription starts, and there is no charge. After the trial, Pastemin keeps monitoring the clipboard while the window shows and searches the five newest items. A yearly subscription or lifetime purchase restores the complete history.
+**Mac App Store:** The free download starts with 30 days of full history access. No subscription starts, and there is no charge. After the trial, Pastemin keeps monitoring the clipboard while showing and searching up to five items, including up to three starred items. A yearly subscription or lifetime purchase restores the complete history.
 
 **Build from source:** The public build starts the same 30-day trial locally after its disclosure; the Mac App Store build uses Apple's signed original acquisition date. Both use the same five-item limit and purchase rules.
 

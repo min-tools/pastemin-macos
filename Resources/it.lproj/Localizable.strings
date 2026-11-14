@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Incolla automaticamente dopo aver scelto un elemento";
 "wizard_auto_paste_permission" = "Se attivato, macOS chiederà l’autorizzazione Accessibilità al primo utilizzo dell’incolla automatico. Se rifiuti, gli elementi selezionati verranno comunque copiati.";
 "wizard_auto_paste_title" = "Incolla dopo la selezione";
-"wizard_essentials_body" = "Scegli per quanto tempo conservare gli elementi copiati su questo Mac e se mostrare Appunti nella barra dei menu.";
+"wizard_essentials_body" = "Scegli per quanto tempo conservare gli elementi copiati sul tuo Mac e se mostrare Appunti nella barra dei menu.";
 "wizard_essentials_title" = "I tuoi appunti";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Apri Appunti con";
@@ -33,7 +33,7 @@
 "clear_history" = "Cancella cronologia";
 "clear_history_ellipsis" = "Cancella cronologia…";
 "clear_history_question" = "Cancellare la cronologia degli appunti?";
-"clear_history_warning" = "Tutti gli elementi di testo e immagine salvati verranno rimossi definitivamente da questo Mac.";
+"clear_history_warning" = "Gli elementi non preferiti verranno eliminati definitivamente dal tuo Mac. I preferiti vengono conservati, a meno che tu non li includa.";
 "close" = "Chiudi";
 "copied_image_save_failed" = "Impossibile salvare un’immagine copiata: %@";
 "copied_items_appear_here" = "Gli elementi copiati appariranno qui.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Errore di archiviazione Pastemin";
 "paywall_description" = "Mantieni la cronologia degli appunti a portata di mano, ricercabile e privata sul tuo Mac.";
 "price_per_year" = "%@ all’anno";
-"privacy_local_history" = "La cronologia degli appunti non lascia mai questo Mac";
+"privacy_local_history" = "La cronologia degli appunti non lascia mai il tuo Mac";
 "privacy_policy" = "Informativa sulla privacy";
 "purchase_verification_failed" = "L’App Store non ha potuto verificare questo acquisto.";
 "purchase_waiting_for_approval" = "L’acquisto è in attesa di approvazione.";
@@ -104,7 +104,7 @@
 "try_again" = "Riprova";
 "trial_ends" = "Prova · termina il %@";
 "trial_first_payment" = "Prova · primo pagamento il %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Visualizza e cerca fino a 5 elementi.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Acquista";
 "restoring_purchases" = "Ripristino…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Visualizza e cerca fino a 5 elementi. L’intera cronologia rimane salvata.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "La tua prova di Pro è attiva.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Hai Pastemin Pro.";
 "terms_of_use" = "Condizioni d’uso (EULA)";
+"remove_filter" = "Rimuovi filtro";
+"starred_items" = "Preferiti";
+"starred" = "Preferito";
+"star_item" = "Aggiungi questo elemento ai preferiti";
+"unstar_item" = "Rimuovi dai preferiti";
+"tags" = "Tag";
+"tags_help" = "Separa i tag con virgole. I tag sono inclusi nella ricerca.";
+"save" = "Salva";
+"on" = "Attivo";
+"off" = "Disattivo";
+"include_starred_items" = "Includi i preferiti";
+"free_five_items" = "Gratis · 5 elementi";
+"no_starred_items" = "Nessun elemento preferito";
+"starred_items_appear_here" = "Gli elementi contrassegnati con una stella appariranno qui.";
+"tagged" = "Con tag";
+"tagged_items" = "Elementi con tag";
+"no_tagged_items" = "Nessun elemento con tag";
+"tagged_items_appear_here" = "Gli elementi a cui aggiungi un tag appariranno qui.";
+"tag_item" = "Assegna tag a questo elemento";

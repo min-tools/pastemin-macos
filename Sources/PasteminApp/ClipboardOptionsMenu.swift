@@ -26,6 +26,7 @@ private enum OptionsMetrics {
 }
 
 struct ClipboardOptionsMenuView: View {
+    @ObservedObject var model: ClipboardViewModel
     @ObservedObject var preferences: ClipboardPreferences
     @ObservedObject var store: ClipboardHistoryStore
     @ObservedObject var selection: OptionsSelectionModel
@@ -39,7 +40,31 @@ struct ClipboardOptionsMenuView: View {
     let dismiss: () -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
+        // Count stored items, not distinct tags, including history outside
+        // the current search, filters and Free allowance.
+        let starredCount = store.items.reduce(0) { $0 + ($1.isStarred ? 1 : 0) }
+        let taggedCount = store.items.reduce(0) { $0 + ($1.tagNames.isEmpty ? 0 : 1) }
+        return VStack(spacing: 0) {
+            // Both filters narrow the list behind the dropdown and stay until turned off.
+            OptionsActionRow(
+                row: .starred,
+                title: localized("starred_items", "Starred Items"),
+                count: starredCount,
+                isOn: model.showsStarredOnly,
+                selection: selection,
+                action: dismissThen(model.toggleStarredFilter)
+            )
+            OptionsActionRow(
+                row: .tagged,
+                title: localized("tagged_items", "Tagged Items"),
+                count: taggedCount,
+                isOn: model.showsTaggedOnly,
+                selection: selection,
+                action: dismissThen(model.toggleTaggedFilter)
+            )
+
+            OptionsDivider()
+
             OptionsActionRow(
                 row: .clearCurrent,
                 title: localized("clear_current_clipboard", "Clear Current Clipboard"),
@@ -57,14 +82,14 @@ struct ClipboardOptionsMenuView: View {
 
             OptionsControlRow(
                 row: .retention,
-                title: localized("keep_copied_items", "Keep copied items"),
+                title: localized("keep_copied_items", "Keep Copied Items"),
                 selection: selection
             ) {
                 SettingsPopUpPicker(
                     selection: $preferences.retention,
                     options: RetentionPeriod.allCases,
                     title: { $0.title },
-                    accessibilityLabel: localized("keep_copied_items", "Keep copied items"),
+                    accessibilityLabel: localized("keep_copied_items", "Keep Copied Items"),
                     activationNotification: .activateClipboardRetentionPicker
                 )
                 .frame(width: OptionsMetrics.controlWidth, height: OptionsMetrics.controlHeight)
@@ -72,7 +97,7 @@ struct ClipboardOptionsMenuView: View {
 
             OptionsControlRow(
                 row: .menuBar,
-                title: localized("show_in_menu_bar", "Show in menu bar"),
+                title: localized("show_in_menu_bar", "Show in Menu Bar"),
                 selection: selection
             ) {
                 Toggle("", isOn: $preferences.showInMenuBar)
@@ -84,7 +109,7 @@ struct ClipboardOptionsMenuView: View {
             // Automatic paste is available only in the local edition.
             OptionsControlRow(
                 row: .automaticPaste,
-                title: localized("paste_automatically", "Paste automatically"),
+                title: localized("paste_automatically", "Paste Automatically"),
                 detail: automaticPasteDetail,
                 selection: selection
             ) {
@@ -108,6 +133,8 @@ struct ClipboardOptionsMenuView: View {
                 .frame(width: OptionsMetrics.controlWidth, height: OptionsMetrics.controlHeight)
             }
 
+            // Surface registration failures without hiding the shortcut
+            // control.
             if let error = preferences.hotKeyError {
                 Label(error, systemImage: "exclamationmark.triangle.fill")
                     .font(.system(size: 11))
@@ -120,7 +147,7 @@ struct ClipboardOptionsMenuView: View {
 
             OptionsControlRow(
                 row: .storage,
-                title: localized("local_storage", "Local storage"),
+                title: localized("local_storage", "Local Storage"),
                 detail: localStorageDetail,
                 selection: selection
             ) {
@@ -156,7 +183,7 @@ struct ClipboardOptionsMenuView: View {
                     .font(.system(size: 12))
                     .foregroundStyle(.green)
                     .padding(.top, 1)
-                Text(localized("privacy_local_history", "Clipboard history never leaves this Mac"))
+                Text(localized("privacy_local_history", "Clipboard history never leaves your Mac"))
                     .font(.system(size: 11))
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -183,17 +210,24 @@ struct ClipboardOptionsMenuView: View {
         .padding(.bottom, 8)
     }
 
-    /// Register the rows in display order and what Return, Space, Left and Right do on each.
+    /// configureKeyboard(): Register rows in display order and bind their
+    /// activation and adjustment actions.
     private func configureKeyboard() {
-        var rows: [OptionsRow] = [.clearCurrent, .clearHistory, .retention, .menuBar]
+        var rows: [OptionsRow] = [
+            .starred, .tagged, .clearCurrent, .clearHistory, .retention, .menuBar
+        ]
         #if !PASTEMIN_APP_STORE
         rows.append(.automaticPaste)
         #endif
         rows.append(.shortcut)
         rows += [.storage, .purchases, .about, .privacy]
         selection.rows = rows
+        // Keyboard activation follows the same dismissal rules as clicking.
         selection.activate = { row in
             switch row {
+            // Filters change the history list after the dropdown closes.
+            case .starred: dismissThen(model.toggleStarredFilter)()
+            case .tagged: dismissThen(model.toggleTaggedFilter)()
             case .clearCurrent: dismissThen(clearCurrentClipboard)()
             case .clearHistory: dismissThen(clearHistory)()
             case .retention:
@@ -210,6 +244,7 @@ struct ClipboardOptionsMenuView: View {
             case .privacy: dismissThen(showPrivacyPolicy)()
             }
         }
+        // Left and Right adjust controls without activating unrelated actions.
         selection.adjust = { row, delta in
             switch row {
             case .retention:
@@ -298,11 +333,14 @@ private struct OptionsFooterButton: View {
     }
 }
 
-/// A menu item look-alike: accent highlight with white text whenever the row is selected by
-/// the mouse or the keyboard, activated by click, Return or Space.
+/// An action row with shared pointer and keyboard selection. Filter rows
+/// also show their total stored item count and whether the filter is active.
 private struct OptionsActionRow: View {
     let row: OptionsRow
     let title: String
+    /// Nil for a plain action; a filter passes its item count, and zero stays hidden.
+    var count: Int? = nil
+    var isOn = false
     @ObservedObject var selection: OptionsSelectionModel
     let action: () -> Void
 
@@ -310,21 +348,51 @@ private struct OptionsActionRow: View {
 
     var body: some View {
         Button(action: action) {
-            Text(title)
-                .font(.system(size: 13))
-                .foregroundStyle(isSelected ? Color.white : Color.primary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, OptionsMetrics.inset)
-                .frame(height: OptionsMetrics.actionRowHeight)
-                .background(
-                    isSelected ? Color.accentColor : Color.clear,
-                    in: RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius)
-                )
-                .contentShape(RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius))
+            HStack(spacing: 8) {
+                Text(title)
+                    .foregroundStyle(isSelected ? Color.white : Color.primary)
+                Spacer(minLength: 8)
+                // Hide absent or zero counts; let the capsule grow for larger
+                // totals.
+                if let count, count > 0 {
+                    Text(count, format: .number)
+                        .font(.system(size: 10, weight: .semibold))
+                        .monospacedDigit()
+                        .foregroundStyle(isSelected ? Color.white : Color.secondary)
+                        .fixedSize()
+                        .padding(.horizontal, 6)
+                        .frame(minWidth: 20, minHeight: 18)
+                        .background(
+                            isSelected ? Color.white.opacity(0.18) : Color.primary.opacity(0.07),
+                            in: Capsule()
+                        )
+                }
+                // Filter activation is independent of the highlighted menu row.
+                if isOn {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(isSelected ? Color.white : Color.accentColor)
+                }
+            }
+            .font(.system(size: 13))
+            .padding(.horizontal, OptionsMetrics.inset)
+            .frame(height: OptionsMetrics.actionRowHeight)
+            .background(
+                isSelected ? Color.accentColor : Color.clear,
+                in: RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius)
+            )
+            .contentShape(RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius))
         }
         .buttonStyle(.plain)
         .onHover { hovering in selection.hover(row, hovering) }
         .accessibilityAddTraits(.isButton)
+        .accessibilityValue(filterDescription)
+    }
+
+    /// The count and state VoiceOver reads for a filter row; empty for a plain action.
+    private var filterDescription: String {
+        guard let count else { return "" }
+        return "\(count.formatted()), " + (isOn ? localized("on", "On") : localized("off", "Off"))
     }
 }
 

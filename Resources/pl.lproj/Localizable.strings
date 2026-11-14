@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Wklej automatycznie po wybraniu elementu";
 "wizard_auto_paste_permission" = "Po włączeniu macOS poprosi o uprawnienie Dostępność przy pierwszym użyciu automatycznego wklejania. Jeśli odmówisz, wybrane elementy nadal będą kopiowane.";
 "wizard_auto_paste_title" = "Wklej po wybraniu";
-"wizard_essentials_body" = "Wybierz, jak długo skopiowane elementy pozostają na tym Macu i czy Schowek ma być widoczny na pasku menu.";
+"wizard_essentials_body" = "Wybierz, jak długo skopiowane elementy pozostają na Twoim Macu i czy Schowek ma być widoczny na pasku menu.";
 "wizard_essentials_title" = "Twój schowek";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Otwórz Schowek za pomocą";
@@ -33,7 +33,7 @@
 "clear_history" = "Wyczyść historię";
 "clear_history_ellipsis" = "Wyczyść historię…";
 "clear_history_question" = "Wyczyścić historię schowka?";
-"clear_history_warning" = "Każdy zapisany tekst i obraz zostaną trwale usunięte z tego komputera Mac.";
+"clear_history_warning" = "Elementy bez gwiazdki zostaną trwale usunięte z Twojego Maca. Elementy z gwiazdką zostaną zachowane, chyba że je uwzględnisz.";
 "close" = "Zamknij";
 "copied_image_save_failed" = "Nie można zapisać skopiowanego obrazu: %@";
 "copied_items_appear_here" = "Tutaj pojawią się skopiowane elementy.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Błąd przechowywania Pastemina";
 "paywall_description" = "Zadbaj o to, aby historia schowka była zamknięta, łatwa do przeszukiwania i prywatna na komputerze Mac.";
 "price_per_year" = "%@ rocznie";
-"privacy_local_history" = "Historia schowka nigdy nie opuszcza tego Maca";
+"privacy_local_history" = "Historia schowka nigdy nie opuszcza Twojego Maca";
 "privacy_policy" = "Polityka prywatności";
 "purchase_verification_failed" = "App Store nie mógł zweryfikować tego zakupu.";
 "purchase_waiting_for_approval" = "Zakup oczekuje na zatwierdzenie.";
@@ -104,7 +104,7 @@
 "try_again" = "Ponów";
 "trial_ends" = "Wersja próbna · kończy się %@";
 "trial_first_payment" = "Wersja próbna · pierwsza płatność %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Wyświetlaj i przeszukuj do 5 elementów.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Kup";
 "restoring_purchases" = "Przywracanie…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Wyświetlaj i przeszukuj do 5 elementów. Cała historia pozostaje zapisana.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Twój okres próbny Pro jest aktywny.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Masz Pastemin Pro.";
 "terms_of_use" = "Warunki użytkowania (EULA)";
+"remove_filter" = "Usuń filtr";
+"starred_items" = "Elementy z gwiazdką";
+"starred" = "Z gwiazdką";
+"star_item" = "Oznacz ten element gwiazdką";
+"unstar_item" = "Usuń gwiazdkę";
+"tags" = "Tagi";
+"tags_help" = "Oddziel tagi przecinkami. Tagi można wyszukiwać.";
+"save" = "Zapisz";
+"on" = "Włączone";
+"off" = "Wyłączone";
+"include_starred_items" = "Uwzględnij elementy z gwiazdką";
+"free_five_items" = "Bezpłatnie · 5 elementów";
+"no_starred_items" = "Brak elementów z gwiazdką";
+"starred_items_appear_here" = "Elementy oznaczone gwiazdką pojawią się tutaj.";
+"tagged" = "Z tagami";
+"tagged_items" = "Elementy z tagami";
+"no_tagged_items" = "Brak elementów z tagami";
+"tagged_items_appear_here" = "Elementy oznaczone tagami pojawią się tutaj.";
+"tag_item" = "Dodaj tagi do tego elementu";

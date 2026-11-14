@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Automatisch plakken na het kiezen van een onderdeel";
 "wizard_auto_paste_permission" = "Als dit is ingeschakeld, vraagt macOS bij het eerste gebruik van automatisch plakken om toestemming voor Toegankelijkheid. Als je weigert, worden geselecteerde onderdelen nog steeds gekopieerd.";
 "wizard_auto_paste_title" = "Plakken na selectie";
-"wizard_essentials_body" = "Kies hoelang gekopieerde onderdelen op deze Mac blijven en of Klembord in de menubalk verschijnt.";
+"wizard_essentials_body" = "Kies hoelang gekopieerde onderdelen op je Mac blijven en of Klembord in de menubalk verschijnt.";
 "wizard_essentials_title" = "Je klembord";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Open Klembord met";
@@ -33,7 +33,7 @@
 "clear_history" = "Geschiedenis wissen";
 "clear_history_ellipsis" = "Geschiedenis wissen…";
 "clear_history_question" = "Klembordgeschiedenis wissen?";
-"clear_history_warning" = "Elk opgeslagen tekst- en afbeeldingsitem wordt permanent van deze Mac verwijderd.";
+"clear_history_warning" = "Items zonder ster worden permanent van je Mac verwijderd. Items met ster blijven bewaard, tenzij je ze meeneemt.";
 "close" = "Sluiten";
 "copied_image_save_failed" = "Een gekopieerde afbeelding kon niet worden opgeslagen: %@";
 "copied_items_appear_here" = "Gekopieerde onderdelen verschijnen hier.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Fout bij opslag van Pastemin";
 "paywall_description" = "Houd uw klembordgeschiedenis dichtbij, doorzoekbaar en privé op uw Mac.";
 "price_per_year" = "%@ per jaar";
-"privacy_local_history" = "De klembordgeschiedenis verlaat deze Mac nooit";
+"privacy_local_history" = "De klembordgeschiedenis verlaat je Mac nooit";
 "privacy_policy" = "Privacybeleid";
 "purchase_verification_failed" = "De App Store kan deze aankoop niet verifiëren.";
 "purchase_waiting_for_approval" = "De aankoop wacht op goedkeuring.";
@@ -104,7 +104,7 @@
 "try_again" = "Opnieuw";
 "trial_ends" = "Proefperiode · eindigt %@";
 "trial_first_payment" = "Proefperiode · eerste betaling %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Bekijk en doorzoek maximaal 5 items.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Kopen";
 "restoring_purchases" = "Herstellen…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Bekijk en doorzoek maximaal 5 items. Je volledige geschiedenis blijft bewaard.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Je Pro-proefperiode is actief.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Je hebt Pastemin Pro.";
 "terms_of_use" = "Gebruiksvoorwaarden (EULA)";
+"remove_filter" = "Filter verwijderen";
+"starred_items" = "Items met ster";
+"starred" = "Met ster";
+"star_item" = "Geef dit item een ster";
+"unstar_item" = "Ster verwijderen";
+"tags" = "Tags";
+"tags_help" = "Scheid tags met komma’s. Je kunt op tags zoeken.";
+"save" = "Bewaren";
+"on" = "Aan";
+"off" = "Uit";
+"include_starred_items" = "Items met ster meenemen";
+"free_five_items" = "Gratis · 5 items";
+"no_starred_items" = "Geen items met een ster";
+"starred_items_appear_here" = "Items die je een ster geeft, verschijnen hier.";
+"tagged" = "Met tags";
+"tagged_items" = "Items met tags";
+"no_tagged_items" = "Geen items met tags";
+"tagged_items_appear_here" = "Items die je een tag geeft, verschijnen hier.";
+"tag_item" = "Geef dit item tags";

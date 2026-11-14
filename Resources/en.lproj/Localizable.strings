@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Paste automatically after choosing an item";
 "wizard_auto_paste_permission" = "If enabled, macOS will ask for Accessibility permission the first time automatic paste is used. If you decline, selected items are still copied.";
 "wizard_auto_paste_title" = "Paste after selection";
-"wizard_essentials_body" = "Choose how long copied items stay on this Mac and whether Clipboard appears in the menu bar.";
+"wizard_essentials_body" = "Choose how long copied items stay on your Mac and whether Clipboard appears in the menu bar.";
 "wizard_essentials_title" = "Your clipboard";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Open Clipboard with";
@@ -33,7 +33,7 @@
 "clear_history" = "Clear History";
 "clear_history_ellipsis" = "Clear History…";
 "clear_history_question" = "Clear Clipboard History?";
-"clear_history_warning" = "Every stored text and image item will be permanently removed from this Mac.";
+"clear_history_warning" = "Unstarred items will be permanently removed from your Mac. Starred items are kept unless included.";
 "close" = "Close";
 "copied_image_save_failed" = "A copied image could not be saved: %@";
 "copied_items_appear_here" = "Items you copy will appear here.";
@@ -48,12 +48,12 @@
 "history_save_failed" = "Pastemin history could not be saved: %@";
 "image" = "Image";
 "image_clipboard_item" = "Image clipboard item";
-"keep_copied_items" = "Keep copied items";
+"keep_copied_items" = "Keep Copied Items";
 "key_number" = "Key %lld";
 "lifetime_access" = "Lifetime";
 "lifetime_access_price" = "Lifetime Access — %@";
 "lifetime_family_shared" = "Shared with your family";
-"local_storage" = "Local storage";
+"local_storage" = "Local Storage";
 "manage_subscription_ellipsis" = "Manage Subscription…";
 "minimize" = "Minimize";
 "no_active_purchase" = "No active Pastemin purchase was found.";
@@ -63,12 +63,12 @@
 "one_kb_preview_accessibility" = "Preview limited to the first 1 KB";
 "one_kb_preview_help" = "Only the first 1 KB is shown here. Search and paste use all stored text.";
 "paste" = "Paste";
-"paste_automatically" = "Paste automatically";
+"paste_automatically" = "Paste Automatically";
 "pastemin_options" = "Pastemin options";
 "pastemin_storage_error" = "Pastemin Storage Error";
 "paywall_description" = "Keep your clipboard history close, searchable, and private on your Mac.";
 "price_per_year" = "%@ per year";
-"privacy_local_history" = "Clipboard history never leaves this Mac";
+"privacy_local_history" = "Clipboard history never leaves your Mac";
 "privacy_policy" = "Privacy Policy";
 "purchase_verification_failed" = "The App Store could not verify this purchase.";
 "purchase_waiting_for_approval" = "The purchase is waiting for approval.";
@@ -89,7 +89,7 @@
 "shortcut_unavailable" = "%@ is unavailable. Choose another shortcut.";
 "show_in_finder" = "Show in Finder";
 "open_pastemin_at_login" = "Open at login";
-"show_in_menu_bar" = "Show in menu bar";
+"show_in_menu_bar" = "Show in Menu Bar";
 "show_pastemin" = "Show Pastemin";
 "space_key" = "Space";
 "storage_initialize_failed" = "Pastemin storage could not be initialized: %@";
@@ -104,7 +104,7 @@
 "try_again" = "Try Again";
 "trial_ends" = "Trial · ends %@";
 "trial_first_payment" = "Trial · first payment %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "View and search up to 5 items.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "Trial · through %@";
 "type_shortcut" = "Type shortcut…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "View and search up to 5 items. Your full history stays stored.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Your Pro trial is active.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "You have Pastemin Pro.";
 "terms_of_use" = "Terms of Use (EULA)";
+"remove_filter" = "Remove filter";
+"starred_items" = "Starred Items";
+"starred" = "Starred";
+"star_item" = "Star this item";
+"unstar_item" = "Remove star";
+"tags" = "Tags";
+"tags_help" = "Separate tags with commas. Tags are searchable.";
+"save" = "Save";
+"on" = "On";
+"off" = "Off";
+"include_starred_items" = "Include starred items";
+"free_five_items" = "Free · 5 items";
+"no_starred_items" = "No Starred Items";
+"starred_items_appear_here" = "Items you star will appear here.";
+"tagged" = "Tagged";
+"tagged_items" = "Tagged Items";
+"no_tagged_items" = "No Tagged Items";
+"tagged_items_appear_here" = "Items you tag will appear here.";
+"tag_item" = "Tag this item";

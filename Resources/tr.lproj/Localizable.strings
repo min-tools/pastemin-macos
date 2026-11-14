@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Bir öğe seçtikten sonra otomatik yapıştır";
 "wizard_auto_paste_permission" = "Etkinleştirilirse macOS, otomatik yapıştırma ilk kez kullanıldığında Erişilebilirlik izni ister. Reddederseniz seçilen öğeler yine de kopyalanır.";
 "wizard_auto_paste_title" = "Seçimden sonra yapıştır";
-"wizard_essentials_body" = "Kopyalanan öğelerin bu Mac’te ne kadar süre kalacağını ve Pano’nun menü çubuğunda görünüp görünmeyeceğini seçin.";
+"wizard_essentials_body" = "Kopyalanan öğelerin Mac’inizde ne kadar süre kalacağını ve Pano’nun menü çubuğunda görünüp görünmeyeceğini seçin.";
 "wizard_essentials_title" = "Panonuz";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Pano’yu şununla aç";
@@ -33,7 +33,7 @@
 "clear_history" = "Geçmişi Temizle";
 "clear_history_ellipsis" = "Geçmişi Temizle…";
 "clear_history_question" = "Pano Geçmişi Temizlensin mi?";
-"clear_history_warning" = "Saklanan her metin ve resim öğesi bu Mac'ten kalıcı olarak kaldırılacak.";
+"clear_history_warning" = "Yıldızsız öğeler Mac’inizden kalıcı olarak silinir. Yıldızlı öğeler, dahil etmediğiniz sürece korunur.";
 "close" = "Kapat";
 "copied_image_save_failed" = "Kopyalanan resim kaydedilemedi: %@";
 "copied_items_appear_here" = "Kopyaladığınız öğeler burada görünecektir.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin Depolama Hatası";
 "paywall_description" = "Mac'inizde pano geçmişinizi yakın, aranabilir ve gizli tutun.";
 "price_per_year" = "%@ yıllık";
-"privacy_local_history" = "Pano geçmişi bu Mac’ten asla ayrılmaz";
+"privacy_local_history" = "Pano geçmişi Mac’inizden asla ayrılmaz";
 "privacy_policy" = "Gizlilik Politikası";
 "purchase_verification_failed" = "App Store bu satın alma işlemini doğrulayamadı.";
 "purchase_waiting_for_approval" = "Satın alma işlemi onay bekliyor.";
@@ -104,7 +104,7 @@
 "try_again" = "Yeniden dene";
 "trial_ends" = "Deneme · sona eriyor %@";
 "trial_first_payment" = "Deneme · ilk ödeme %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "En fazla 5 öğeyi görüntüleyin ve arayın.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Satın Al";
 "restoring_purchases" = "Geri yükleniyor…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "En fazla 5 öğeyi görüntüleyin ve arayın. Tüm geçmişiniz kayıtlı kalır.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Pro deneme süreniz etkin.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Pastemin Pro'ya sahipsiniz.";
 "terms_of_use" = "Kullanım Koşulları (EULA)";
+"remove_filter" = "Filtreyi kaldır";
+"starred_items" = "Yıldızlı öğeler";
+"starred" = "Yıldızlı";
+"star_item" = "Bu öğeye yıldız ekle";
+"unstar_item" = "Yıldızı kaldır";
+"tags" = "Etiketler";
+"tags_help" = "Etiketleri virgülle ayırın. Etiketlerde arama yapılabilir.";
+"save" = "Kaydet";
+"on" = "Açık";
+"off" = "Kapalı";
+"include_starred_items" = "Yıldızlı öğeleri dahil et";
+"free_five_items" = "Ücretsiz · 5 öğe";
+"no_starred_items" = "Yıldızlı öğe yok";
+"starred_items_appear_here" = "Yıldız eklediğiniz öğeler burada görünür.";
+"tagged" = "Etiketli";
+"tagged_items" = "Etiketli öğeler";
+"no_tagged_items" = "Etiketli öğe yok";
+"tagged_items_appear_here" = "Etiket eklediğiniz öğeler burada görünür.";
+"tag_item" = "Bu öğeyi etiketle";

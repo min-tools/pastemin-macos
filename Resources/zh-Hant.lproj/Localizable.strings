@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "選擇項目後自動貼上";
 "wizard_auto_paste_permission" = "啟用後，首次使用自動貼上時，macOS 會要求輔助使用權限。如果你拒絕，所選項目仍會被複製。";
 "wizard_auto_paste_title" = "選擇後貼上";
-"wizard_essentials_body" = "選擇已複製項目在這部 Mac 上的保留時間，以及是否在選單列中顯示「剪貼板」。";
+"wizard_essentials_body" = "選擇已複製項目在你的 Mac 上的保留時間，以及是否在選單列中顯示「剪貼板」。";
 "wizard_essentials_title" = "你的剪貼板";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "使用以下快速鍵開啟剪貼板";
@@ -33,7 +33,7 @@
 "clear_history" = "清除歷史記錄";
 "clear_history_ellipsis" = "清除歷史記錄...";
 "clear_history_question" = "清除剪貼簿歷史記錄嗎？";
-"clear_history_warning" = "每個儲存的文字和圖像項目將從該 Mac 永久刪除。";
+"clear_history_warning" = "未加星號的項目將從你的 Mac 永久刪除。除非選擇包含星號項目，否則會保留它們。";
 "close" = "關閉";
 "copied_image_save_failed" = "無法儲存複製的影像：%@";
 "copied_items_appear_here" = "您複製的項目將會出現在此。";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin 儲存錯誤";
 "paywall_description" = "在 Mac 上保持剪貼簿歷史記錄的隱私、可搜尋性和隱私。";
 "price_per_year" = "%@ 每年";
-"privacy_local_history" = "剪貼板歷史記錄永遠不會離開這台 Mac";
+"privacy_local_history" = "剪貼板歷史記錄永遠不會離開你的 Mac";
 "privacy_policy" = "隱私權政策";
 "purchase_verification_failed" = "App Store 無法驗證此購買。";
 "purchase_waiting_for_approval" = "購買正在等待批准。";
@@ -104,7 +104,7 @@
 "try_again" = "重試";
 "trial_ends" = "審判 · 結束 %@";
 "trial_first_payment" = "試用 · 首次付款 %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "檢視和搜尋最多 5 個項目。";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "購買";
 "restoring_purchases" = "正在回復…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "檢視和搜尋最多 5 個項目。 完整歷史記錄仍會保留。";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "您的 Pro 試用期已生效。";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "你已擁有 Pastemin Pro。";
 "terms_of_use" = "使用條款（EULA）";
+"remove_filter" = "移除篩選條件";
+"starred_items" = "星號項目";
+"starred" = "已加星號";
+"star_item" = "為此項目加上星號";
+"unstar_item" = "移除星號";
+"tags" = "標籤";
+"tags_help" = "用逗號分隔標籤。標籤可用於搜尋。";
+"save" = "儲存";
+"on" = "開啟";
+"off" = "關閉";
+"include_starred_items" = "包含星號項目";
+"free_five_items" = "免費 · 5 個項目";
+"no_starred_items" = "沒有星號項目";
+"starred_items_appear_here" = "你加上星號的項目會顯示在這裡。";
+"tagged" = "已加標籤";
+"tagged_items" = "帶標籤的項目";
+"no_tagged_items" = "沒有帶標籤的項目";
+"tagged_items_appear_here" = "你加上標籤的項目會顯示在這裡。";
+"tag_item" = "為此項目加入標籤";

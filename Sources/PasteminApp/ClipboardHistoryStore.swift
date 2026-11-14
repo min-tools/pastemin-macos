@@ -21,8 +21,8 @@ private actor ClipboardSearchEngine {
     private var evictionIndex = 0
     private var cachedByteCount = 0
 
-    /// matches(_:needle:) returns candidates whose metadata or text contains
-    /// the required `needle`.
+    /// matches(candidates, needle): Search the required snapshot and query,
+    /// returning matches ranked by tags, stars, then recency.
     func matches(
         _ candidates: [ClipboardSearchCandidate],
         needle: String
@@ -34,7 +34,8 @@ private actor ClipboardSearchEngine {
             guard !Task.isCancelled else { return [] }
             let record = candidate.record
             // Metadata matches avoid loading an external text payload.
-            if record.title.localizedCaseInsensitiveContains(needle)
+            if record.tagMatchRank(needle) > 0
+                || record.title.localizedCaseInsensitiveContains(needle)
                 || (record.sourceAppName?.localizedCaseInsensitiveContains(needle) ?? false) {
                 matches.append(record)
                 continue
@@ -46,7 +47,16 @@ private actor ClipboardSearchEngine {
                 matches.append(record)
             }
         }
-        return matches
+        // Rank tags first, then stars, with recent items breaking equal matches.
+        return matches.sorted { first, second in
+            let firstRank = first.tagMatchRank(needle)
+            let secondRank = second.tagMatchRank(needle)
+            // Exact tags outrank partial tags, which outrank content matches.
+            if firstRank != secondRank { return firstRank > secondRank }
+            // Stars break ties only within the same tag rank.
+            if first.isStarred != second.isStarred { return first.isStarred }
+            return first.createdAt > second.createdAt
+        }
     }
 
     /// cachedText(at:) reads the required managed file and caches valid UTF-8.
@@ -115,6 +125,8 @@ final class ClipboardHistoryStore: ObservableObject {
         return cache
     }()
     private var searchEngine = ClipboardSearchEngine()
+    // Keep replaced files until the index safely points to their replacements.
+    private var replacedPayloads: [ClipboardRecord] = []
 
     static func applicationSupportURL(fileManager: FileManager = .default) throws -> URL {
         let library = try fileManager.url(
@@ -295,8 +307,11 @@ final class ClipboardHistoryStore: ObservableObject {
         return String(data: data, encoding: .utf8)
     }
 
+    // record(record, needle): Match the required item against tags, title,
+    // source app, or complete text, ignoring case.
     func record(_ record: ClipboardRecord, contains needle: String) -> Bool {
-        record.title.localizedCaseInsensitiveContains(needle)
+        record.tagMatchRank(needle) > 0
+            || record.title.localizedCaseInsensitiveContains(needle)
             || (record.sourceAppName?.localizedCaseInsensitiveContains(needle) ?? false)
             || (fullText(for: record)?.localizedCaseInsensitiveContains(needle) ?? false)
     }
@@ -371,14 +386,60 @@ final class ClipboardHistoryStore: ObservableObject {
         save()
     }
 
-    /// clearHistory() removes clipboard metadata, payload files, and caches.
-    func clearHistory() {
-        items.removeAll()
+    // setStarred(record, starred, [limit = nil]): Set the required item's
+    // protection state. A nil limit allows any number of stars.
+    @discardableResult
+    func setStarred(_ record: ClipboardRecord, starred: Bool, limit: Int? = nil) -> Bool {
+        guard let index = items.firstIndex(where: { $0.id == record.id }) else { return false }
+        let previous = items[index]
+        guard previous.isStarred != starred else { return true }
+        // Enforce the supplied cap only when adding a star.
+        if starred, let limit, items.filter(\.isStarred).count >= limit { return false }
+        items[index].starredAt = starred ? Date() : nil
+        guard save() else {
+            // Restore the previous in-memory state when saving fails.
+            items[index] = previous
+            return false
+        }
+        return true
+    }
+
+    // updateTags(record, input): Normalize the required comma-separated input
+    // and save it on the item without changing its clipboard content.
+    @discardableResult
+    func updateTags(_ record: ClipboardRecord, input: String) -> Bool {
+        guard let index = items.firstIndex(where: { $0.id == record.id }) else { return false }
+        let previous = items[index]
+        let tags = ClipboardRecord.normalizedTags(input)
+        guard tags != previous.tagNames else { return true }
+        // Omit empty metadata from the index and restore it if saving fails.
+        items[index].tags = tags.isEmpty ? nil : tags
+        guard save() else {
+            // Keep the last saved tags when the index cannot be written.
+            items[index] = previous
+            return false
+        }
+        return true
+    }
+
+    // clearHistory([includeStarred = false]): Remove ordinary history,
+    // preserving stars unless the caller explicitly includes them.
+    func clearHistory(includeStarred: Bool = false) {
+        // Save the reduced index before deleting any of its former payloads.
+        let previous = items
+        let removed = items.filter { includeStarred || !$0.isStarred }
+        items.removeAll { includeStarred || !$0.isStarred }
+        guard save() else {
+            // Never delete payloads while the durable index still references them.
+            items = previous
+            return
+        }
+        removed.forEach(removePayload)
         imageCache.removeAllObjects()
         // Discard cached text when clearing the source history.
         searchEngine = ClipboardSearchEngine()
-        // Persist empty metadata even if removing an orphaned image later fails.
-        save()
+        // Saved items still own payloads in these directories.
+        guard items.isEmpty else { return }
         do {
             // Recreate payload directories so the next capture never depends on lazy setup.
             for directory in [imagesURL, textItemsURL] {
@@ -421,22 +482,34 @@ final class ClipboardHistoryStore: ObservableObject {
         }
     }
 
-    private func save() {
+    // save(): Atomically replace the index and apply private permissions.
+    // Retire duplicate payloads only after both steps succeed.
+    @discardableResult
+    private func save() -> Bool {
         do {
             let encoder = JSONEncoder()
             // Compact JSON reduces write amplification as histories grow into thousands.
             try encoder.encode(items).write(to: itemsURL, options: .atomic)
             try makePrivateFile(at: itemsURL)
             storageError = nil
+            // The committed index no longer needs these replacement backups.
+            let obsolete = replacedPayloads
+            replacedPayloads.removeAll()
+            obsolete.forEach(removePayload)
+            return true
         } catch {
             storageError = localizedFormat(
                 "history_save_failed",
                 "Pastemin history could not be saved: %@",
                 error.localizedDescription
             )
+            return false
         }
     }
 
+    // insertText(original, sourceAppName, sourceBundleIdentifier): Stage a
+    // text capture for the next index save. All arguments are required;
+    // source names and identifiers may be nil.
     private func insertText(
         _ original: String,
         sourceAppName: String?,
@@ -453,6 +526,7 @@ final class ClipboardHistoryStore: ObservableObject {
             }
             text = String(data: data.prefix(length), encoding: .utf8) ?? ""
         } else {
+            // Text within the payload limit needs no truncation.
             text = original
         }
         let storedData = Data(text.utf8)
@@ -460,6 +534,7 @@ final class ClipboardHistoryStore: ObservableObject {
         let id = UUID()
         let filename: String?
         let indexedText: String
+        // Store large text separately so the index contains only a preview.
         if storedData.count > maximumInlineTextBytes {
             filename = "\(id.uuidString).txt"
             indexedText = byteLimitedText(text, maximumBytes: maximumInlineTextBytes)
@@ -477,12 +552,15 @@ final class ClipboardHistoryStore: ObservableObject {
                 return false
             }
         } else {
+            // Small text stays entirely in the index.
             filename = nil
             indexedText = text
         }
-        removeDuplicate(signature: signature)
+        // Recapture updates recency and source, retaining identity, star and
+        // tags.
+        let previous = removeDuplicate(signature: signature)
         items.insert(ClipboardRecord(
-            id: id,
+            id: previous?.id ?? id,
             createdAt: Date(),
             kind: .text,
             text: indexedText,
@@ -491,11 +569,16 @@ final class ClipboardHistoryStore: ObservableObject {
             sourceAppName: sourceAppName,
             sourceBundleIdentifier: sourceBundleIdentifier,
             byteCount: storedData.count,
-            signature: signature
+            signature: signature,
+            starredAt: previous?.starredAt,
+            tags: previous?.tags
         ), at: 0)
         return true
     }
 
+    // insertImage(data, sourceAppName, sourceBundleIdentifier): Stage a PNG
+    // capture for the next index save. All arguments are required; source
+    // names and identifiers may be nil.
     private func insertImage(
         _ data: Data,
         sourceAppName: String?,
@@ -505,13 +588,15 @@ final class ClipboardHistoryStore: ObservableObject {
         let id = UUID()
         let filename = "\(id.uuidString).png"
         do {
-            // Commit the replacement before removing an older duplicate or publishing metadata.
+            // Use a fresh filename so a failed index save leaves the old
+            // payload available to the previously saved record.
             let imageURL = imagesURL.appendingPathComponent(filename)
             try data.write(to: imageURL, options: .atomic)
             try makePrivateFile(at: imageURL)
-            removeDuplicate(signature: signature)
+            // Preserve saved metadata while replacing the image capture.
+            let previous = removeDuplicate(signature: signature)
             items.insert(ClipboardRecord(
-                id: id,
+                id: previous?.id ?? id,
                 createdAt: Date(),
                 kind: .image,
                 text: nil,
@@ -520,7 +605,9 @@ final class ClipboardHistoryStore: ObservableObject {
                 sourceAppName: sourceAppName,
                 sourceBundleIdentifier: sourceBundleIdentifier,
                 byteCount: data.count,
-                signature: signature
+                signature: signature,
+                starredAt: previous?.starredAt,
+                tags: previous?.tags
             ), at: 0)
             return true
         } catch {
@@ -533,27 +620,44 @@ final class ClipboardHistoryStore: ObservableObject {
         }
     }
 
-    private func removeDuplicate(signature: String) {
-        guard let index = items.firstIndex(where: { $0.signature == signature }) else { return }
+    // removeDuplicate(signature): Remove and return the matching index item.
+    // Defer deleting its payload until its replacement is saved.
+    private func removeDuplicate(signature: String) -> ClipboardRecord? {
+        guard let index = items.firstIndex(where: { $0.signature == signature }) else { return nil }
         let duplicate = items.remove(at: index)
-        removePayload(for: duplicate)
+        // A failed index write must leave the previously saved copy recoverable.
+        replacedPayloads.append(duplicate)
+        return duplicate
     }
 
+    // pruneExpiredItems([saveAfterPruning = true]): Remove expired or excess
+    // unstarred items. Callers batching changes can defer the index save.
     private func pruneExpiredItems(saveAfterPruning: Bool = true) {
         let cutoff = retention.lifetime.map { Date().addingTimeInterval(-$0) }
         var removed: [ClipboardRecord] = []
         // Collect removed records so their external payloads are pruned as well.
         items.removeAll { item in
+            // Stars survive both time-based retention and the history size limit.
+            guard !item.isStarred else { return false }
             let isExpired = cutoff.map { item.createdAt < $0 } ?? false
+            // Collect expired payloads for deletion with their records.
             if isExpired { removed.append(item); return true }
             return false
         }
+        // Stars can exceed the total ceiling; only ordinary history is trimmed.
         if items.count > maximumItemCount {
-            // Retain newest-first ordering while enforcing the emergency metadata ceiling.
-            removed.append(contentsOf: items.dropFirst(maximumItemCount))
-            items = Array(items.prefix(maximumItemCount))
+            // Reserve room for all stars before keeping recent ordinary items.
+            var remaining = max(0, maximumItemCount - items.filter(\.isStarred).count)
+            items.removeAll { item in
+                guard !item.isStarred else { return false }
+                // Newest-first traversal keeps the most recent unstarred items.
+                if remaining > 0 { remaining -= 1; return false }
+                removed.append(item)
+                return true
+            }
         }
         removed.forEach(removePayload)
+        // Avoid a redundant write when pruning is part of a larger save.
         if !removed.isEmpty, saveAfterPruning { save() }
     }
 
@@ -667,9 +771,12 @@ final class ClipboardHistoryStore: ObservableObject {
         return String(data: data.prefix(length), encoding: .utf8) ?? ""
     }
 
+    // externalizeLegacyTextItems(): Move oversized inline text to payload
+    // files, preserving all metadata. Return whether the index needs saving.
     private func externalizeLegacyTextItems() -> Bool {
         var changed = false
         for index in items.indices {
+            // Skip records already externalized or small enough to stay inline.
             let record = items[index]
             guard record.kind == .text,
                   record.textFilename == nil,
@@ -680,6 +787,8 @@ final class ClipboardHistoryStore: ObservableObject {
             do {
                 try Data(text.utf8).write(to: url, options: .atomic)
                 try makePrivateFile(at: url)
+                // Replace only text storage fields; stars and tags survive
+                // migration.
                 items[index] = ClipboardRecord(
                     id: record.id,
                     createdAt: record.createdAt,
@@ -690,7 +799,9 @@ final class ClipboardHistoryStore: ObservableObject {
                     sourceAppName: record.sourceAppName,
                     sourceBundleIdentifier: record.sourceBundleIdentifier,
                     byteCount: record.byteCount,
-                    signature: record.signature
+                    signature: record.signature,
+                    starredAt: record.starredAt,
+                    tags: record.tags
                 )
                 changed = true
             } catch {

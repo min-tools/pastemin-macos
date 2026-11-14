@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Автоматично вставляти після вибору елемента";
 "wizard_auto_paste_permission" = "Якщо ввімкнути цю функцію, macOS запросить дозвіл Універсального доступу під час першого використання автоматичного вставлення. Якщо відмовити, вибрані елементи все одно копіюватимуться.";
 "wizard_auto_paste_title" = "Вставляти після вибору";
-"wizard_essentials_body" = "Виберіть, як довго скопійовані елементи зберігатимуться на цьому Mac і чи відображатиметься Буфер обміну в смузі меню.";
+"wizard_essentials_body" = "Виберіть, як довго скопійовані елементи зберігатимуться на вашому Mac і чи відображатиметься Буфер обміну в смузі меню.";
 "wizard_essentials_title" = "Ваш буфер обміну";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Відкрити буфер обміну за допомогою";
@@ -33,7 +33,7 @@
 "clear_history" = "Очистити історію";
 "clear_history_ellipsis" = "Очистити історію…";
 "clear_history_question" = "Очистити історію буфера обміну?";
-"clear_history_warning" = "Кожен збережений текст і зображення буде остаточно видалено з цього Mac.";
+"clear_history_warning" = "Записи без зірки буде назавжди видалено з вашого Mac. Записи із зіркою залишаться, якщо ви не включите їх у видалення.";
 "close" = "Закрити";
 "copied_image_save_failed" = "Не вдалося зберегти скопійоване зображення: %@";
 "copied_items_appear_here" = "Елементи, які ви копіюєте, з’являться тут.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Помилка зберігання Pastemin";
 "paywall_description" = "Зберігайте свою історію буфера обміну закритою, доступною для пошуку та приватною на вашому Mac.";
 "price_per_year" = "%@ на рік";
-"privacy_local_history" = "Історія буфера обміну ніколи не залишає цей Mac";
+"privacy_local_history" = "Історія буфера обміну ніколи не залишає ваш Mac";
 "privacy_policy" = "Політика конфіденційності";
 "purchase_verification_failed" = "App Store не зміг підтвердити цю покупку.";
 "purchase_waiting_for_approval" = "Покупка очікує на підтвердження.";
@@ -104,7 +104,7 @@
 "try_again" = "Повторити";
 "trial_ends" = "Пробна версія · закінчується %@";
 "trial_first_payment" = "Пробна версія · перший платіж %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Переглядайте й шукайте до 5 записів.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Придбати";
 "restoring_purchases" = "Відновлення…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Переглядайте й шукайте до 5 записів. Уся історія залишається збереженою.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Ваш пробний період Pro активний.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "У вас є Pastemin Pro.";
 "terms_of_use" = "Умови використання (EULA)";
+"remove_filter" = "Прибрати фільтр";
+"starred_items" = "Записи із зіркою";
+"starred" = "Із зіркою";
+"star_item" = "Позначити запис зіркою";
+"unstar_item" = "Прибрати зірку";
+"tags" = "Теги";
+"tags_help" = "Розділяйте теги комами. За тегами можна шукати.";
+"save" = "Зберегти";
+"on" = "Увімкнено";
+"off" = "Вимкнено";
+"include_starred_items" = "Включити записи із зіркою";
+"free_five_items" = "Безкоштовно · 5 записів";
+"no_starred_items" = "Немає записів із зіркою";
+"starred_items_appear_here" = "Тут з’являться записи, позначені зіркою.";
+"tagged" = "З тегами";
+"tagged_items" = "Записи з тегами";
+"no_tagged_items" = "Немає записів із тегами";
+"tagged_items_appear_here" = "Тут з’являться записи, позначені тегами.";
+"tag_item" = "Додати теги до запису";

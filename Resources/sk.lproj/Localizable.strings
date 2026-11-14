@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Po výbere položky automaticky vložiť";
 "wizard_auto_paste_permission" = "Ak túto možnosť zapnete, macOS pri prvom automatickom vložení požiada o povolenie Prístupnosť. Ak žiadosť odmietnete, vybrané položky sa napriek tomu skopírujú.";
 "wizard_auto_paste_title" = "Vložiť po výbere";
-"wizard_essentials_body" = "Vyberte, ako dlho zostanú skopírované položky na tomto Macu a či sa Schránka zobrazí v lište.";
+"wizard_essentials_body" = "Vyberte, ako dlho zostanú skopírované položky na vašom Macu a či sa Schránka zobrazí v lište.";
 "wizard_essentials_title" = "Vaša schránka";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Otvoriť Schránku pomocou";
@@ -33,7 +33,7 @@
 "clear_history" = "Vymazať históriu";
 "clear_history_ellipsis" = "Vymazať históriu…";
 "clear_history_question" = "Vymazať históriu schránky?";
-"clear_history_warning" = "Každá uložená textová a obrázková položka bude z tohto Macu natrvalo odstránená.";
+"clear_history_warning" = "Položky bez hviezdičky sa natrvalo odstránia z vášho Macu. Položky s hviezdičkou zostanú, pokiaľ ich nezahrniete.";
 "close" = "Zavrieť";
 "copied_image_save_failed" = "Skopírovaný obrázok sa nepodarilo uložiť: %@";
 "copied_items_appear_here" = "Položky, ktoré skopírujete, sa zobrazia tu.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Chyba úložiska Pastemin";
 "paywall_description" = "Uchovávajte si svoju históriu schránky blízko, vyhľadávateľné a súkromné na vašom Macu.";
 "price_per_year" = "%@ ročne";
-"privacy_local_history" = "História schránky nikdy neopustí tento Mac";
+"privacy_local_history" = "História schránky nikdy neopustí váš Mac";
 "privacy_policy" = "Zásady ochrany osobných údajov";
 "purchase_verification_failed" = "App Store nemohol overiť tento nákup.";
 "purchase_waiting_for_approval" = "Nákup čaká na schválenie.";
@@ -104,7 +104,7 @@
 "try_again" = "Skúsiť znova";
 "trial_ends" = "skúšobná verzia · končí %@";
 "trial_first_payment" = "Skúšobná verzia · prvá platba %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Zobrazujte a vyhľadávajte až 5 položiek.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Kúpiť";
 "restoring_purchases" = "Obnovovanie…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Zobrazujte a vyhľadávajte až 5 položiek. Celá história zostáva uložená.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Vaše skúšobné obdobie Pro je aktívne.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Máte Pastemin Pro.";
 "terms_of_use" = "Podmienky používania (EULA)";
+"remove_filter" = "Zrušiť filter";
+"starred_items" = "Položky s hviezdičkou";
+"starred" = "S hviezdičkou";
+"star_item" = "Označiť túto položku hviezdičkou";
+"unstar_item" = "Odobrať hviezdičku";
+"tags" = "Značky";
+"tags_help" = "Oddeľte značky čiarkami. Značky sa dajú vyhľadávať.";
+"save" = "Uložiť";
+"on" = "Zapnuté";
+"off" = "Vypnuté";
+"include_starred_items" = "Zahrnúť položky s hviezdičkou";
+"free_five_items" = "Zadarmo · 5 položiek";
+"no_starred_items" = "Žiadne položky s hviezdičkou";
+"starred_items_appear_here" = "Tu sa zobrazia položky označené hviezdičkou.";
+"tagged" = "So značkou";
+"tagged_items" = "Položky so značkou";
+"no_tagged_items" = "Žiadne položky so značkou";
+"tagged_items_appear_here" = "Tu sa zobrazia položky označené značkou.";
+"tag_item" = "Pridať štítky k tejto položke";

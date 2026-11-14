@@ -55,7 +55,7 @@ enum RenderHero {
         ),
         Screenshot(
             file: "pastemin-4-private-dark.png", scene: overview, dark: true,
-            headline: "Your history stays on this Mac.",
+            headline: "Your history stays on your Mac.",
             subtitle: "No account, no analytics, and no server."
         ),
     ]

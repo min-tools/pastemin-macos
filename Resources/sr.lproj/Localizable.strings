@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Аутоматски налепи након избора ставке";
 "wizard_auto_paste_permission" = "Ако је омогућено, macOS ће затражити дозволу Приступачности при првој употреби аутоматског лепљења. Ако одбијете, изабране ставке ће се и даље копирати.";
 "wizard_auto_paste_title" = "Налепи након избора";
-"wizard_essentials_body" = "Изаберите колико дуго копиране ставке остају на овом Mac-у и да ли се Клипборд приказује у траци менија.";
+"wizard_essentials_body" = "Изаберите колико дуго копиране ставке остају на вашем Mac-у и да ли се Клипборд приказује у траци менија.";
 "wizard_essentials_title" = "Ваш клипборд";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Отвори Клипборд помоћу";
@@ -33,7 +33,7 @@
 "clear_history" = "Обриши историју";
 "clear_history_ellipsis" = "Обриши историју…";
 "clear_history_question" = "Обриши историју међуспремника?";
-"clear_history_warning" = "Свака сачувана ставка текста и слике биће трајно уклоњена са овог Мац-а.";
+"clear_history_warning" = "Ставке без звездице биће трајно уклоњене са вашег Mac-а. Ставке са звездицом остају ако их не укључите.";
 "close" = "Затвори";
 "copied_image_save_failed" = "Копирана слика није могла бити сачувана: %@";
 "copied_items_appear_here" = "Ставке које копирате ће се појавити овде.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Пастемин Стораге Еррор";
 "paywall_description" = "Држите историју међуспремника близу, претраживу и приватну на свом Мац-у.";
 "price_per_year" = "%@ годишње";
-"privacy_local_history" = "Историја привремене меморије никада не напушта овај Mac";
+"privacy_local_history" = "Историја привремене меморије никада не напушта ваш Mac";
 "privacy_policy" = "Политика приватности";
 "purchase_verification_failed" = "Апп Сторе није могао да потврди ову куповину.";
 "purchase_waiting_for_approval" = "Куповина чека на одобрење.";
@@ -104,7 +104,7 @@
 "try_again" = "Покушај поново";
 "trial_ends" = "Пробни период · завршава %@";
 "trial_first_payment" = "Пробни период · прва уплата %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Прегледајте и претражујте до 5 ставки.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Купи";
 "restoring_purchases" = "Обнављање…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Прегледајте и претражујте до 5 ставки. Цела историја остаје сачувана.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Ваш пробни период за Pro је активан.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Имате Pastemin Pro.";
 "terms_of_use" = "Услови коришћења (EULA)";
+"remove_filter" = "Уклони филтер";
+"starred_items" = "Ставке са звездицом";
+"starred" = "Са звездицом";
+"star_item" = "Означи ову ставку звездицом";
+"unstar_item" = "Уклони звездицу";
+"tags" = "Ознаке";
+"tags_help" = "Одвојите ознаке зарезима. Ознаке се могу претраживати.";
+"save" = "Сачувај";
+"on" = "Укључено";
+"off" = "Искључено";
+"include_starred_items" = "Укључи ставке са звездицом";
+"free_five_items" = "Бесплатно · 5 ставки";
+"no_starred_items" = "Нема ставки са звездицом";
+"starred_items_appear_here" = "Ставке које означите звездицом појавиће се овде.";
+"tagged" = "Са ознаком";
+"tagged_items" = "Ставке са ознаком";
+"no_tagged_items" = "Нема ставки са ознаком";
+"tagged_items_appear_here" = "Ставке којима додате ознаку појавиће се овде.";
+"tag_item" = "Додај ознаке овој ставци";

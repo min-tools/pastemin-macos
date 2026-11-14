@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Nach Auswahl eines Elements automatisch einfügen";
 "wizard_auto_paste_permission" = "Wenn diese Option aktiviert ist, fragt macOS beim ersten automatischen Einfügen nach der Bedienungshilfen-Berechtigung. Wenn du ablehnst, werden ausgewählte Elemente trotzdem kopiert.";
 "wizard_auto_paste_title" = "Nach Auswahl einfügen";
-"wizard_essentials_body" = "Wähle, wie lange kopierte Elemente auf diesem Mac bleiben und ob die Zwischenablage in der Menüleiste erscheint.";
+"wizard_essentials_body" = "Wähle, wie lange kopierte Elemente auf deinem Mac bleiben und ob die Zwischenablage in der Menüleiste erscheint.";
 "wizard_essentials_title" = "Deine Zwischenablage";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Zwischenablage öffnen mit";
@@ -33,7 +33,7 @@
 "clear_history" = "Verlauf löschen";
 "clear_history_ellipsis" = "Verlauf löschen…";
 "clear_history_question" = "Zwischenablageverlauf löschen?";
-"clear_history_warning" = "Alle gespeicherten Text- und Bildelemente werden dauerhaft von diesem Mac entfernt.";
+"clear_history_warning" = "Einträge ohne Stern werden dauerhaft von Ihrem Mac gelöscht. Markierte Einträge bleiben erhalten, sofern Sie sie nicht einschließen.";
 "close" = "Schließen";
 "copied_image_save_failed" = "Ein kopiertes Bild konnte nicht gespeichert werden: %@";
 "copied_items_appear_here" = "Kopierte Elemente werden hier angezeigt.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin-Speicherfehler";
 "paywall_description" = "Halte deinen Zwischenablageverlauf auf dem Mac griffbereit, durchsuchbar und privat.";
 "price_per_year" = "%@ pro Jahr";
-"privacy_local_history" = "Der Zwischenablage-Verlauf verlässt diesen Mac nie";
+"privacy_local_history" = "Der Zwischenablage-Verlauf verlässt deinen Mac nie";
 "privacy_policy" = "Datenschutzrichtlinie";
 "purchase_verification_failed" = "Der App Store konnte diesen Kauf nicht verifizieren.";
 "purchase_waiting_for_approval" = "Der Kauf wartet auf Genehmigung.";
@@ -104,7 +104,7 @@
 "try_again" = "Erneut versuchen";
 "trial_ends" = "Testzeitraum · endet am %@";
 "trial_first_payment" = "Testzeitraum · erste Zahlung am %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Bis zu 5 Einträge anzeigen und durchsuchen.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "Testzeitraum · bis %@";
 "type_shortcut" = "Tastenkürzel eingeben…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Bis zu 5 Einträge anzeigen und durchsuchen. Der vollständige Verlauf bleibt gespeichert.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Dein Pro-Testzeitraum ist aktiv.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Du hast Pastemin Pro.";
 "terms_of_use" = "Nutzungsbedingungen (EULA)";
+"remove_filter" = "Filter entfernen";
+"starred_items" = "Markierte Einträge";
+"starred" = "Markiert";
+"star_item" = "Diesen Eintrag mit einem Stern markieren";
+"unstar_item" = "Stern entfernen";
+"tags" = "Tags";
+"tags_help" = "Tags durch Kommas trennen. Tags können durchsucht werden.";
+"save" = "Sichern";
+"on" = "Ein";
+"off" = "Aus";
+"include_starred_items" = "Markierte Einträge einschließen";
+"free_five_items" = "Kostenlos · 5 Einträge";
+"no_starred_items" = "Keine markierten Einträge";
+"starred_items_appear_here" = "Mit einem Stern markierte Einträge erscheinen hier.";
+"tagged" = "Mit Tags";
+"tagged_items" = "Einträge mit Tags";
+"no_tagged_items" = "Keine Einträge mit Tags";
+"tagged_items_appear_here" = "Einträge mit Tags erscheinen hier.";
+"tag_item" = "Diesen Eintrag mit Tags versehen";

@@ -7,6 +7,8 @@ final class ClipboardPanel: NSPanel {
     var moveDown: (() -> Void)?
     var choose: (() -> Void)?
     var deleteSelection: (() -> Void)?
+    var toggleStarSelection: (() -> Void)?
+    var editTagsSelection: (() -> Void)?
     var pointerDidMove: (() -> Void)?
     var didDismiss: (() -> Void)?
 
@@ -71,11 +73,14 @@ final class ClipboardPanel: NSPanel {
         if wasVisible { didDismiss?() }
     }
 
+    // sendEvent(event): Route the required event to panel shortcuts or normal
+    // AppKit handling, preserving ordinary search-field editing.
     override func sendEvent(_ event: NSEvent) {
         // Allow hover selection after the pointer moves from its opening position.
         if event.type == .mouseMoved {
             enablePointerSelectionIfMoved(event)
         }
+        // Intercept only key presses; other events keep their native handling.
         if event.type == .keyDown {
             let textView = firstResponder as? NSTextView
             let textModifiers: NSEvent.ModifierFlags = [.command, .option, .control, .shift]
@@ -85,6 +90,22 @@ final class ClipboardPanel: NSPanel {
             if event.keyCode == 51, activeModifiers == .command {
                 deleteSelection?()
                 return
+            }
+
+            // Item shortcuts work while searching, but never repeat on a held key.
+            if activeModifiers == .command {
+                switch event.charactersIgnoringModifiers?.lowercased() {
+                case "f":
+                    // A held shortcut must not repeatedly add and remove the
+                    // star.
+                    if !event.isARepeat { toggleStarSelection?() }
+                    return
+                case "t":
+                    // Open one modal editor per key press.
+                    if !event.isARepeat { editTagsSelection?() }
+                    return
+                default: break
+                }
             }
 
             // Forward selection commands to the search editor.
@@ -101,7 +122,9 @@ final class ClipboardPanel: NSPanel {
             case 125: moveDown?(); return
             case 36, 76: choose?(); return
             case 51, 117:
+                // Delete edits text while search owns the responder.
                 if isEditingSearch { break }
+                // Outside search, only an unmodified Delete removes history.
                 if activeModifiers.isEmpty { deleteSelection?(); return }
             case 53: orderOut(nil); return
             default:

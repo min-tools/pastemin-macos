@@ -99,10 +99,10 @@ with tempfile.TemporaryDirectory(prefix='pastemin-app-test-', dir='/private/tmp'
     for symbol in event_posting_symbols:
         assert symbol in symbols, f'Local build lost {symbol}'
     binary = (app / 'Contents/MacOS/Pastemin').read_bytes()
-    assert b'Paste automatically' in binary
+    assert b'Paste Automatically' in binary
     assert b'PasteminDidCompleteSetupWizard' in binary
     assert b'Source build' not in binary and b'If it earns its keep' not in binary
-    assert b'Trial ended' in binary and b'5 most recent items' in binary
+    assert b'Trial ended' in binary and b'View and search up to 5 items.' in binary
     assert b'Restore Purchases' in binary and b'Purchase' in binary
     assert b'tools.min.pastemin.pro.yearly' in binary
     assert b'tools.min.pastemin.pro.lifetime' in binary
@@ -115,7 +115,7 @@ with tempfile.TemporaryDirectory(prefix='pastemin-app-test-', dir='/private/tmp'
     for symbol in event_posting_symbols:
         assert symbol not in store_symbols, f'App Store build includes {symbol}'
     store_binary = (release_app / 'Contents/MacOS/Pastemin').read_bytes()
-    for marker in (b'Paste automatically', b'PasteminPasteAutomatically', b'automatic_paste_access_needed'):
+    for marker in (b'Paste automatically', b'Paste Automatically', b'PasteminPasteAutomatically', b'automatic_paste_access_needed'):
         assert marker not in store_binary, f'App Store build includes {marker!r}'
     assert signed_entitlements(release_app)['com.apple.security.app-sandbox'] is True
     release_symbols = folder / 'PasteminRelease.app.dSYM'

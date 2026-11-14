@@ -188,6 +188,8 @@ final class PasteminStore: ObservableObject {
         return isPro
     }
 
+    // statusText(): Describe current trial or purchase access, including the
+    // total Free allowance for saved and recent items.
     func statusText() -> String {
         // Identify private development access separately from a purchase.
         if developerOverride == true {
@@ -209,7 +211,8 @@ final class PasteminStore: ObservableObject {
         formatter.timeStyle = .none
         switch entitlement.kind {
         case .none:
-            return localized("free_five_newest_items", "Free · 5 newest items")
+            // The allowance includes stars, so it is not five newest items.
+            return localized("free_five_items", "Free · 5 items")
         case .lifetime:
             return entitlement.isFamilyShared
                 ? localized("lifetime_family_shared", "Shared with your family")

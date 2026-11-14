@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Lim inn automatisk etter valg av et element";
 "wizard_auto_paste_permission" = "Hvis funksjonen er aktivert, ber macOS om Tilgjengelighet-tillatelse første gang automatisk innliming brukes. Hvis du avslår, kopieres valgte elementer fortsatt.";
 "wizard_auto_paste_title" = "Lim inn etter valg";
-"wizard_essentials_body" = "Velg hvor lenge kopierte elementer skal bli på denne Macen, og om Utklippstavle skal vises i menylinjen.";
+"wizard_essentials_body" = "Velg hvor lenge kopierte elementer skal bli på Macen din, og om Utklippstavle skal vises i menylinjen.";
 "wizard_essentials_title" = "Utklippstavlen din";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Åpne Utklippstavle med";
@@ -33,7 +33,7 @@
 "clear_history" = "Tøm historikk";
 "clear_history_ellipsis" = "Tøm logg...";
 "clear_history_question" = "Tømme utklippstavlehistorikk?";
-"clear_history_warning" = "Alle lagrede tekst- og bildeelementer vil bli permanent fjernet fra denne Mac-en.";
+"clear_history_warning" = "Elementer uten stjerne slettes permanent fra Macen din. Stjernemerkede elementer beholdes med mindre du tar dem med.";
 "close" = "Lukk";
 "copied_image_save_failed" = "Et kopiert bilde kunne ikke lagres: %@";
 "copied_items_appear_here" = "Elementer du kopierer vil vises her.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin-lagringsfeil";
 "paywall_description" = "Hold utklippstavleloggen nær, søkbar og privat på Mac-en.";
 "price_per_year" = "%@ per år";
-"privacy_local_history" = "Utklippstavleloggen forlater aldri denne Mac-en";
+"privacy_local_history" = "Utklippstavleloggen forlater aldri Mac-en din";
 "privacy_policy" = "Retningslinjer for personvern";
 "purchase_verification_failed" = "App Store kunne ikke bekrefte dette kjøpet.";
 "purchase_waiting_for_approval" = "Kjøpet venter på godkjenning.";
@@ -104,7 +104,7 @@
 "try_again" = "Prøv igjen";
 "trial_ends" = "Prøveperiode · avsluttes %@";
 "trial_first_payment" = "Prøveperiode · første betaling %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Vis og søk i opptil 5 elementer.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Kjøp";
 "restoring_purchases" = "Gjenoppretter…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Vis og søk i opptil 5 elementer. Hele historikken din forblir lagret.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Pro-prøveperioden din er aktiv.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Du har Pastemin Pro.";
 "terms_of_use" = "Bruksvilkår (EULA)";
+"remove_filter" = "Fjern filter";
+"starred_items" = "Stjernemerkede elementer";
+"starred" = "Stjernemerket";
+"star_item" = "Stjernemerk dette elementet";
+"unstar_item" = "Fjern stjerne";
+"tags" = "Etiketter";
+"tags_help" = "Skill etiketter med komma. Du kan søke etter etiketter.";
+"save" = "Lagre";
+"on" = "På";
+"off" = "Av";
+"include_starred_items" = "Ta med stjernemerkede elementer";
+"free_five_items" = "Gratis · 5 elementer";
+"no_starred_items" = "Ingen stjernemerkede elementer";
+"starred_items_appear_here" = "Elementer du stjernemerker, vises her.";
+"tagged" = "Med etiketter";
+"tagged_items" = "Elementer med etiketter";
+"no_tagged_items" = "Ingen elementer med etiketter";
+"tagged_items_appear_here" = "Elementer du gir etiketter, vises her.";
+"tag_item" = "Legg til tagger på dette elementet";

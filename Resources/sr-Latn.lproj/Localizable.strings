@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Automatski nalepi nakon izbora stavke";
 "wizard_auto_paste_permission" = "Ako je omogućeno, macOS će zatražiti dozvolu Pristupačnosti pri prvoj upotrebi automatskog lepljenja. Ako odbijete, izabrane stavke će se i dalje kopirati.";
 "wizard_auto_paste_title" = "Nalepi nakon izbora";
-"wizard_essentials_body" = "Izaberite koliko dugo kopirane stavke ostaju na ovom Mac-u i da li se Klipbord prikazuje u traci menija.";
+"wizard_essentials_body" = "Izaberite koliko dugo kopirane stavke ostaju na vašem Mac-u i da li se Klipbord prikazuje u traci menija.";
 "wizard_essentials_title" = "Vaš klipbord";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Otvori Klipbord pomoću";
@@ -33,7 +33,7 @@
 "clear_history" = "Obriši istoriju";
 "clear_history_ellipsis" = "Obriši istoriju…";
 "clear_history_question" = "Obriši istoriju međuspremnika?";
-"clear_history_warning" = "Svaka sačuvana stavka teksta i slike biće trajno uklonjena sa ovog Mac-a.";
+"clear_history_warning" = "Stavke bez zvezdice biće trajno uklonjene sa vašeg Mac-a. Stavke sa zvezdicom ostaju ako ih ne uključite.";
 "close" = "Zatvori";
 "copied_image_save_failed" = "Kopirana slika nije mogla biti sačuvana: %@";
 "copied_items_appear_here" = "Stavke koje kopirate će se pojaviti ovde.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin Storage Error";
 "paywall_description" = "Držite istoriju međuspremnika blizu, pretraživu i privatnu na svom Mac-u.";
 "price_per_year" = "%@ godišnje";
-"privacy_local_history" = "Istorija privremene memorije nikada ne napušta ovaj Mac";
+"privacy_local_history" = "Istorija privremene memorije nikada ne napušta vaš Mac";
 "privacy_policy" = "Politika privatnosti";
 "purchase_verification_failed" = "App Store nije mogao da potvrdi ovu kupovinu.";
 "purchase_waiting_for_approval" = "Kupovina čeka na odobrenje.";
@@ -104,7 +104,7 @@
 "try_again" = "Pokušaj ponovo";
 "trial_ends" = "Probni period · završava %@";
 "trial_first_payment" = "Probni period · prva uplata %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Pregledajte i pretražujte do 5 stavki.";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "Kupi";
 "restoring_purchases" = "Obnavljanje…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Pregledajte i pretražujte do 5 stavki. Cela istorija ostaje sačuvana.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Vaš probni period za Pro je aktivan.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Imate Pastemin Pro.";
 "terms_of_use" = "Uslovi korišćenja (EULA)";
+"remove_filter" = "Ukloni filter";
+"starred_items" = "Stavke sa zvezdicom";
+"starred" = "Sa zvezdicom";
+"star_item" = "Označi ovu stavku zvezdicom";
+"unstar_item" = "Ukloni zvezdicu";
+"tags" = "Oznake";
+"tags_help" = "Odvojite oznake zarezima. Oznake se mogu pretraživati.";
+"save" = "Sačuvaj";
+"on" = "Uključeno";
+"off" = "Isključeno";
+"include_starred_items" = "Uključi stavke sa zvezdicom";
+"free_five_items" = "Besplatno · 5 stavki";
+"no_starred_items" = "Nema stavki sa zvezdicom";
+"starred_items_appear_here" = "Stavke koje označite zvezdicom pojaviće se ovde.";
+"tagged" = "Sa oznakom";
+"tagged_items" = "Stavke sa oznakom";
+"no_tagged_items" = "Nema stavki sa oznakom";
+"tagged_items_appear_here" = "Stavke kojima dodate oznaku pojaviće se ovde.";
+"tag_item" = "Dodaj oznake ovoj stavci";

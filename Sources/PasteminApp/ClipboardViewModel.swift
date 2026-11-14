@@ -10,6 +10,8 @@ final class ClipboardViewModel: ObservableObject {
     @Published private(set) var scrollToTopRequest = 0
     @Published private(set) var keyboardSelectionRequest = 0
     @Published private(set) var filteredItems: [ClipboardRecord]
+    @Published private(set) var showsStarredOnly = false
+    @Published private(set) var showsTaggedOnly = false
 
     let store: ClipboardHistoryStore
     var onChoose: (() -> Void)?
@@ -33,7 +35,9 @@ final class ClipboardViewModel: ObservableObject {
     }
 
     var selectedItem: ClipboardRecord? {
-        filteredItems.first { $0.id == selectedID }
+        guard let selectedID, filteredItems.contains(where: { $0.id == selectedID }) else { return nil }
+        // Recapture preserves identity but can replace a payload before results refresh.
+        return store.items.first { $0.id == selectedID }
     }
 
     var displayedItems: ArraySlice<ClipboardRecord> {
@@ -117,9 +121,15 @@ final class ClipboardViewModel: ObservableObject {
         clearCompletedSearch()
         // Repeat an active search against the new history snapshot.
         if !normalizedQuery.isEmpty {
+            // Remove inaccessible results immediately, before the new search completes.
+            let current = Dictionary(uniqueKeysWithValues: accessibleItems.map { ($0.id, $0) })
+            filteredItems = filteredItems.compactMap { current[$0.id] }
+            clampVisibleWindow()
+            reconcileSelection()
             queryDidChange()
             return
         }
+        // Without a query, refresh browsing within the current filters.
         filteredItems = accessibleItems
         clampVisibleWindow()
         reconcileSelection()
@@ -136,6 +146,60 @@ final class ClipboardViewModel: ObservableObject {
         resetVisibleWindow()
         selectedID = filteredItems.first?.id
         scrollToTopRequest &+= 1
+    }
+
+    // toggleStarredFilter(): Toggle saved-only results, keeping the tag filter
+    // and query in effect.
+    func toggleStarredFilter() {
+        showsStarredOnly.toggle()
+        filtersDidChange()
+    }
+
+    // toggleTaggedFilter(): Toggle tagged-only results, keeping the star filter
+    // and query in effect.
+    func toggleTaggedFilter() {
+        showsTaggedOnly.toggle()
+        filtersDidChange()
+    }
+
+    // filtersDidChange(): Reset results to allowed items under both filters,
+    // then cancel stale searches and reapply the current query.
+    private func filtersDidChange() {
+        clearCompletedSearch()
+        filteredItems = accessibleItems
+        resetVisibleWindow()
+        selectedID = filteredItems.first?.id
+        queryDidChange()
+        scrollToTopRequest &+= 1
+    }
+
+    // Free access reserves at most three of its five slots for saved items.
+    private var starLimit: Int? { itemLimit.map { min(3, $0) } }
+
+    // Whether the current selection can change its saved state.
+    var canStarSelectedItem: Bool {
+        guard let selectedItem else { return false }
+        // The cap restricts additions, not removal of existing stars.
+        if selectedItem.isStarred { return true }
+        return starLimit.map { store.items.filter(\.isStarred).count < $0 } ?? true
+    }
+
+    // toggleSelectedStar(): Persist a valid selection's star and refresh
+    // results.
+    func toggleSelectedStar() {
+        // Ignore stale search results and items outside the current allowance.
+        guard searchResultsAreCurrent, let selectedItem,
+              accessibleItems.contains(where: { $0.id == selectedItem.id }) else { return }
+        store.setStarred(selectedItem, starred: !selectedItem.isStarred, limit: starLimit)
+        storeDidChange()
+    }
+
+    // updateTags(id, input): Save comma-separated input for the required item
+    // ID only while that item remains accessible.
+    func updateTags(for id: UUID, input: String) {
+        guard let record = accessibleItems.first(where: { $0.id == id }) else { return }
+        store.updateTags(record, input: input)
+        storeDidChange()
     }
 
     func loadMoreIfNeeded(afterDisplaying id: UUID) {
@@ -196,6 +260,7 @@ final class ClipboardViewModel: ObservableObject {
         // Never paste a selection from an old query or history snapshot.
         guard searchResultsAreCurrent,
               let selectedItem,
+              accessibleItems.contains(where: { $0.id == selectedItem.id }),
               store.items.contains(where: { $0.id == selectedItem.id }),
               store.restore(selectedItem) else { return }
         onChoose?()
@@ -206,13 +271,16 @@ final class ClipboardViewModel: ObservableObject {
         // Never delete a selection from an old query or history snapshot.
         guard searchResultsAreCurrent,
               let selectedItem,
+              accessibleItems.contains(where: { $0.id == selectedItem.id }),
               store.items.contains(where: { $0.id == selectedItem.id }) else { return }
+        // Metadata can change without changing identity; locate by ID.
         let records = filteredItems
-        let index = records.firstIndex(of: selectedItem) ?? 0
+        let index = records.firstIndex(where: { $0.id == selectedItem.id }) ?? 0
         store.delete(selectedItem)
         filteredItems.removeAll { $0.id == selectedItem.id }
         completedSearchItems?.removeAll { $0.id == selectedItem.id }
         clampVisibleWindow()
+        // Select the next row, or the previous one when deleting the last row.
         let remaining = filteredItems
         selectedID = remaining.isEmpty ? nil : remaining[min(index, remaining.count - 1)].id
     }
@@ -231,8 +299,14 @@ final class ClipboardViewModel: ObservableObject {
         pageSize * 3
     }
 
+    // Apply the allowance before filters so filtering cannot expose hidden
+    // items.
     private var accessibleItems: [ClipboardRecord] {
-        Self.accessibleItems(in: store, limit: itemLimit)
+        let items = Self.accessibleItems(in: store, limit: itemLimit)
+        return items.filter { item in
+            (!showsStarredOnly || item.isStarred)
+                && (!showsTaggedOnly || !item.tagNames.isEmpty)
+        }
     }
 
     private var normalizedQuery: String {
@@ -259,12 +333,22 @@ final class ClipboardViewModel: ObservableObject {
         completedSearchItems = nil
     }
 
+    // accessibleItems(store, limit): Choose the allowed stars and recent items.
+    // Both arguments are required; a nil limit grants access to all history.
     private static func accessibleItems(
         in store: ClipboardHistoryStore,
         limit: Int?
     ) -> [ClipboardRecord] {
         guard let limit else { return store.items }
-        return Array(store.items.prefix(limit))
+        // Keep the three most recently starred items stable as new copies arrive.
+        let stars = store.items.filter(\.isStarred).sorted {
+            $0.starredAt! > $1.starredAt!
+        }.prefix(min(3, limit))
+        // Fill unused star slots with unstarred history, within the same total.
+        let recent = store.items.lazy.filter { !$0.isStarred }.prefix(limit - stars.count)
+        let ids = Set(stars.map(\.id) + recent.map(\.id))
+        // Browsing remains newest first; relevance ranking is used only for searches.
+        return store.items.filter { ids.contains($0.id) }
     }
 
     private func resetVisibleWindow() {

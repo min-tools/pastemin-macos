@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Coller automatiquement après avoir choisi un élément";
 "wizard_auto_paste_permission" = "Si cette option est activée, macOS demandera l’autorisation Accessibilité lors de la première utilisation du collage automatique. Si vous refusez, les éléments sélectionnés seront quand même copiés.";
 "wizard_auto_paste_title" = "Coller après la sélection";
-"wizard_essentials_body" = "Choisissez combien de temps les éléments copiés restent sur ce Mac et si Presse-papiers apparaît dans la barre des menus.";
+"wizard_essentials_body" = "Choisissez combien de temps les éléments copiés restent sur votre Mac et si Presse-papiers apparaît dans la barre des menus.";
 "wizard_essentials_title" = "Votre presse-papiers";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Ouvrir Presse-papiers avec";
@@ -33,7 +33,7 @@
 "clear_history" = "Effacer l’historique";
 "clear_history_ellipsis" = "Effacer l’historique…";
 "clear_history_question" = "Effacer l’historique du presse-papiers ?";
-"clear_history_warning" = "Tous les éléments de texte et d’image enregistrés seront définitivement supprimés de ce Mac.";
+"clear_history_warning" = "Les éléments non favoris seront définitivement supprimés de votre Mac. Les favoris sont conservés, sauf si vous les incluez.";
 "close" = "Fermer";
 "copied_image_save_failed" = "Impossible d’enregistrer une image copiée : %@";
 "copied_items_appear_here" = "Les éléments que vous copiez apparaîtront ici.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Erreur de stockage Pastemin";
 "paywall_description" = "Gardez l’historique de votre presse-papiers à portée de main, consultable et privé sur votre Mac.";
 "price_per_year" = "%@ par an";
-"privacy_local_history" = "L’historique du presse-papiers ne quitte jamais ce Mac";
+"privacy_local_history" = "L’historique du presse-papiers ne quitte jamais votre Mac";
 "privacy_policy" = "Politique de confidentialité";
 "purchase_verification_failed" = "L’App Store n’a pas pu vérifier cet achat.";
 "purchase_waiting_for_approval" = "L’achat attend une approbation.";
@@ -104,7 +104,7 @@
 "try_again" = "Réessayer";
 "trial_ends" = "Essai · se termine le %@";
 "trial_first_payment" = "Essai · premier paiement le %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Consultez et recherchez jusqu’à 5 éléments.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "Essai · jusqu’au %@";
 "type_shortcut" = "Saisissez le raccourci…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Consultez et recherchez jusqu’à 5 éléments. Votre historique complet reste enregistré.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "Votre essai Pro est actif.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "Vous avez Pastemin Pro.";
 "terms_of_use" = "Conditions d’utilisation (EULA)";
+"remove_filter" = "Retirer le filtre";
+"starred_items" = "Favoris";
+"starred" = "Favori";
+"star_item" = "Marquer cet élément d’une étoile";
+"unstar_item" = "Retirer des favoris";
+"tags" = "Étiquettes";
+"tags_help" = "Séparez les étiquettes par des virgules. Elles sont incluses dans la recherche.";
+"save" = "Enregistrer";
+"on" = "Activé";
+"off" = "Désactivé";
+"include_starred_items" = "Inclure les favoris";
+"free_five_items" = "Gratuit · 5 éléments";
+"no_starred_items" = "Aucun élément favori";
+"starred_items_appear_here" = "Les éléments marqués d’une étoile apparaîtront ici.";
+"tagged" = "Avec étiquette";
+"tagged_items" = "Éléments avec étiquette";
+"no_tagged_items" = "Aucun élément avec étiquette";
+"tagged_items_appear_here" = "Les éléments auxquels vous ajoutez une étiquette apparaîtront ici.";
+"tag_item" = "Étiqueter cet élément";

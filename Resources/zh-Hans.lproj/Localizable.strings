@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "选择项目后自动粘贴";
 "wizard_auto_paste_permission" = "启用后，首次使用自动粘贴时，macOS 会请求辅助功能权限。如果您拒绝，所选项目仍会被复制。";
 "wizard_auto_paste_title" = "选择后粘贴";
-"wizard_essentials_body" = "选择已复制项目在这台 Mac 上的保留时间，以及是否在菜单栏中显示“剪贴板”。";
+"wizard_essentials_body" = "选择已复制项目在你的 Mac 上的保留时间，以及是否在菜单栏中显示“剪贴板”。";
 "wizard_essentials_title" = "您的剪贴板";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "使用以下快捷键打开剪贴板";
@@ -33,7 +33,7 @@
 "clear_history" = "清除历史记录";
 "clear_history_ellipsis" = "清除历史记录...";
 "clear_history_question" = "清除剪贴板历史记录吗？";
-"clear_history_warning" = "每个存储的文本和图像项目都将从该 Mac 中永久删除。";
+"clear_history_warning" = "未加星标的项目将从你的 Mac 永久删除。除非选择包括星标项目，否则会保留它们。";
 "close" = "关闭";
 "copied_image_save_failed" = "无法保存复制的图像：%@";
 "copied_items_appear_here" = "您复制的项目将出现在此处。";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin 存储错误";
 "paywall_description" = "在 Mac 上保持剪贴板历史记录的私密性、可搜索性和私密性。";
 "price_per_year" = "%@ 每年";
-"privacy_local_history" = "剪贴板历史记录永远不会离开这台 Mac";
+"privacy_local_history" = "剪贴板历史记录永远不会离开你的 Mac";
 "privacy_policy" = "隐私政策";
 "purchase_verification_failed" = "App Store 无法验证此购买。";
 "purchase_waiting_for_approval" = "购买正在等待批准。";
@@ -104,7 +104,7 @@
 "try_again" = "重试";
 "trial_ends" = "审判 · 结束 %@";
 "trial_first_payment" = "试用 · 首次付款 %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "查看和搜索最多 5 个项目。";
 "trial_expired_title" = "Trial ended";
 "purchase_or_subscribe" = "购买";
 "restoring_purchases" = "正在恢复…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "查看和搜索最多 5 个项目。 完整历史记录仍会保留。";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "您的 Pro 试用期已生效。";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "你已拥有 Pastemin Pro。";
 "terms_of_use" = "使用条款（EULA）";
+"remove_filter" = "移除筛选条件";
+"starred_items" = "星标项目";
+"starred" = "已加星标";
+"star_item" = "为此项目添加星标";
+"unstar_item" = "移除星标";
+"tags" = "标签";
+"tags_help" = "用逗号分隔标签。标签可用于搜索。";
+"save" = "保存";
+"on" = "开启";
+"off" = "关闭";
+"include_starred_items" = "包括星标项目";
+"free_five_items" = "免费 · 5 个项目";
+"no_starred_items" = "没有星标项目";
+"starred_items_appear_here" = "你标记星标的项目将显示在这里。";
+"tagged" = "已加标签";
+"tagged_items" = "带标签的项目";
+"no_tagged_items" = "没有带标签的项目";
+"tagged_items_appear_here" = "你添加标签的项目将显示在这里。";
+"tag_item" = "为此项目添加标签";

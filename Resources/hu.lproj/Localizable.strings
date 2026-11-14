@@ -21,7 +21,7 @@
 "wizard_auto_paste_option" = "Automatikus beillesztés elem választása után";
 "wizard_auto_paste_permission" = "Ha engedélyezi, a macOS az automatikus beillesztés első használatakor Kisegítő lehetőségek engedélyt kér. Ha elutasítja, a kijelölt elemek akkor is a vágólapra kerülnek.";
 "wizard_auto_paste_title" = "Beillesztés kiválasztás után";
-"wizard_essentials_body" = "Válassza ki, meddig maradjanak a másolt elemek ezen a Macen, és megjelenjen-e a Vágólap a menüsávban.";
+"wizard_essentials_body" = "Válassza ki, meddig maradjanak a másolt elemek az Ön Macjén, és megjelenjen-e a Vágólap a menüsávban.";
 "wizard_essentials_title" = "Az Ön vágólapja";
 "wizard_ready_body" = "Pastemin includes a free 30-day full-history period. No subscription starts, and you will not be charged.";
 "wizard_shortcut_label" = "Vágólap megnyitása ezzel";
@@ -33,7 +33,7 @@
 "clear_history" = "Előzmények törlése";
 "clear_history_ellipsis" = "Előzmények törlése…";
 "clear_history_question" = "Törli a vágólap előzményeit?";
-"clear_history_warning" = "Minden tárolt szöveg- és képelem véglegesen eltávolításra kerül erről a Mac-ről.";
+"clear_history_warning" = "A csillag nélküli elemek végleg törlődnek az Ön Macjéről. A csillagozott elemek megmaradnak, ha nem jelöli ki azokat is.";
 "close" = "Bezárás";
 "copied_image_save_failed" = "A másolt képet nem sikerült elmenteni: %@";
 "copied_items_appear_here" = "Itt jelennek meg a másolt elemek.";
@@ -68,7 +68,7 @@
 "pastemin_storage_error" = "Pastemin-tárolási hiba";
 "paywall_description" = "Tartsa közel, kereshető és privát vágólap-előzményeit Mac számítógépén.";
 "price_per_year" = "%@ évente";
-"privacy_local_history" = "A vágólap előzményei soha nem hagyják el ezt a Macet";
+"privacy_local_history" = "A vágólap előzményei soha nem hagyják el az Ön Macjét";
 "privacy_policy" = "Adatvédelmi szabályzat";
 "purchase_verification_failed" = "Az App Store nem tudta ellenőrizni ezt a vásárlást.";
 "purchase_waiting_for_approval" = "A vásárlás jóváhagyásra vár.";
@@ -104,7 +104,7 @@
 "try_again" = "Újra";
 "trial_ends" = "próbaverzió · véget ér %@";
 "trial_first_payment" = "próba · első befizetés %@";
-"trial_expired_purchase_message" = "You can still view and search your 5 most recent items.";
+"trial_expired_purchase_message" = "Legfeljebb 5 elem megtekintése és keresése.";
 "trial_expired_title" = "Trial ended";
 "trial_through" = "próba · %@-ig";
 "type_shortcut" = "Írja be a parancsikont…";
@@ -124,12 +124,9 @@
 "wizard_trial_during_title" = "Your first 30 days";
 "wizard_trial_during_pastemin" = "Keep and search your complete clipboard history.";
 "wizard_trial_after_title" = "After the trial";
-"wizard_trial_after_pastemin" = "Pastemin keeps storing your history, but shows and searches only the 5 newest items.";
+"wizard_trial_after_pastemin" = "Legfeljebb 5 elem megtekintése és keresése. A teljes előzmény mentve marad.";
 "wizard_trial_plans_title" = "Keep full access";
 "wizard_trial_plans_body" = "Choose a yearly plan or lifetime access at any time.";
-
-/* Free · 5 newest items */
-"free_five_newest_items" = "Free · 5 newest items";
 
 /* Your Pro trial is active. */
 "pro_app_trial_active" = "A Pro-próbaidőszakod aktív.";
@@ -139,3 +136,22 @@
 
 "pro_you_have" = "A Pastemin Pro aktív.";
 "terms_of_use" = "Felhasználási feltételek (EULA)";
+"remove_filter" = "Szűrő eltávolítása";
+"starred_items" = "Csillagozott elemek";
+"starred" = "Csillagozott";
+"star_item" = "Elem megjelölése csillaggal";
+"unstar_item" = "Csillag eltávolítása";
+"tags" = "Címkék";
+"tags_help" = "A címkéket vesszővel válassza el. A címkék kereshetők.";
+"save" = "Mentés";
+"on" = "Be";
+"off" = "Ki";
+"include_starred_items" = "Csillagozott elemekkel együtt";
+"free_five_items" = "Ingyenes · 5 elem";
+"no_starred_items" = "Nincsenek csillagozott elemek";
+"starred_items_appear_here" = "A csillaggal megjelölt elemek itt jelennek meg.";
+"tagged" = "Címkézett";
+"tagged_items" = "Címkézett elemek";
+"no_tagged_items" = "Nincsenek címkézett elemek";
+"tagged_items_appear_here" = "A címkével ellátott elemek itt jelennek meg.";
+"tag_item" = "Elem címkézése";

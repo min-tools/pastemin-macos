@@ -35,9 +35,9 @@ assert 'applicationShouldHandleReopen' in main and 'controller?.presentClipboard
 assert not (sources / 'SettingsWindow.swift').exists()
 assert 'struct ClipboardOptionsMenuView: View' in options
 for label in (
-    'Clear Current Clipboard', 'Clear History…', 'Keep copied items',
-    'Show in menu bar', 'Paste automatically', 'Show Pastemin',
-    'Local storage', 'Show in Finder', 'Privacy Policy',
+    'Clear Current Clipboard', 'Clear History…', 'Keep Copied Items',
+    'Show in Menu Bar', 'Paste Automatically', 'Show Pastemin',
+    'Local Storage', 'Show in Finder', 'Privacy Policy',
 ):
     assert label in options
 assert 'Items per batch' not in options and 'Remember list position' not in options
@@ -88,10 +88,22 @@ assert 'private(set) var itemsGeneration = 0' in store
 assert 'imageCache.object(forKey: cacheKey)' in store
 assert 'imageCache.setObject(image, forKey: cacheKey, cost: imageCacheCost(for: data))' in store
 assert 'private var searchResultsAreCurrent: Bool' in view_model
-assert view_model.count('guard searchResultsAreCurrent') == 2
+assert view_model.count('guard searchResultsAreCurrent') == 3
 assert view_model.count('store.items.contains(where:') == 2
 assert 'self.store.itemsGeneration == storeGeneration' in view_model
 assert 'viewModel.updateItemLimit(proStore.hasFullAccess ? nil : 5)' in controller
+# Filters share click and keyboard actions and expose active state as removable
+# chips.
+assert 'row: .starred' in options and 'row: .tagged' in options
+assert 'action: dismissThen(model.toggleStarredFilter)' in options
+assert 'action: dismissThen(model.toggleTaggedFilter)' in options
+assert 'remove: model.toggleStarredFilter' in view and 'remove: model.toggleTaggedFilter' in view
+assert 'Menu {' not in view and 'selectTag' not in view_model
+assert '(!showsTaggedOnly || !item.tagNames.isEmpty)' in view_model
+# Metadata edits retain their original target, and clearing makes stars opt-in.
+assert 'toggleStar: toggleSelectedStar' in view and 'editTags: editSelectedTags' in view
+assert 'model.updateTags(for: record.id, input: field.stringValue)' in view
+assert 'store.clearHistory(includeStarred: includeStarred.state == .on)' in controller
 assert 'monitor.start()' in controller and 'monitor.stop()' not in controller
 assert 'requestClipboardPresentation(toggle: Bool)' in controller
 # The event-posting prompt must appear only on the first selected item after opt-in.
@@ -102,7 +114,7 @@ assert 'refreshEntitlement()' not in controller
 assert 'showPurchases(preservePreviousApplication:' not in controller
 assert 'AccessLimitedBanner(' in view
 assert 'proStore.hasResolvedEntitlement && proStore.hasPreparedAppTrial && !proStore.hasFullAccess' in view
-assert 'You can still view and search your 5 most recent items.' in banner
+assert 'View and search up to 5 items.' in banner
 assert 'Restore Purchases' in banner and 'localized("purchase_or_subscribe", "Purchase")' in banner
 assert 'restoreMessage = await restorePurchases()' in banner
 assert 'Color(nsColor: .systemOrange).opacity(0.16)' in banner
@@ -113,7 +125,7 @@ assert 'showPurchases: showPurchases' in view
 assert 'private static let panelWidth: CGFloat = 556' in pro_store
 assert '.frame(width: 556)' in pro_store
 assert 'store.isPro || store.isAppTrialActive' in pro_store
-assert 'localized("free_five_newest_items", "Free · 5 newest items")' in pro_store
+assert 'localized("free_five_items", "Free · 5 items")' in pro_store
 assert 'private func proFeature' not in pro_store
 assert 'Text(store.statusText())' in pro_store
 assert 'PasteminPanelHeightKey' in pro_store

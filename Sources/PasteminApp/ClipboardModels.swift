@@ -20,7 +20,15 @@ struct ClipboardRecord: Codable, Hashable, Identifiable, Sendable {
     let sourceBundleIdentifier: String?
     let byteCount: Int
     let signature: String
+    // Optional metadata keeps history written by older versions readable.
+    var starredAt: Date? = nil
+    var tags: [String]? = nil
 
+    var isStarred: Bool { starredAt != nil }
+    var tagNames: [String] { tags ?? [] }
+
+    // withCreatedAt(date): Replace recency while preserving identity and
+    // metadata.
     func withCreatedAt(_ date: Date) -> ClipboardRecord {
         ClipboardRecord(
             id: id,
@@ -32,8 +40,32 @@ struct ClipboardRecord: Codable, Hashable, Identifiable, Sendable {
             sourceAppName: sourceAppName,
             sourceBundleIdentifier: sourceBundleIdentifier,
             byteCount: byteCount,
-            signature: signature
+            signature: signature,
+            starredAt: starredAt,
+            tags: tags
         )
+    }
+
+    // normalizedTags(input): Trim comma-separated tags, keeping the first
+    // spelling of each case-insensitive name.
+    static func normalizedTags(_ input: String) -> [String] {
+        var seen = Set<String>()
+        return input.components(separatedBy: ",").compactMap { value in
+            let tag = value.trimmingCharacters(in: .whitespacesAndNewlines)
+            // Empty tags and duplicates add no search information.
+            guard !tag.isEmpty, seen.insert(tag.lowercased()).inserted else { return nil }
+            return tag
+        }
+    }
+
+    // tagMatchRank(needle): Return 2 for an exact case-insensitive tag,
+    // 1 for a partial tag, or 0 when no tag matches the required query.
+    func tagMatchRank(_ needle: String) -> Int {
+        // An exact tag takes priority even when another tag partly matches.
+        if tagNames.contains(where: { $0.localizedCaseInsensitiveCompare(needle) == .orderedSame }) {
+            return 2
+        }
+        return tagNames.contains(where: { $0.localizedCaseInsensitiveContains(needle) }) ? 1 : 0
     }
 
     var title: String {
