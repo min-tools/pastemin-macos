@@ -23,7 +23,7 @@
   <img src="https://img.shields.io/badge/Swift-AppKit%20%2B%20SwiftUI-F05138?logo=swift&logoColor=white" alt="Swift, AppKit, and SwiftUI">
   <img src="https://img.shields.io/badge/languages-31-2ea44f" alt="31 languages">
   <img src="https://img.shields.io/badge/privacy-local%20only-6f42c1" alt="Clipboard history stays local">
-  <img src="https://img.shields.io/badge/Mac%20App%20Store-coming%20soon-0d84ff?logo=apple&logoColor=white" alt="Coming to the Mac App Store">
+  <a href="https://apps.apple.com/app/id6814809346"><img src="https://img.shields.io/badge/Mac%20App%20Store-download-0d84ff?logo=apple&logoColor=white" alt="Download on the Mac App Store"></a>
   <img src="https://img.shields.io/badge/license-PolyForm%20Strict%20%2B%20added%20permissions-blue" alt="PolyForm Strict License 1.0.0 with added permissions for personal modification and contributions">
 </p>
 
