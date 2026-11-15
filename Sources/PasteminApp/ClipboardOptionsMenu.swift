@@ -306,30 +306,33 @@ struct ClipboardOptionsMenuView: View {
     }
 }
 
-/// A compact footer link that participates in the dropdown's shared mouse and keyboard focus.
+/// Keeps menu labels and their translucent highlight unchanged while pressed.
+private struct OptionsButtonStyle: ButtonStyle {
+    /// makeBody(configuration:) returns the supplied button label without a
+    /// pressed effect. The Button still handles activation normally.
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+    }
+}
+
+/// A compact footer link with shared pointer and keyboard selection.
 private struct OptionsFooterButton: View {
     let row: OptionsRow
     let title: String
     @ObservedObject var selection: OptionsSelectionModel
     let action: () -> Void
 
-    private var isSelected: Bool { selection.selection == row }
-
+    /// body keeps the link's accent color while selection adds a subtle backdrop.
     var body: some View {
         Button(action: action) {
             Text(title)
                 .font(.system(size: 11, weight: .medium))
-                .foregroundStyle(isSelected ? Color.white : Color.accentColor)
+                .foregroundStyle(Color.accentColor)
                 .padding(.horizontal, 6)
                 .frame(height: 24)
-                .background(
-                    isSelected ? Color.accentColor : Color.clear,
-                    in: RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius)
-                )
-                .contentShape(RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius))
+                .optionsHighlight(row: row, selection: selection)
         }
-        .buttonStyle(.plain)
-        .onHover { hovering in selection.hover(row, hovering) }
+        .buttonStyle(OptionsButtonStyle())
     }
 }
 
@@ -344,13 +347,12 @@ private struct OptionsActionRow: View {
     @ObservedObject var selection: OptionsSelectionModel
     let action: () -> Void
 
-    private var isSelected: Bool { selection.selection == row }
-
+    /// body shows an action and any filter status without recoloring on selection.
     var body: some View {
         Button(action: action) {
             HStack(spacing: 8) {
                 Text(title)
-                    .foregroundStyle(isSelected ? Color.white : Color.primary)
+                    .foregroundStyle(Color.primary)
                 Spacer(minLength: 8)
                 // Hide absent or zero counts; let the capsule grow for larger
                 // totals.
@@ -358,12 +360,12 @@ private struct OptionsActionRow: View {
                     Text(count, format: .number)
                         .font(.system(size: 10, weight: .semibold))
                         .monospacedDigit()
-                        .foregroundStyle(isSelected ? Color.white : Color.secondary)
+                        .foregroundStyle(Color.secondary)
                         .fixedSize()
                         .padding(.horizontal, 6)
                         .frame(minWidth: 20, minHeight: 18)
                         .background(
-                            isSelected ? Color.white.opacity(0.18) : Color.primary.opacity(0.07),
+                            Color.primary.opacity(0.07),
                             in: Capsule()
                         )
                 }
@@ -371,20 +373,17 @@ private struct OptionsActionRow: View {
                 if isOn {
                     Image(systemName: "checkmark")
                         .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(isSelected ? Color.white : Color.accentColor)
+                        .foregroundStyle(Color.accentColor)
                 }
             }
+            // Highlight the full row while keeping its label and status colors.
             .font(.system(size: 13))
             .padding(.horizontal, OptionsMetrics.inset)
             .frame(height: OptionsMetrics.actionRowHeight)
-            .background(
-                isSelected ? Color.accentColor : Color.clear,
-                in: RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius)
-            )
-            .contentShape(RoundedRectangle(cornerRadius: OptionsMetrics.highlightRadius))
+            .optionsHighlight(row: row, selection: selection)
         }
-        .buttonStyle(.plain)
-        .onHover { hovering in selection.hover(row, hovering) }
+        // Keep the pressed appearance stable and expose filter status to VoiceOver.
+        .buttonStyle(OptionsButtonStyle())
         .accessibilityAddTraits(.isButton)
         .accessibilityValue(filterDescription)
     }
@@ -438,12 +437,14 @@ private struct OptionsControlRow<Content: View>: View {
     }
 }
 
-/// Subtle highlight for rows that hold controls, so keyboard focus is visible without
-/// competing with the control itself.
+/// One translucent highlight for actions, controls and footer links, keeping the
+/// glass visible during pointer hover and keyboard selection.
 private struct OptionsHighlight: ViewModifier {
     let row: OptionsRow
     @ObservedObject var selection: OptionsSelectionModel
 
+    /// body(content:) gives the supplied row a translucent selection background
+    /// and routes pointer hover through the same model used by keyboard navigation.
     func body(content: Content) -> some View {
         content
             .background(
@@ -456,6 +457,8 @@ private struct OptionsHighlight: ViewModifier {
 }
 
 private extension View {
+    /// optionsHighlight(row:selection:) connects the supplied row identifier and
+    /// shared selection model to the menu's highlight and hover behavior.
     func optionsHighlight(row: OptionsRow, selection: OptionsSelectionModel) -> some View {
         modifier(OptionsHighlight(row: row, selection: selection))
     }
