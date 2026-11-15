@@ -38,6 +38,7 @@ with tempfile.TemporaryDirectory(prefix='pastemin-hero-', dir='/private/tmp') as
     executable = folder / 'render-hero'
     command = swift_compiler() + [
         '-parse-as-library', '-swift-version', '5', '-module-name', 'PasteminHero',
+        '-D', 'PASTEMIN_SCREENSHOTS',
         '-module-cache-path', str(folder / 'modules'), '-target', 'arm64-apple-macos14.0',
         *map(str, SOURCES), '-framework', 'AppKit', '-framework', 'Carbon',
         '-framework', 'Accelerate', '-framework', 'CryptoKit', '-framework', 'ImageIO',

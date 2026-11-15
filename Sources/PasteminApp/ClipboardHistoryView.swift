@@ -43,6 +43,10 @@ private enum PanelIcon {
         return Image(systemName: name)
             .font(.system(size: opticalSize, weight: symbolWeight))
             .foregroundStyle(tint)
+            #if PASTEMIN_SCREENSHOTS
+            // Lower tags by half an output pixel in the screenshot renderer.
+            .offset(y: name.hasPrefix("tag") ? 0.5 / RenderHero.scale : 0)
+            #endif
     }
 }
 
