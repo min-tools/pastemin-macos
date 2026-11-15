@@ -38,6 +38,10 @@
   Press **⌃⌥C**, start typing, and search the complete text of your clipboard history.
 - **Text and images together**  
   Preview copied text at full length and inspect images without opening another app.
+- **Keep favorites with stars**  
+  Star clipboard items to keep them until you delete them or remove their stars.
+- **Searchable tags and filters**  
+  Add tags to find saved items quickly, and filter your history to starred or tagged items.
 - **Made for the keyboard**  
   Move with the arrow keys, press Return to restore an item, delete one with **⌘Delete**, and dismiss with Escape.
 - **Optional automatic paste**  
